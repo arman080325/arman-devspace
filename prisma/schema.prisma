@@ -1,0 +1,303 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Difficulty {
+  beginner
+  intermediate
+  advanced
+}
+
+enum ProjectStatus {
+  awaiting
+  backlog
+  cloned
+  analyzing
+  planning
+  in_development
+  testing
+  completed
+}
+
+enum VerificationStatus {
+  verified
+  needs_review
+  archived
+  unavailable
+  incorrect_link
+  collection_only
+}
+
+enum NoteType {
+  general
+  architecture
+  bug
+  solution
+  learning
+}
+
+enum RoadmapStatus {
+  pending
+  in_progress
+  completed
+}
+
+enum DeploymentEnvironment {
+  preview
+  staging
+  production
+}
+
+enum DeploymentStatus {
+  active
+  failed
+  pending
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String?
+  role         String   @default("owner")
+  avatarUrl    String?
+  supabaseId   String?  @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  progress   UserProjectProgress[]
+  tasks      ProjectTask[]
+  notes      ProjectNote[]
+  activities ProjectActivity[]
+
+  @@index([email])
+}
+
+model ProjectCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  projects Project[]
+}
+
+model Project {
+  id                        String             @id
+  number                    Int                @unique
+  title                     String
+  slug                      String             @unique
+  description               String
+  difficulty                Difficulty
+  complexityReviewed        Difficulty
+  categoryId                String
+  category                  ProjectCategory    @relation(fields: [categoryId], references: [id])
+  originalRepoUrl           String?
+  verifiedRepoUrl           String?
+  discrepancyNotes          String?
+  verificationStatus        VerificationStatus @default(needs_review)
+  isPlaceholder             Boolean            @default(false)
+  learningObjectives        String[]           @default([])
+  existingFeatures          String[]           @default([])
+  missingFeatures           String[]           @default([])
+  recommendedStack          String[]           @default([])
+  createdAt                 DateTime           @default(now())
+  updatedAt                 DateTime           @updatedAt
+
+  technologies       ProjectTechnology[]
+  progress           UserProjectProgress[]
+  tasks              ProjectTask[]
+  notes              ProjectNote[]
+  roadmap            ProjectRoadmap[]
+  screenshots        ProjectScreenshot[]
+  milestones         ProjectMilestone[]
+  activities         ProjectActivity[]
+  repositoryMetadata RepositoryMetadata?
+  deployments        DeploymentRecord[]
+
+  @@index([number])
+  @@index([slug])
+  @@index([difficulty])
+  @@index([categoryId])
+  @@index([verificationStatus])
+}
+
+model ProjectTechnology {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name      String
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, name])
+  @@index([name])
+}
+
+model UserProjectProgress {
+  id                        String        @id @default(cuid())
+  userId                    String
+  user                      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId                 String
+  project                   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  status                    ProjectStatus @default(awaiting)
+  completionPercentage      Int           @default(0)
+  bookmarked                Boolean       @default(false)
+  localClonePath            String?
+  deploymentUrl             String?
+  originalArchitecture      String?
+  modernizationArchitecture String?
+  technicalDocumentation    String?
+  testingSummary            String?
+  startedAt                 DateTime?
+  completedAt               DateTime?
+  lastAccessedAt            DateTime      @default(now())
+  createdAt                 DateTime      @default(now())
+  updatedAt                 DateTime      @updatedAt
+
+  @@unique([userId, projectId])
+  @@index([userId, status])
+  @@index([userId, bookmarked])
+  @@index([lastAccessedAt])
+}
+
+model ProjectTask {
+  id          String    @id @default(cuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  completed   Boolean   @default(false)
+  phase       String    @default("Acquisition")
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  @@index([projectId, userId])
+  @@index([userId, completed])
+}
+
+model ProjectNote {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  type      NoteType @default(general)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId, userId])
+  @@index([userId, createdAt])
+}
+
+model ProjectRoadmap {
+  id          String        @id @default(cuid())
+  projectId   String
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  phase       Int
+  title       String
+  description String
+  status      RoadmapStatus @default(pending)
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([projectId, phase])
+}
+
+model ProjectScreenshot {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model ProjectMilestone {
+  id          String    @id @default(cuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  dueDate     DateTime?
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([projectId, completed])
+}
+
+model ProjectActivity {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  summary   String
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([projectId, createdAt])
+}
+
+model RepositoryMetadata {
+  id                String    @id @default(cuid())
+  projectId         String    @unique
+  project           Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  owner             String
+  repoName          String
+  defaultBranch     String    @default("main")
+  description       String?
+  primaryLanguage   String?
+  stars             Int       @default(0)
+  forks             Int       @default(0)
+  openIssues        Int       @default(0)
+  lastUpdated       DateTime?
+  isArchived        Boolean   @default(false)
+  hasReadme         Boolean   @default(false)
+  license           String?
+  topics            String[]  @default([])
+  frameworkVersions Json?
+  dependencySummary String?
+  activityLevel     String?
+  verifiedAt        DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([owner, repoName])
+}
+
+model DeploymentRecord {
+  id          String                @id @default(cuid())
+  projectId   String
+  project     Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  environment DeploymentEnvironment @default(production)
+  url         String
+  provider    String                @default("Vercel")
+  status      DeploymentStatus      @default(active)
+  deployedAt  DateTime              @default(now())
+  notes       String?
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  @@index([projectId, deployedAt])
+}
+
