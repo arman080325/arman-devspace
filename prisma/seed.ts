@@ -24,8 +24,8 @@ function mapVerification(status: string): VerificationStatus {
 async function main() {
   console.log("Seeding Arman's Devspace 100-project catalogue...");
 
-  // Ensure default owner account exists (no hardcoded real password; requires explicit login setup)
-  const owner = await prisma.user.upsert({
+  // Ensure default owner reference account exists (no hardcoded real password; requires explicit login setup)
+  await prisma.user.upsert({
     where: { email: "arman@devspace.local" },
     update: {},
     create: {
@@ -58,7 +58,7 @@ async function main() {
   for (const item of projects) {
     const categoryId = categoryMap.get(item.category)!;
 
-    await prisma.project.upsert({
+    const project = await prisma.project.upsert({
       where: { number: item.number },
       update: {
         title: item.title,
@@ -68,8 +68,6 @@ async function main() {
         complexityReviewed: (item.complexityReviewed ?? item.difficulty) as Difficulty,
         categoryId,
         originalRepoUrl: item.originalRepoUrl,
-        discrepancyNotes: item.discrepancyNotes ?? null,
-        verificationStatus: mapVerification(item.verificationStatus),
         isPlaceholder: item.isPlaceholder,
         learningObjectives: item.learningObjectives,
         existingFeatures: item.existingFeatures,
@@ -97,41 +95,24 @@ async function main() {
       },
     });
 
-    // Sync technologies cleanly
+    // Sync canonical technology associations cleanly without touching user workspace data
     for (let idx = 0; idx < item.technologies.length; idx++) {
       const techName = item.technologies[idx];
       await prisma.projectTechnology.upsert({
         where: {
           projectId_name: {
-            projectId: item.id,
+            projectId: project.id,
             name: techName,
           },
         },
         update: { isPrimary: idx === 0 },
         create: {
-          projectId: item.id,
+          projectId: project.id,
           name: techName,
           isPrimary: idx === 0,
         },
       });
     }
-
-    // Ensure initial progress row exists for owner
-    await prisma.userProjectProgress.upsert({
-      where: {
-        userId_projectId: {
-          userId: owner.id,
-          projectId: item.id,
-        },
-      },
-      update: {},
-      create: {
-        userId: owner.id,
-        projectId: item.id,
-        status: "awaiting",
-        completionPercentage: 0,
-      },
-    });
   }
 
   console.log(`Seeded ${projects.length} numbered positions successfully.`);

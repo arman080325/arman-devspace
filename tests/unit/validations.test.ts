@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   createDeploymentSchema,
+  createMilestoneSchema,
   createNoteSchema,
   createTaskSchema,
   githubVerifySchema,
   isSafeHttpUrl,
+  isValidCalendarDate,
   loginSchema,
+  parseCalendarDateToUtc,
   projectProgressUpdateSchema,
   sanitizePlainText,
   signupSchema,
@@ -91,5 +94,54 @@ describe("Validation and sanitization helpers", () => {
         overrideUrl: "ftp://invalid.com/repo",
       }).success,
     ).toBe(false);
+  });
+
+  it("validates milestone calendar due dates deterministically", () => {
+    expect(isValidCalendarDate("2026-11-15")).toBe(true);
+    expect(isValidCalendarDate("2024-02-29")).toBe(true);
+    expect(isValidCalendarDate("2026-02-29")).toBe(false);
+    expect(isValidCalendarDate("2026-02-30")).toBe(false);
+    expect(isValidCalendarDate("2026-13-01")).toBe(false);
+    expect(isValidCalendarDate("2026-04-31")).toBe(false);
+    expect(isValidCalendarDate("15-11-2026")).toBe(false);
+    expect(isValidCalendarDate("2026-11-15T00:00:00Z")).toBe(false);
+
+    expect(createMilestoneSchema.safeParse({ title: "Release v1" }).success).toBe(true);
+    expect(
+      createMilestoneSchema.safeParse({ title: "Release v1", dueDate: null }).success,
+    ).toBe(true);
+
+    const emptyParsed = createMilestoneSchema.safeParse({
+      title: "Release v1",
+      dueDate: "",
+    });
+    expect(emptyParsed.success).toBe(true);
+    if (emptyParsed.success) {
+      expect(emptyParsed.data.dueDate).toBeNull();
+    }
+
+    const validParsed = createMilestoneSchema.safeParse({
+      title: "Release v1",
+      dueDate: " 2026-11-15 ",
+    });
+    expect(validParsed.success).toBe(true);
+    if (validParsed.success) {
+      expect(validParsed.data.dueDate).toBe("2026-11-15");
+    }
+
+    expect(
+      createMilestoneSchema.safeParse({ title: "Release v1", dueDate: "2026-02-30" })
+        .success,
+    ).toBe(false);
+    expect(
+      createMilestoneSchema.safeParse({ title: "Release v1", dueDate: "invalid-date" })
+        .success,
+    ).toBe(false);
+
+    const utcDate = parseCalendarDateToUtc("2026-11-15");
+    expect(utcDate?.toISOString()).toBe("2026-11-15T00:00:00.000Z");
+    expect(parseCalendarDateToUtc(null)).toBeNull();
+    expect(parseCalendarDateToUtc("")).toBeNull();
+    expect(() => parseCalendarDateToUtc("2026-02-30")).toThrow();
   });
 });

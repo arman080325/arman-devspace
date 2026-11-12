@@ -129,9 +129,68 @@ export const updateRoadmapItemSchema = z.object({
   status: z.enum(ROADMAP_STATUSES),
 });
 
+const CALENDAR_DATE_REGEX = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+function toUtcCalendarDate(value: string): Date | null {
+  const match = CALENDAR_DATE_REGEX.exec(value);
+  if (!match) {
+    return null;
+  }
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (year < 1) {
+    return null;
+  }
+  const date = new Date(0);
+  date.setUTCFullYear(year, month - 1, day);
+  date.setUTCHours(0, 0, 0, 0);
+  if (
+    Number.isNaN(date.getTime()) ||
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return date;
+}
+
+/** Validates a calendar date string in strict `YYYY-MM-DD` Gregorian calendar form. */
+export function isValidCalendarDate(value: string): boolean {
+  return toUtcCalendarDate(value.trim()) !== null;
+}
+
+/**
+ * Deterministically converts a validated `YYYY-MM-DD` calendar date to UTC midnight
+ * without local timezone drift, returning `null` for empty/nullish values.
+ */
+export function parseCalendarDateToUtc(value: string | null | undefined): Date | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (trimmed === "") {
+    return null;
+  }
+  const parsed = toUtcCalendarDate(trimmed);
+  if (!parsed) {
+    throw new Error(`Invalid calendar date "${value}". Expected YYYY-MM-DD.`);
+  }
+  return parsed;
+}
+
+const calendarDateSchema = z
+  .string()
+  .trim()
+  .transform((val) => (val === "" ? null : val))
+  .refine((val) => val === null || isValidCalendarDate(val), {
+    message: "Due date must be a valid calendar date in YYYY-MM-DD format.",
+  });
+
 export const createMilestoneSchema = z.object({
   title: z.string().trim().min(2).max(160),
-  dueDate: z.string().nullable().optional(),
+  dueDate: calendarDateSchema.nullable().optional(),
 });
 
 export const createDeploymentSchema = z.object({
