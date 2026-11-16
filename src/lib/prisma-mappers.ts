@@ -274,12 +274,26 @@ export function mapPrismaActivity(raw: {
   summary: string;
   createdAt: Date;
 }): ProjectActivityItem {
+  let displaySummary = raw.summary;
+  try {
+    if (raw.summary.startsWith("{")) {
+      const parsed = JSON.parse(raw.summary);
+      if (parsed && typeof parsed.description === "string") {
+        displaySummary = parsed.description;
+      } else if (parsed && typeof parsed.title === "string") {
+        displaySummary = parsed.title;
+      }
+    }
+  } catch {
+    displaySummary = raw.summary;
+  }
+
   return {
     id: raw.id,
     projectId: raw.projectId,
     userId: raw.userId,
     action: raw.action,
-    summary: raw.summary,
+    summary: displaySummary,
     createdAt: toIsoString(raw.createdAt),
   };
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart3,
+  Bell,
   BookText,
   ChevronDown,
   Compass,
@@ -47,6 +48,7 @@ const NAV_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   "/projects": FolderGit2,
   "/paths": Compass,
   "/dashboard": LayoutDashboard,
+  "/activity": Bell,
   "/kanban": Kanban,
   "/journal": BookText,
   "/analytics": BarChart3,
@@ -186,6 +188,19 @@ export function Navbar({ onOpenCommandPalette }: { onOpenCommandPalette?: () => 
 
           <ThemeToggle />
 
+          {sessionUser && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              render={<Link href="/activity" />}
+              className="relative hidden sm:inline-flex text-muted-foreground hover:text-foreground"
+              aria-label="Activity Center"
+              title="Activity Center"
+            >
+              <Bell className="size-4" aria-hidden="true" />
+            </Button>
+          )}
+
           {sessionUser ? (
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -214,6 +229,10 @@ export function Navbar({ onOpenCommandPalette }: { onOpenCommandPalette?: () => 
                   <DropdownMenuItem render={<Link href="/dashboard" />}>
                     <LayoutDashboard className="size-4" aria-hidden="true" />
                     <span>Dashboard</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/activity" />}>
+                    <Bell className="size-4" aria-hidden="true" />
+                    <span>Activity Center</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem render={<Link href="/kanban" />}>
                     <Kanban className="size-4" aria-hidden="true" />

@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, BookText, FolderGit2, Kanban, LayoutDashboard } from "lucide-react";
+import {
+  BarChart3,
+  Bell,
+  BookText,
+  FolderGit2,
+  Kanban,
+  LayoutDashboard,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const WORKSPACE_LINKS = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Activity Center", href: "/activity", icon: Bell },
   { label: "Kanban Board", href: "/kanban", icon: Kanban },
   { label: "Engineering Journal", href: "/journal", icon: BookText },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },

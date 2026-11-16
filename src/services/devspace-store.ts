@@ -7,6 +7,7 @@ import type {
   DeploymentRecord,
   NoteType,
   Project,
+  ProjectActivityItem,
   ProjectMilestone,
   ProjectNote,
   ProjectProgress,
@@ -260,4 +261,63 @@ export async function saveRepositoryVerification(
     return prismaStore.saveRepositoryVerification(userId, projectId, data);
   }
   return jsonStore.saveRepositoryVerification(userId, projectId, data);
+}
+
+export async function createActivityRecord(input: {
+  userId: string;
+  projectId: string;
+  action: string;
+  summary: string;
+  createdAt?: string | Date;
+}): Promise<ProjectActivityItem> {
+  if (isDatabaseConfigured()) {
+    const createdAt = input.createdAt
+      ? typeof input.createdAt === "string"
+        ? new Date(input.createdAt)
+        : input.createdAt
+      : undefined;
+    return prismaStore.createActivityRecord({ ...input, createdAt });
+  }
+  const createdAt = input.createdAt
+    ? typeof input.createdAt === "string"
+      ? input.createdAt
+      : input.createdAt.toISOString()
+    : undefined;
+  return jsonStore.createActivityRecord({ ...input, createdAt });
+}
+
+export async function getUserActivities(userId: string): Promise<
+  Array<
+    ProjectActivityItem & {
+      projectTitle: string;
+      projectSlug: string;
+      projectNumber: number;
+    }
+  >
+> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.getUserActivities(userId);
+  }
+  return jsonStore.getUserActivities(userId);
+}
+
+export async function updateActivitySummary(
+  userId: string,
+  activityId: string,
+  summary: string,
+): Promise<ProjectActivityItem | null> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.updateActivitySummary(userId, activityId, summary);
+  }
+  return jsonStore.updateActivitySummary(userId, activityId, summary);
+}
+
+export async function markAllUserActivitiesRead(
+  userId: string,
+  updateFn: (summary: string) => string | null,
+): Promise<number> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.markAllUserActivitiesRead(userId, updateFn);
+  }
+  return jsonStore.markAllUserActivitiesRead(userId, updateFn);
 }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   BarChart3,
+  Bell,
   BookText,
   Compass,
   FolderGit2,
@@ -101,6 +102,11 @@ export function CommandPalette() {
               <LayoutDashboard className="size-4" aria-hidden="true" />
               <span>Main Dashboard</span>
               <CommandShortcut>/dashboard</CommandShortcut>
+            </CommandItem>
+            <CommandItem onSelect={() => navigate("/activity")}>
+              <Bell className="size-4" aria-hidden="true" />
+              <span>Activity Center</span>
+              <CommandShortcut>/activity</CommandShortcut>
             </CommandItem>
             <CommandItem onSelect={() => navigate("/projects")}>
               <FolderGit2 className="size-4" aria-hidden="true" />

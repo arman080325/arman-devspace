@@ -7,6 +7,7 @@ import path from "node:path";
 import {
   projects as canonicalProjects,
   getCanonicalProjectBySlug,
+  getCanonicalProjectById,
 } from "@/data/projects";
 import {
   hashPassword,
@@ -1156,4 +1157,84 @@ export async function saveRepositoryVerification(
       createdAt: new Date().toISOString(),
     });
   });
+}
+
+export async function createActivityRecord(input: {
+  userId: string;
+  projectId: string;
+  action: string;
+  summary: string;
+  createdAt?: string;
+}): Promise<ProjectActivityItem> {
+  const item: ProjectActivityItem = {
+    id: randomUUID(),
+    projectId: input.projectId,
+    userId: input.userId,
+    action: input.action,
+    summary: input.summary,
+    createdAt: input.createdAt ?? new Date().toISOString(),
+  };
+
+  await mutateStore((store) => {
+    store.activities.push(item);
+  });
+
+  return item;
+}
+
+export async function getUserActivities(userId: string): Promise<
+  Array<
+    ProjectActivityItem & {
+      projectTitle: string;
+      projectSlug: string;
+      projectNumber: number;
+    }
+  >
+> {
+  const store = await readStore();
+  const userActivities = store.activities.filter((a) => a.userId === userId);
+
+  return userActivities.map((a) => {
+    const proj = getCanonicalProjectById(a.projectId);
+    return {
+      ...a,
+      projectTitle: proj?.title ?? "Unknown Project",
+      projectSlug: proj?.slug ?? a.projectId,
+      projectNumber: proj?.number ?? 0,
+    };
+  });
+}
+
+export async function updateActivitySummary(
+  userId: string,
+  activityId: string,
+  summary: string,
+): Promise<ProjectActivityItem | null> {
+  let updated: ProjectActivityItem | null = null;
+  await mutateStore((store) => {
+    const act = store.activities.find((a) => a.id === activityId && a.userId === userId);
+    if (!act) return;
+    act.summary = summary;
+    updated = { ...act };
+  });
+  return updated;
+}
+
+export async function markAllUserActivitiesRead(
+  userId: string,
+  updateFn: (summary: string) => string | null,
+): Promise<number> {
+  let count = 0;
+  await mutateStore((store) => {
+    for (const act of store.activities) {
+      if (act.userId === userId) {
+        const nextSummary = updateFn(act.summary);
+        if (nextSummary !== null && nextSummary !== act.summary) {
+          act.summary = nextSummary;
+          count++;
+        }
+      }
+    }
+  });
+  return count;
 }

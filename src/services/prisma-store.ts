@@ -1523,3 +1523,130 @@ export async function saveRepositoryVerification(
     });
   });
 }
+
+export async function createActivityRecord(input: {
+  userId: string;
+  projectId: string;
+  action: string;
+  summary: string;
+  createdAt?: Date;
+}): Promise<ProjectActivityItem> {
+  const prisma = requirePrisma();
+  const raw = await prisma.projectActivity.create({
+    data: {
+      userId: input.userId,
+      projectId: input.projectId,
+      action: input.action,
+      summary: input.summary,
+      createdAt: input.createdAt ?? new Date(),
+    },
+  });
+
+  return {
+    id: raw.id,
+    projectId: raw.projectId,
+    userId: raw.userId,
+    action: raw.action,
+    summary: raw.summary,
+    createdAt: raw.createdAt.toISOString(),
+  };
+}
+
+export async function getUserActivities(userId: string): Promise<
+  Array<
+    ProjectActivityItem & {
+      projectTitle: string;
+      projectSlug: string;
+      projectNumber: number;
+    }
+  >
+> {
+  const prisma = requirePrisma();
+  const raw = await prisma.projectActivity.findMany({
+    where: { userId },
+    include: {
+      project: {
+        select: {
+          title: true,
+          slug: true,
+          number: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return raw.map((a) => ({
+    id: a.id,
+    projectId: a.projectId,
+    userId: a.userId,
+    action: a.action,
+    summary: a.summary,
+    createdAt: a.createdAt.toISOString(),
+    projectTitle: a.project.title,
+    projectSlug: a.project.slug,
+    projectNumber: a.project.number,
+  }));
+}
+
+export async function updateActivitySummary(
+  userId: string,
+  activityId: string,
+  summary: string,
+): Promise<ProjectActivityItem | null> {
+  const prisma = requirePrisma();
+  const existing = await prisma.projectActivity.findFirst({
+    where: { id: activityId, userId },
+  });
+
+  if (!existing) {
+    return null;
+  }
+
+  const updated = await prisma.projectActivity.update({
+    where: { id: activityId },
+    data: { summary },
+  });
+
+  return {
+    id: updated.id,
+    projectId: updated.projectId,
+    userId: updated.userId,
+    action: updated.action,
+    summary: updated.summary,
+    createdAt: updated.createdAt.toISOString(),
+  };
+}
+
+export async function markAllUserActivitiesRead(
+  userId: string,
+  updateFn: (summary: string) => string | null,
+): Promise<number> {
+  const prisma = requirePrisma();
+  const items = await prisma.projectActivity.findMany({
+    where: { userId },
+  });
+
+  const updates: Array<{ id: string; summary: string }> = [];
+  for (const item of items) {
+    const nextSummary = updateFn(item.summary);
+    if (nextSummary !== null && nextSummary !== item.summary) {
+      updates.push({ id: item.id, summary: nextSummary });
+    }
+  }
+
+  if (updates.length === 0) {
+    return 0;
+  }
+
+  await prisma.$transaction(
+    updates.map((u) =>
+      prisma.projectActivity.update({
+        where: { id: u.id },
+        data: { summary: u.summary },
+      }),
+    ),
+  );
+
+  return updates.length;
+}

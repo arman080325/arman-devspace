@@ -473,11 +473,17 @@ async function DashboardContent() {
         </Card>
 
         <Card className="border-border/80 bg-card">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
             <CardTitle className="flex items-center gap-2 text-base">
               <Activity className="size-4 text-emerald-400" aria-hidden="true" />
               <span>Activity Stream</span>
             </CardTitle>
+            <Link
+              href="/activity"
+              className="font-mono text-xs text-violet-400 hover:underline"
+            >
+              View All &rarr;
+            </Link>
           </CardHeader>
           <CardContent>
             {feed.recentActivities.length === 0 ? (
