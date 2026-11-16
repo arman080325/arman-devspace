@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 210" width="1200" height="210" role="img" aria-label="Explore. Build. Break. Rebuild. — crafted by Arman">
+<title>Explore. Build. Break. Rebuild.</title>
+<defs>
+  <linearGradient id="edge" x1="0" x2="1"><stop offset="0" stop-color="#0B0D12"/><stop offset=".12" stop-color="#0B0D12" stop-opacity="0"/><stop offset=".88" stop-color="#0B0D12" stop-opacity="0"/><stop offset="1" stop-color="#0B0D12"/></linearGradient>
+  <clipPath id="fr"><rect width="1200" height="210" rx="22"/></clipPath>
+</defs>
+<style>
+.mq{animation:mq 16s linear infinite}
+@keyframes mq{from{transform:translate(0,104px)}to{transform:translate(-1164px,104px)}}
+.mq2{animation:mq2 22s linear infinite}
+@keyframes mq2{from{transform:translate(-1040px,150px)}to{transform:translate(0,150px)}}
+.cur{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+<g clip-path="url(#fr)">
+<rect width="1200" height="210" fill="#0B0D12"/>
+<g class="mq" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="46" font-weight="900" letter-spacing="1"><text x="0" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">EXPLORE.</text><text x="274" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="322" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">BUILD.</text><text x="534" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="582" y="0" fill="#EF4444" fill-opacity=".9">BREAK.</text><text x="794" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="842" y="0" fill="none" stroke="#38BDF8" stroke-width="1.4">REBUILD.</text><text x="1116" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="1164" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">EXPLORE.</text><text x="1438" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="1486" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">BUILD.</text><text x="1698" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="1746" y="0" fill="#EF4444" fill-opacity=".9">BREAK.</text><text x="1958" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="2006" y="0" fill="none" stroke="#38BDF8" stroke-width="1.4">REBUILD.</text><text x="2280" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="2328" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">EXPLORE.</text><text x="2602" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="2650" y="0" fill="none" stroke="#8B5CF6" stroke-width="1.4">BUILD.</text><text x="2862" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="2910" y="0" fill="#EF4444" fill-opacity=".9">BREAK.</text><text x="3122" y="-10" fill="#475569" font-size="20" stroke="none">◆</text><text x="3170" y="0" fill="none" stroke="#38BDF8" stroke-width="1.4">REBUILD.</text><text x="3444" y="-10" fill="#475569" font-size="20" stroke="none">◆</text></g>
+<g class="mq2" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" fill="#475569"><text x="0" y="0">#001 → #100</text><text x="260" y="0">clone · analyze · plan</text><text x="520" y="0">build · test · ship</text><text x="780" y="0">one journey</text><text x="1040" y="0">#001 → #100</text><text x="1300" y="0">clone · analyze · plan</text><text x="1560" y="0">build · test · ship</text><text x="1820" y="0">one journey</text><text x="2080" y="0">#001 → #100</text><text x="2340" y="0">clone · analyze · plan</text><text x="2600" y="0">build · test · ship</text><text x="2860" y="0">one journey</text></g>
+<rect width="1200" height="210" fill="url(#edge)"/>
+<text x="600" y="38" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" fill="#94A3B8">crafted with curiosity by <tspan fill="#8B5CF6" font-weight="700">Arman</tspan> · one commit at a time<tspan class="cur" fill="#38BDF8"> _</tspan></text>
+</g>
+<rect x="1" y="1" width="1198" height="208" rx="21" fill="none" stroke="#263244" stroke-width="2"/>
+</svg>
