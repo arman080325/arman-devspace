@@ -221,4 +221,11 @@ export const githubVerifySchema = z.object({
       message: "Override URL must be a valid http(s) URL.",
     })
     .optional(),
+  forceRefresh: z.boolean().optional(),
+});
+
+export const githubBatchSyncSchema = z.object({
+  projectIds: z.array(z.string().min(1)).max(100).optional(),
+  difficulty: z.enum(["beginner", "intermediate", "advanced", "all"]).optional(),
+  forceRefresh: z.boolean().optional(),
 });

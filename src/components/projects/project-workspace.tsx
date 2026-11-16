@@ -18,6 +18,7 @@ import {
   FileCode2,
   FolderGit2,
   GitBranch,
+  GitCommit,
   Globe,
   Image as ImageIcon,
   Layers,
@@ -28,8 +29,10 @@ import {
   RefreshCw,
   Rocket,
   Save,
+  ShieldCheck,
   Sparkles,
   StickyNote,
+  Tag,
   Terminal,
   Trash2,
 } from "lucide-react";
@@ -306,6 +309,7 @@ export function ProjectWorkspace({
         body: JSON.stringify({
           projectId: project.id,
           overrideUrl: overrideUrl.trim(),
+          forceRefresh: true,
         }),
       });
       if (response.status === 401) {
@@ -1098,6 +1102,12 @@ export function ProjectWorkspace({
                         </dd>
                       </div>
                       <div>
+                        <dt className="text-muted-foreground">License</dt>
+                        <dd className="font-mono font-medium">
+                          {project.repositoryMetadata.license ?? "Not specified"}
+                        </dd>
+                      </div>
+                      <div>
                         <dt className="text-muted-foreground">Last Verified</dt>
                         <dd className="font-medium">
                           {project.repositoryMetadata.verifiedAt
@@ -1105,7 +1115,134 @@ export function ProjectWorkspace({
                             : "Unverified"}
                         </dd>
                       </div>
+                      {project.repositoryMetadata.homepageUrl ? (
+                        <div>
+                          <dt className="text-muted-foreground">Homepage / Demo</dt>
+                          <dd className="truncate">
+                            <a
+                              href={project.repositoryMetadata.homepageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-sky-400 hover:underline"
+                            >
+                              <span>Visit</span>
+                              <ExternalLink className="size-2.5" aria-hidden="true" />
+                            </a>
+                          </dd>
+                        </div>
+                      ) : null}
                     </dl>
+
+                    {/* Latest Commit Intelligence */}
+                    {project.repositoryMetadata.latestCommit ? (
+                      <div className="rounded-lg border border-border/70 bg-background/60 p-3 text-xs">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 font-medium text-muted-foreground">
+                            <GitCommit
+                              className="size-3.5 text-sky-400"
+                              aria-hidden="true"
+                            />
+                            <span>Latest Upstream Commit</span>
+                          </span>
+                          <a
+                            href={project.repositoryMetadata.latestCommit.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-mono text-[11px] text-sky-400 hover:underline"
+                          >
+                            <span>
+                              #{project.repositoryMetadata.latestCommit.shortSha}
+                            </span>
+                            <ExternalLink className="size-2.5" aria-hidden="true" />
+                          </a>
+                        </div>
+                        <p className="mt-1 line-clamp-2 font-medium text-foreground">
+                          {project.repositoryMetadata.latestCommit.message}
+                        </p>
+                        <p className="mt-1 text-[11px] text-muted-foreground">
+                          by {project.repositoryMetadata.latestCommit.authorName} ·{" "}
+                          {formatDate(project.repositoryMetadata.latestCommit.date)}
+                        </p>
+                      </div>
+                    ) : null}
+
+                    {/* Latest Release Intelligence */}
+                    {project.repositoryMetadata.latestRelease ? (
+                      <div className="rounded-lg border border-border/70 bg-background/60 p-3 text-xs">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 font-medium text-muted-foreground">
+                            <Tag
+                              className="size-3.5 text-emerald-400"
+                              aria-hidden="true"
+                            />
+                            <span>Latest Versioned Release</span>
+                          </span>
+                          <a
+                            href={project.repositoryMetadata.latestRelease.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-mono text-[11px] text-emerald-400 hover:underline"
+                          >
+                            <span>
+                              {project.repositoryMetadata.latestRelease.tagName}
+                            </span>
+                            <ExternalLink className="size-2.5" aria-hidden="true" />
+                          </a>
+                        </div>
+                        <p className="mt-1 font-medium text-foreground">
+                          {project.repositoryMetadata.latestRelease.name}
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-muted-foreground">
+                          Published{" "}
+                          {formatDate(
+                            project.repositoryMetadata.latestRelease.publishedAt,
+                          )}
+                        </p>
+                      </div>
+                    ) : null}
+
+                    {/* Repository Health & Signals */}
+                    {project.repositoryMetadata.health ? (
+                      <div className="space-y-2 rounded-lg border border-border/70 bg-background/60 p-3 text-xs">
+                        <div className="flex items-center justify-between">
+                          <span className="flex items-center gap-1.5 font-medium text-muted-foreground">
+                            <ShieldCheck
+                              className="size-3.5 text-violet-400"
+                              aria-hidden="true"
+                            />
+                            <span>Repository Health Assessment</span>
+                          </span>
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "text-[10px] capitalize",
+                              project.repositoryMetadata.health.status === "healthy"
+                                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                                : project.repositoryMetadata.health.status === "archived"
+                                  ? "border-slate-500/40 bg-slate-500/10 text-slate-400"
+                                  : project.repositoryMetadata.health.status === "stale"
+                                    ? "border-amber-500/40 bg-amber-500/10 text-amber-400"
+                                    : "border-sky-500/40 bg-sky-500/10 text-sky-400",
+                            )}
+                          >
+                            {project.repositoryMetadata.health.status}
+                          </Badge>
+                        </div>
+                        <ul className="space-y-1 text-[11px] text-muted-foreground">
+                          {project.repositoryMetadata.health.signals.map((sig, i) => (
+                            <li key={i} className="flex items-start gap-1.5">
+                              <span
+                                className="mt-0.5 leading-none text-violet-400"
+                                aria-hidden="true"
+                              >
+                                •
+                              </span>
+                              <span>{sig}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
 
                     {project.repositoryMetadata.topics.length > 0 ? (
                       <div className="flex flex-wrap gap-1.5">

@@ -81,6 +81,20 @@ export interface DeploymentRecord {
   notes: string | null;
 }
 
+export interface RepositoryHealthSignals {
+  status: "healthy" | "archived" | "stale" | "needs-review" | "unavailable";
+  availability: "reachable" | "archived" | "unavailable" | "unknown";
+  freshness: "active" | "moderate" | "stale" | "archived" | "unknown";
+  daysSincePush: number | null;
+  signals: string[];
+  scoreFactors?: {
+    hasReadme: boolean;
+    hasLicense: boolean;
+    isMaintained: boolean;
+    issueCountRange: "low" | "moderate" | "high";
+  };
+}
+
 export interface RepositoryMetadata {
   projectId: string;
   owner: string;
@@ -100,6 +114,22 @@ export interface RepositoryMetadata {
   dependencySummary?: string | null;
   activityLevel?: "active" | "moderate" | "stale" | "archived" | "unknown";
   verifiedAt: string | null;
+  homepageUrl?: string | null;
+  latestCommit?: {
+    sha: string;
+    shortSha: string;
+    message: string;
+    authorName: string;
+    date: string;
+    url: string;
+  } | null;
+  latestRelease?: {
+    name: string;
+    tagName: string;
+    publishedAt: string;
+    url: string;
+  } | null;
+  health?: RepositoryHealthSignals | null;
 }
 
 export interface Project {

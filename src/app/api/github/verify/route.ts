@@ -3,7 +3,15 @@ import { getCanonicalProjectById, getCanonicalProjectBySlug } from "@/data/proje
 import { parseJsonBody, requireApiSession, zodErrorResponse } from "@/lib/api-helpers";
 import { githubVerifySchema } from "@/lib/validations";
 import { saveRepositoryVerification } from "@/services/devspace-store";
-import { inspectGitHubRepository } from "@/services/github";
+import { getGitHubRateLimitStatus, inspectGitHubRepository } from "@/services/github";
+
+export async function GET() {
+  const auth = await requireApiSession();
+  if ("response" in auth) return auth.response;
+
+  const rateLimit = getGitHubRateLimitStatus();
+  return NextResponse.json({ rateLimit });
+}
 
 export async function POST(request: Request) {
   const auth = await requireApiSession();
@@ -41,6 +49,7 @@ export async function POST(request: Request) {
   const inspection = await inspectGitHubRepository(
     canonical.originalRepoUrl ?? targetUrl,
     effectiveOverride,
+    { forceRefresh: validated.data.forceRefresh },
   );
 
   if (inspection.rateLimited) {
@@ -55,6 +64,19 @@ export async function POST(request: Request) {
       },
       { status: 429 },
     );
+  }
+
+  // Preserve existing metadata if inspection failed with a network or transient error
+  if (inspection.error && !inspection.verifiedRepoUrl && !inspection.metadata) {
+    if (inspection.verificationStatus === "needs-review") {
+      return NextResponse.json(
+        {
+          error: inspection.error,
+          verification: inspection,
+        },
+        { status: 502 },
+      );
+    }
   }
 
   await saveRepositoryVerification(auth.user.id, canonical.id, {

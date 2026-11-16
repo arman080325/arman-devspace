@@ -1450,6 +1450,17 @@ export async function saveRepositoryVerification(
 
     if (data.metadata) {
       const meta = data.metadata;
+      let dependencySummaryToSave = meta.dependencySummary || null;
+      if (meta.latestCommit || meta.latestRelease || meta.health || meta.homepageUrl) {
+        dependencySummaryToSave = JSON.stringify({
+          dependencySummary: meta.dependencySummary || null,
+          latestCommit: meta.latestCommit || null,
+          latestRelease: meta.latestRelease || null,
+          health: meta.health || null,
+          homepageUrl: meta.homepageUrl || null,
+        });
+      }
+
       await tx.repositoryMetadata.upsert({
         where: { projectId },
         update: {
@@ -1467,7 +1478,7 @@ export async function saveRepositoryVerification(
           license: meta.license || null,
           topics: meta.topics,
           frameworkVersions: meta.frameworkVersions || undefined,
-          dependencySummary: meta.dependencySummary || null,
+          dependencySummary: dependencySummaryToSave,
           activityLevel: meta.activityLevel || null,
           verifiedAt: meta.verifiedAt ? new Date(meta.verifiedAt) : now,
         },
@@ -1487,7 +1498,7 @@ export async function saveRepositoryVerification(
           license: meta.license || null,
           topics: meta.topics,
           frameworkVersions: meta.frameworkVersions || undefined,
-          dependencySummary: meta.dependencySummary || null,
+          dependencySummary: dependencySummaryToSave,
           activityLevel: meta.activityLevel || null,
           verifiedAt: meta.verifiedAt ? new Date(meta.verifiedAt) : now,
         },

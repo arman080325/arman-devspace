@@ -346,6 +346,22 @@ export function mapPrismaRepoMetadata(raw: {
   activityLevel: string | null;
   verifiedAt: Date | null;
 }): RepositoryMetadata {
+  let extended: Partial<RepositoryMetadata> = {};
+  let effectiveDependencySummary = raw.dependencySummary;
+
+  if (raw.dependencySummary && raw.dependencySummary.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(raw.dependencySummary);
+      if (parsed && typeof parsed === "object") {
+        extended = parsed;
+        effectiveDependencySummary =
+          typeof parsed.dependencySummary === "string" ? parsed.dependencySummary : null;
+      }
+    } catch {
+      // Keep effectiveDependencySummary as raw.dependencySummary if parsing fails
+    }
+  }
+
   return {
     projectId: raw.projectId,
     owner: raw.owner,
@@ -362,9 +378,13 @@ export function mapPrismaRepoMetadata(raw: {
     license: raw.license,
     topics: raw.topics,
     frameworkVersions: (raw.frameworkVersions as Record<string, string>) ?? undefined,
-    dependencySummary: raw.dependencySummary,
+    dependencySummary: effectiveDependencySummary,
     activityLevel:
       (raw.activityLevel as RepositoryMetadata["activityLevel"]) ?? undefined,
     verifiedAt: toIsoStringOrNull(raw.verifiedAt),
+    homepageUrl: extended.homepageUrl ?? null,
+    latestCommit: extended.latestCommit ?? null,
+    latestRelease: extended.latestRelease ?? null,
+    health: extended.health ?? null,
   };
 }
