@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     name: sanitizePlainText(validated.data.name),
     email: validated.data.email,
     password: validated.data.password,
+    bootstrapToken: validated.data.bootstrapToken,
   });
 
   if ("error" in result) {

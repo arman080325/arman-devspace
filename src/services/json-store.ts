@@ -8,7 +8,12 @@ import {
   projects as canonicalProjects,
   getCanonicalProjectBySlug,
 } from "@/data/projects";
-import { hashPassword, verifyPassword } from "@/lib/auth";
+import {
+  hashPassword,
+  isEligibleOwnerExternalEmail,
+  verifyOwnerBootstrapProof,
+  verifyPassword,
+} from "@/lib/auth";
 import { getPrismaClient } from "@/lib/prisma";
 import type {
   DeploymentRecord,
@@ -281,52 +286,34 @@ export async function registerUserAccount(input: {
   name: string;
   email: string;
   password: string;
+  bootstrapToken?: string;
 }): Promise<{ user: SessionUser } | { error: string }> {
   const normalizedEmail = input.email.trim().toLowerCase();
   const passwordHash = hashPassword(input.password);
-
-  const prisma = getPrismaClient();
-  if (prisma) {
-    try {
-      const existing = await prisma.user.findUnique({
-        where: { email: normalizedEmail },
-      });
-      if (existing) {
-        return { error: "An account with this email already exists." };
-      }
-      const userCount = await prisma.user.count();
-      const created = await prisma.user.create({
-        data: {
-          name: input.name.trim(),
-          email: normalizedEmail,
-          passwordHash,
-          role: userCount === 0 ? "owner" : "developer",
-        },
-      });
-      return {
-        user: {
-          id: created.id,
-          email: created.email,
-          name: created.name,
-          role: created.role === "owner" ? "owner" : "developer",
-        },
-      };
-    } catch (err) {
-      console.warn("Prisma registration fallback to local store:", err);
-    }
-  }
+  const isClaimingOwner = verifyOwnerBootstrapProof(
+    normalizedEmail,
+    input.bootstrapToken,
+  );
 
   return mutateStore((store) => {
     const exists = store.users.some((u) => u.email === normalizedEmail);
     if (exists) {
       return { error: "An account with this email already exists." };
     }
+
+    if (isClaimingOwner) {
+      const hasExistingOwner = store.users.some((u) => u.role === "owner");
+      if (hasExistingOwner) {
+        return { error: "Owner account has already been claimed and initialized." };
+      }
+    }
+
     const newUser: StoredUser = {
       id: `user-${randomUUID()}`,
       email: normalizedEmail,
       name: input.name.trim(),
       passwordHash,
-      role: store.users.length === 0 ? "owner" : "developer",
+      role: isClaimingOwner ? "owner" : "developer",
       createdAt: new Date().toISOString(),
     };
     store.users.push(newUser);
@@ -393,12 +380,20 @@ export async function syncExternalAuthUser(input: {
   email: string;
   name: string;
   supabaseId?: string;
+  isEmailVerified?: boolean;
 }): Promise<SessionUser> {
   const normalizedEmail = input.email.trim().toLowerCase();
+  const isEligibleOwner = isEligibleOwnerExternalEmail(
+    normalizedEmail,
+    Boolean(input.isEmailVerified),
+  );
 
   return mutateStore((store) => {
     const existing = store.users.find((u) => u.email === normalizedEmail);
     if (existing) {
+      if (isEligibleOwner && existing.role !== "owner") {
+        existing.role = "owner";
+      }
       return {
         id: existing.id,
         email: existing.email,
@@ -411,7 +406,7 @@ export async function syncExternalAuthUser(input: {
       email: normalizedEmail,
       name: input.name || "Developer",
       passwordHash: "",
-      role: store.users.length === 0 ? "owner" : "developer",
+      role: isEligibleOwner ? "owner" : "developer",
       createdAt: new Date().toISOString(),
     };
     store.users.push(created);

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { SignJWT, jwtVerify } from "jose";
@@ -124,4 +124,46 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
   return verifySessionToken(token);
+}
+
+/**
+ * Validates configured owner bootstrap proof.
+ * Uses timingSafeEqual to avoid timing side-channels when checking the token.
+ */
+export function verifyOwnerBootstrapProof(email: string, token?: string | null): boolean {
+  const configuredEmail = process.env.DEVSPACE_OWNER_EMAIL?.trim().toLowerCase();
+  const configuredToken = process.env.DEVSPACE_OWNER_BOOTSTRAP_TOKEN?.trim();
+
+  if (!configuredEmail || !configuredToken || configuredToken.length < 16) {
+    return false;
+  }
+
+  if (email.trim().toLowerCase() !== configuredEmail) {
+    return false;
+  }
+
+  if (!token || typeof token !== "string" || token.trim().length === 0) {
+    return false;
+  }
+
+  // To prevent timing leakage regarding token length and to ensure equal buffer lengths
+  // for timingSafeEqual, hash both the supplied token and expected token using SHA-256
+  const tokenHash = createHash("sha256").update(token.trim()).digest();
+  const expectedHash = createHash("sha256").update(configuredToken).digest();
+
+  return timingSafeEqual(tokenHash, expectedHash);
+}
+
+/**
+ * Checks whether an external (e.g. Supabase) user is eligible to claim ownership
+ * based on verified email matching the operator-configured DEVSPACE_OWNER_EMAIL.
+ */
+export function isEligibleOwnerExternalEmail(
+  email: string,
+  isEmailVerified: boolean,
+): boolean {
+  if (!isEmailVerified) return false;
+  const configuredEmail = process.env.DEVSPACE_OWNER_EMAIL?.trim().toLowerCase();
+  if (!configuredEmail) return false;
+  return email.trim().toLowerCase() === configuredEmail;
 }

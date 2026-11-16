@@ -35,6 +35,7 @@ export async function registerUserAccount(input: {
   name: string;
   email: string;
   password: string;
+  bootstrapToken?: string;
 }): Promise<{ user: SessionUser } | { error: string }> {
   if (isDatabaseConfigured()) {
     return prismaStore.registerUserAccount(input);
@@ -56,6 +57,7 @@ export async function syncExternalAuthUser(input: {
   email: string;
   name: string;
   supabaseId?: string;
+  isEmailVerified?: boolean;
 }): Promise<SessionUser> {
   if (isDatabaseConfigured()) {
     return prismaStore.syncExternalAuthUser(input);

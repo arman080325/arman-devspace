@@ -1,7 +1,12 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { hashPassword, verifyPassword } from "@/lib/auth";
+import {
+  hashPassword,
+  isEligibleOwnerExternalEmail,
+  verifyOwnerBootstrapProof,
+  verifyPassword,
+} from "@/lib/auth";
 import { getPrismaClient } from "@/lib/prisma";
 import {
   mapPrismaActivity,
@@ -153,41 +158,126 @@ export async function registerUserAccount(input: {
   name: string;
   email: string;
   password: string;
+  bootstrapToken?: string;
 }): Promise<{ user: SessionUser } | { error: string }> {
   const prisma = requirePrisma();
   const normalizedEmail = input.email.trim().toLowerCase();
   const passwordHash = hashPassword(input.password);
 
-  const existing = await prisma.user.findUnique({
-    where: { email: normalizedEmail },
-  });
-  if (existing) {
-    return { error: "An account with this email already exists." };
-  }
+  const isClaimingOwner = verifyOwnerBootstrapProof(
+    normalizedEmail,
+    input.bootstrapToken,
+  );
 
-  const credentialedCount = await prisma.user.count({
-    where: {
-      OR: [{ passwordHash: { not: null } }, { supabaseId: { not: null } }],
-    },
-  });
+  return prisma.$transaction(async (tx) => {
+    const existing = await tx.user.findUnique({
+      where: { email: normalizedEmail },
+    });
 
-  const created = await prisma.user.create({
-    data: {
-      name: input.name.trim(),
-      email: normalizedEmail,
-      passwordHash,
-      role: credentialedCount === 0 ? "owner" : "developer",
-    },
-  });
+    // Case 1: Existing user with an active credential (passwordHash or supabaseId)
+    if (existing && (existing.passwordHash !== null || existing.supabaseId !== null)) {
+      return { error: "An account with this email already exists." };
+    }
 
-  return {
-    user: {
-      id: created.id,
-      email: created.email,
-      name: created.name,
-      role: created.role === "owner" ? "owner" : "developer",
-    },
-  };
+    // Case 2: Claiming existing uncredentialed user (e.g. user-arman reference user or matching email)
+    if (isClaimingOwner) {
+      // Ensure no other credentialed owner exists in the database
+      const existingOwner = await tx.user.findFirst({
+        where: {
+          role: "owner",
+          OR: [{ passwordHash: { not: null } }, { supabaseId: { not: null } }],
+        },
+      });
+      if (existingOwner) {
+        return { error: "Owner account has already been claimed and initialized." };
+      }
+
+      // Check if reference user user-arman exists and can be reconciled
+      const referenceUser = await tx.user.findUnique({
+        where: { id: "user-arman" },
+      });
+
+      if (referenceUser && referenceUser.passwordHash === null) {
+        const updated = await tx.user.update({
+          where: { id: "user-arman" },
+          data: {
+            name: input.name.trim(),
+            email: normalizedEmail,
+            passwordHash,
+            role: "owner",
+          },
+        });
+        return {
+          user: {
+            id: updated.id,
+            email: updated.email,
+            name: updated.name,
+            role: "owner",
+          },
+        };
+      }
+
+      // If referenceUser doesn't exist, claim existing uncredentialed record by email or create new owner
+      if (existing) {
+        const updated = await tx.user.update({
+          where: { id: existing.id },
+          data: {
+            name: input.name.trim(),
+            passwordHash,
+            role: "owner",
+          },
+        });
+        return {
+          user: {
+            id: updated.id,
+            email: updated.email,
+            name: updated.name,
+            role: "owner",
+          },
+        };
+      }
+
+      const created = await tx.user.create({
+        data: {
+          name: input.name.trim(),
+          email: normalizedEmail,
+          passwordHash,
+          role: "owner",
+        },
+      });
+      return {
+        user: {
+          id: created.id,
+          email: created.email,
+          name: created.name,
+          role: "owner",
+        },
+      };
+    }
+
+    // Case 3: Ordinary registration (non-owner)
+    if (existing) {
+      return { error: "An account with this email already exists." };
+    }
+
+    const created = await tx.user.create({
+      data: {
+        name: input.name.trim(),
+        email: normalizedEmail,
+        passwordHash,
+        role: "developer",
+      },
+    });
+
+    return {
+      user: {
+        id: created.id,
+        email: created.email,
+        name: created.name,
+        role: "developer",
+      },
+    };
+  });
 }
 
 export async function authenticateUserAccount(input: {
@@ -224,46 +314,85 @@ export async function syncExternalAuthUser(input: {
   email: string;
   name: string;
   supabaseId?: string;
+  isEmailVerified?: boolean;
 }): Promise<SessionUser> {
   const prisma = requirePrisma();
   const normalizedEmail = input.email.trim().toLowerCase();
+  const isEligibleOwner = isEligibleOwnerExternalEmail(
+    normalizedEmail,
+    Boolean(input.isEmailVerified),
+  );
 
-  const existing = await prisma.user.findUnique({
-    where: { email: normalizedEmail },
-  });
+  return prisma.$transaction(async (tx) => {
+    const existing = await tx.user.findUnique({
+      where: { email: normalizedEmail },
+    });
 
-  if (existing) {
-    if (input.supabaseId && !existing.supabaseId) {
-      await prisma.user.update({
+    if (existing) {
+      const willBeOwner = existing.role === "owner" || isEligibleOwner;
+      const updated = await tx.user.update({
         where: { id: existing.id },
-        data: { supabaseId: input.supabaseId },
+        data: {
+          ...(input.supabaseId && !existing.supabaseId
+            ? { supabaseId: input.supabaseId }
+            : {}),
+          ...(willBeOwner && existing.role !== "owner" ? { role: "owner" } : {}),
+        },
       });
+
+      return {
+        id: updated.id,
+        email: updated.email,
+        name: updated.name,
+        role: updated.role === "owner" ? "owner" : "developer",
+      };
     }
+
+    // Check if reference user user-arman can be reconciled for eligible owner
+    if (isEligibleOwner) {
+      const referenceUser = await tx.user.findUnique({
+        where: { id: "user-arman" },
+      });
+      if (
+        referenceUser &&
+        referenceUser.supabaseId === null &&
+        referenceUser.passwordHash === null
+      ) {
+        const updated = await tx.user.update({
+          where: { id: "user-arman" },
+          data: {
+            name: input.name || referenceUser.name,
+            email: normalizedEmail,
+            supabaseId: input.supabaseId || null,
+            role: "owner",
+          },
+        });
+        return {
+          id: updated.id,
+          email: updated.email,
+          name: updated.name,
+          role: "owner",
+        };
+      }
+    }
+
+    const created = await tx.user.create({
+      data: {
+        id: input.supabaseId ?? `user-${randomUUID()}`,
+        email: normalizedEmail,
+        name: input.name || "Developer",
+        supabaseId: input.supabaseId || null,
+        role: isEligibleOwner ? "owner" : "developer",
+      },
+    });
+
     return {
-      id: existing.id,
-      email: existing.email,
-      name: existing.name,
-      role: existing.role === "owner" ? "owner" : "developer",
+      id: created.id,
+      email: created.email,
+      name: created.name,
+      role: created.role === "owner" ? "owner" : "developer",
     };
-  }
-
-  const userCount = await prisma.user.count();
-  const created = await prisma.user.create({
-    data: {
-      id: input.supabaseId ?? `user-${randomUUID()}`,
-      email: normalizedEmail,
-      name: input.name || "Developer",
-      supabaseId: input.supabaseId || null,
-      role: userCount === 0 ? "owner" : "developer",
-    },
   });
-
-  return {
-    id: created.id,
-    email: created.email,
-    name: created.name,
-    role: created.role === "owner" ? "owner" : "developer",
-  };
 }
 
 /* ============================================================================

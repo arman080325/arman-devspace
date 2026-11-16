@@ -63,6 +63,7 @@ export const signupSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters.")
     .max(128, "Password must be under 128 characters."),
+  bootstrapToken: z.string().trim().min(1).optional(),
 });
 
 export const loginSchema = z.object({

@@ -30,10 +30,17 @@ export async function GET(request: Request) {
     data.user.email.split("@")[0] ||
     "Developer";
 
+  // Strict provider-verified email check: only trust provider-controlled email_confirmed_at.
+  // Never trust user_metadata.email_verified which could be set by arbitrary OAuth payload or user metadata.
+  const isEmailVerified =
+    typeof data.user.email_confirmed_at === "string" &&
+    data.user.email_confirmed_at.trim().length > 0;
+
   const sessionUser = await syncExternalAuthUser({
     email: data.user.email,
     name: displayName,
     supabaseId: data.user.id,
+    isEmailVerified,
   });
 
   await setSessionCookie(sessionUser);

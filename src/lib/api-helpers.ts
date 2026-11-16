@@ -49,6 +49,24 @@ export async function requireApiSession(): Promise<
   return { user };
 }
 
+export async function requireOwnerSession(): Promise<
+  { user: SessionUser } | { response: NextResponse }
+> {
+  const sessionResult = await requireApiSession();
+  if ("response" in sessionResult) {
+    return sessionResult;
+  }
+  if (sessionResult.user.role !== "owner") {
+    return {
+      response: NextResponse.json(
+        { error: "Forbidden. Owner privileges required." },
+        { status: 403 },
+      ),
+    };
+  }
+  return sessionResult;
+}
+
 export function requireCanonicalProject(
   slug: string,
 ): { project: Project } | { response: NextResponse } {
