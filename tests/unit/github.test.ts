@@ -275,7 +275,8 @@ describe("GitHub Repository Inspector & API Client", () => {
       if (
         url.includes("/readme") ||
         url.includes("/commits") ||
-        url.includes("/releases")
+        url.includes("/releases") ||
+        url.includes("/actions")
       ) {
         return Promise.resolve(new Response(null, { status: 404 }));
       }

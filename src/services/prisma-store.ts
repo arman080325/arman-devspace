@@ -1451,11 +1451,18 @@ export async function saveRepositoryVerification(
     if (data.metadata) {
       const meta = data.metadata;
       let dependencySummaryToSave = meta.dependencySummary || null;
-      if (meta.latestCommit || meta.latestRelease || meta.health || meta.homepageUrl) {
+      if (
+        meta.latestCommit ||
+        meta.latestRelease ||
+        meta.latestWorkflowRun ||
+        meta.health ||
+        meta.homepageUrl
+      ) {
         dependencySummaryToSave = JSON.stringify({
           dependencySummary: meta.dependencySummary || null,
           latestCommit: meta.latestCommit || null,
           latestRelease: meta.latestRelease || null,
+          latestWorkflowRun: meta.latestWorkflowRun || null,
           health: meta.health || null,
           homepageUrl: meta.homepageUrl || null,
         });

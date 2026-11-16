@@ -12,6 +12,7 @@ import {
   Check,
   CheckCircle2,
   ClipboardCheck,
+  Clock,
   Code2,
   Copy,
   ExternalLink,
@@ -25,6 +26,7 @@ import {
   Loader2,
   Lock,
   Milestone as MilestoneIcon,
+  PlayCircle,
   Plus,
   RefreshCw,
   Rocket,
@@ -35,6 +37,7 @@ import {
   Tag,
   Terminal,
   Trash2,
+  XCircle,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -1837,15 +1840,89 @@ export function ProjectWorkspace({
         {/* TAB 5: Sections 14 & 15 — Deployment, Screenshots, Testing Results & Activity */}
         <TabsContent value="delivery" className="space-y-6">
           <div className="grid gap-6 lg:grid-cols-2">
-            {/* Section 14: Deployments & Screenshots */}
+            {/* Section 14: Deployments & CI/CD Operations */}
             <Card className="border-border/80 bg-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
                   <Globe className="size-4 text-emerald-400" aria-hidden="true" />
-                  <span>Deployment History & Environment Links</span>
+                  <span>Deployment Operations & CI/CD Intelligence</span>
                 </CardTitle>
+                <CardDescription>
+                  Track live environment deployments and upstream CI/CD automated workflow
+                  status.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
+                {/* CI/CD Upstream Status Card */}
+                {project.repositoryMetadata?.latestWorkflowRun ? (
+                  <div className="rounded-lg border border-border/70 bg-background/60 p-3 text-xs space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-1.5 font-medium text-foreground">
+                        <Terminal className="size-3.5 text-sky-400" aria-hidden="true" />
+                        <span>Latest CI/CD Workflow Run</span>
+                      </span>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "gap-1 text-[11px] capitalize",
+                          project.repositoryMetadata.latestWorkflowRun.conclusion ===
+                            "success"
+                            ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                            : project.repositoryMetadata.latestWorkflowRun.conclusion ===
+                                "failure"
+                              ? "border-rose-500/40 bg-rose-500/10 text-rose-400"
+                              : project.repositoryMetadata.latestWorkflowRun.status ===
+                                  "in_progress"
+                                ? "border-amber-500/40 bg-amber-500/10 text-amber-400"
+                                : "border-slate-500/40 bg-slate-500/10 text-slate-400",
+                        )}
+                      >
+                        {project.repositoryMetadata.latestWorkflowRun.conclusion ===
+                        "success" ? (
+                          <CheckCircle2 className="size-3" aria-hidden="true" />
+                        ) : project.repositoryMetadata.latestWorkflowRun.conclusion ===
+                          "failure" ? (
+                          <XCircle className="size-3" aria-hidden="true" />
+                        ) : project.repositoryMetadata.latestWorkflowRun.status ===
+                          "in_progress" ? (
+                          <PlayCircle className="size-3" aria-hidden="true" />
+                        ) : (
+                          <Clock className="size-3" aria-hidden="true" />
+                        )}
+                        <span>
+                          {project.repositoryMetadata.latestWorkflowRun.conclusion ??
+                            project.repositoryMetadata.latestWorkflowRun.status}
+                        </span>
+                      </Badge>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-muted-foreground pt-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-foreground">
+                          {project.repositoryMetadata.latestWorkflowRun.name}
+                        </span>
+                        <span>·</span>
+                        <span className="font-mono text-[11px]">
+                          {project.repositoryMetadata.latestWorkflowRun.branch}
+                        </span>
+                        <span>·</span>
+                        <span className="font-mono text-[11px]">
+                          #{project.repositoryMetadata.latestWorkflowRun.commitShortSha}
+                        </span>
+                      </div>
+                      <a
+                        href={project.repositoryMetadata.latestWorkflowRun.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-mono text-sky-400 hover:underline text-[11px]"
+                      >
+                        <span>View Run</span>
+                        <ExternalLink className="size-2.5" aria-hidden="true" />
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
+
                 <form onSubmit={handleAddDeployment} className="space-y-3">
                   <div className="grid gap-2.5 sm:grid-cols-2">
                     <div className="space-y-1">
@@ -1930,6 +2007,19 @@ export function ProjectWorkspace({
                           <div className="flex items-center gap-2">
                             <Badge variant="outline" className="capitalize">
                               {dep.environment}
+                            </Badge>
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                "text-[10px] capitalize",
+                                dep.status === "active"
+                                  ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/10"
+                                  : dep.status === "pending"
+                                    ? "border-amber-500/40 text-amber-400 bg-amber-500/10"
+                                    : "border-rose-500/40 text-rose-400 bg-rose-500/10",
+                              )}
+                            >
+                              {dep.status}
                             </Badge>
                             <span className="font-medium text-foreground">
                               {dep.provider}

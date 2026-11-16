@@ -3,6 +3,7 @@ import { projects as canonicalProjects } from "@/data/projects";
 import { getPrismaClient, isDatabaseConfigured } from "@/lib/prisma";
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 import { hasAnyRegisteredUser } from "@/services/devspace-store";
+import { isVercelConfigured } from "@/services/vercel";
 
 export async function GET() {
   const dbConfigured = isDatabaseConfigured();
@@ -43,12 +44,15 @@ export async function GET() {
     {
       status: overallOk ? "ok" : "degraded",
       product: "Arman's Devspace",
+      version: "0.1.0",
       timestamp: new Date().toISOString(),
       projectsCount: canonicalProjects.length,
       storageMode: dbConfigured ? "postgresql" : "local-store",
       storageStatus,
       ...(dbError ? { storageError: dbError } : {}),
       supabaseAuthEnabled: isSupabaseConfigured(),
+      vercelConfigured: isVercelConfigured(),
+      githubConfigured: Boolean(process.env.GITHUB_TOKEN?.trim()),
       initialized: hasOwner,
     },
     {

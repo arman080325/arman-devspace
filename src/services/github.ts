@@ -2,6 +2,7 @@ import "server-only";
 
 import { saveRepositoryVerification } from "@/services/devspace-store";
 import type {
+  GitHubWorkflowRun,
   RepositoryHealthSignals,
   RepositoryMetadata,
   VerificationStatus,
@@ -54,6 +55,14 @@ export interface BatchSyncSummary {
     verifiedRepoUrl?: string | null;
     error?: string;
   }>;
+}
+
+export interface GitHubWorkflowRunsResult {
+  available: boolean;
+  totalCount: number;
+  runs: GitHubWorkflowRun[];
+  error?: string;
+  rateLimited?: boolean;
 }
 
 /* ============================================================================
@@ -498,8 +507,8 @@ export async function inspectGitHubRepository(
         homepage?: string | null;
       };
 
-      // Concurrent fetch for README, latest commit, and latest release
-      const [readmeRes, commitRes, releaseRes] = await Promise.allSettled([
+      // Concurrent fetch for README, latest commit, latest release, and latest workflow run
+      const [readmeRes, commitRes, releaseRes, runRes] = await Promise.allSettled([
         fetchWithRetry(`${apiBase}/readme`, { method: "HEAD", headers }, 6000, 1),
         fetchWithRetry(
           `${apiBase}/commits?per_page=1`,
@@ -509,6 +518,12 @@ export async function inspectGitHubRepository(
         ),
         fetchWithRetry(
           `${apiBase}/releases/latest`,
+          { headers, cache: "no-store" },
+          6000,
+          1,
+        ),
+        fetchWithRetry(
+          `${apiBase}/actions/runs?per_page=1`,
           { headers, cache: "no-store" },
           6000,
           1,
@@ -565,6 +580,46 @@ export async function inspectGitHubRepository(
           };
         } catch {
           latestRelease = null;
+        }
+      }
+
+      let latestWorkflowRun: RepositoryMetadata["latestWorkflowRun"] = null;
+      if (runRes.status === "fulfilled" && runRes.value.ok) {
+        try {
+          const runData = (await runRes.value.json()) as {
+            workflow_runs?: Array<{
+              id: number;
+              name: string;
+              head_branch: string | null;
+              head_sha: string;
+              status: string;
+              conclusion: string | null;
+              html_url: string;
+              created_at: string;
+              updated_at: string;
+              event: string;
+              actor: { login: string } | null;
+            }>;
+          };
+          if (Array.isArray(runData.workflow_runs) && runData.workflow_runs.length > 0) {
+            const r = runData.workflow_runs[0];
+            latestWorkflowRun = {
+              id: r.id,
+              name: r.name || "CI Workflow",
+              status: r.status,
+              conclusion: r.conclusion || null,
+              branch: r.head_branch || "main",
+              commitSha: r.head_sha,
+              commitShortSha: (r.head_sha || "").slice(0, 7),
+              url: r.html_url,
+              createdAt: r.created_at,
+              updatedAt: r.updated_at,
+              event: r.event,
+              actor: r.actor?.login || "github-actions",
+            };
+          }
+        } catch {
+          latestWorkflowRun = null;
         }
       }
 
@@ -631,6 +686,7 @@ export async function inspectGitHubRepository(
           homepageUrl: repoData.homepage?.trim() || null,
           latestCommit,
           latestRelease,
+          latestWorkflowRun,
           health,
         },
       };
@@ -813,4 +869,143 @@ export async function syncRepositoriesBatch(
   }
 
   return summary;
+}
+
+/* ============================================================================
+   GITHUB ACTIONS WORKFLOW RUNS INTELLIGENCE
+   ============================================================================ */
+
+export async function fetchRepositoryWorkflowRuns(
+  originalUrl: string,
+  overrideUrl?: string,
+  options?: { limit?: number; timeoutMs?: number },
+): Promise<GitHubWorkflowRunsResult> {
+  const targetInput = overrideUrl?.trim() || originalUrl;
+  const parsed = parseGitHubRepoUrl(targetInput);
+
+  if (!parsed) {
+    return {
+      available: false,
+      totalCount: 0,
+      runs: [],
+      error: "Invalid GitHub URL format.",
+    };
+  }
+
+  if (isKnownRateLimited()) {
+    return {
+      available: false,
+      totalCount: 0,
+      runs: [],
+      rateLimited: true,
+      error: "GitHub API rate limit exhausted.",
+    };
+  }
+
+  const limit = Math.max(1, Math.min(options?.limit ?? 5, 20));
+  const timeoutMs = options?.timeoutMs ?? 6000;
+
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "Armans-Devspace/1.0",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  const token = process.env.GITHUB_TOKEN?.trim();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const endpoint = `https://api.github.com/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/actions/runs?per_page=${limit}`;
+
+  try {
+    const res = await fetchWithRetry(
+      endpoint,
+      { headers, cache: "no-store" },
+      timeoutMs,
+      1,
+    );
+
+    if (res.status === 404) {
+      // Actions disabled, no workflow runs exist, or repository is unindexed
+      return {
+        available: false,
+        totalCount: 0,
+        runs: [],
+      };
+    }
+
+    if (res.status === 403 || res.status === 429) {
+      const remaining = res.headers.get("x-ratelimit-remaining");
+      if (remaining === "0") {
+        return {
+          available: false,
+          totalCount: 0,
+          runs: [],
+          rateLimited: true,
+          error: "GitHub API rate limit reached.",
+        };
+      }
+      return {
+        available: false,
+        totalCount: 0,
+        runs: [],
+        error: `GitHub API forbidden (${res.status}).`,
+      };
+    }
+
+    if (!res.ok) {
+      return {
+        available: false,
+        totalCount: 0,
+        runs: [],
+        error: `GitHub Actions API returned HTTP ${res.status}.`,
+      };
+    }
+
+    const data = (await res.json()) as {
+      total_count?: number;
+      workflow_runs?: Array<{
+        id: number;
+        name: string;
+        head_branch: string | null;
+        head_sha: string;
+        status: string;
+        conclusion: string | null;
+        html_url: string;
+        created_at: string;
+        updated_at: string;
+        event: string;
+        actor: { login: string } | null;
+      }>;
+    };
+
+    const runs: GitHubWorkflowRun[] = (data.workflow_runs || []).map((r) => ({
+      id: r.id,
+      name: r.name || "CI Workflow",
+      status: r.status,
+      conclusion: r.conclusion || null,
+      branch: r.head_branch || "main",
+      commitSha: r.head_sha,
+      commitShortSha: (r.head_sha || "").slice(0, 7),
+      url: r.html_url,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+      event: r.event,
+      actor: r.actor?.login || "github-actions",
+    }));
+
+    return {
+      available: runs.length > 0,
+      totalCount: data.total_count ?? runs.length,
+      runs,
+    };
+  } catch (err: unknown) {
+    return {
+      available: false,
+      totalCount: 0,
+      runs: [],
+      error: err instanceof Error ? err.message : "Failed to fetch GitHub Actions runs.",
+    };
+  }
 }

@@ -385,6 +385,7 @@ export function mapPrismaRepoMetadata(raw: {
     homepageUrl: extended.homepageUrl ?? null,
     latestCommit: extended.latestCommit ?? null,
     latestRelease: extended.latestRelease ?? null,
+    latestWorkflowRun: extended.latestWorkflowRun ?? null,
     health: extended.health ?? null,
   };
 }

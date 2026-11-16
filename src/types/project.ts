@@ -95,6 +95,21 @@ export interface RepositoryHealthSignals {
   };
 }
 
+export interface GitHubWorkflowRun {
+  id: number;
+  name: string;
+  status: string;
+  conclusion: string | null;
+  branch: string;
+  commitSha: string;
+  commitShortSha: string;
+  url: string;
+  createdAt: string;
+  updatedAt: string;
+  event: string;
+  actor: string;
+}
+
 export interface RepositoryMetadata {
   projectId: string;
   owner: string;
@@ -129,6 +144,7 @@ export interface RepositoryMetadata {
     publishedAt: string;
     url: string;
   } | null;
+  latestWorkflowRun?: GitHubWorkflowRun | null;
   health?: RepositoryHealthSignals | null;
 }
 
