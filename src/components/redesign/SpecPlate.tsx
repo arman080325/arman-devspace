@@ -60,6 +60,7 @@ export function PhaseLine({ p, className }: { p: SpecPlateProject; className?: s
 export function SpecPlate({
   p,
   pinned,
+  onTogglePin,
   tooltip,
 }: {
   p: SpecPlateProject;
@@ -88,14 +89,37 @@ export function SpecPlate({
         <div className="flex items-start justify-between gap-3">
           <span className="display-num text-[40px] leading-[36px] text-fg">{p.id}</span>
           <span className="flex items-center gap-2 pt-1">
-            {pinned && (
+            {onTogglePin ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  onTogglePin();
+                }}
+                aria-label={pinned ? `Unpin project ${p.name}` : `Pin project ${p.name}`}
+                title={pinned ? "Unpin project" : "Pin project"}
+                className={cx(
+                  "relative z-10 inline-flex h-6 w-6 items-center justify-center rounded-[3px] transition-colors",
+                  pinned
+                    ? "text-sodium-text hover:bg-elevated"
+                    : "text-fg3 hover:text-fg hover:bg-elevated",
+                )}
+              >
+                <Pin
+                  size={14}
+                  strokeWidth={1.5}
+                  className={pinned ? "fill-current text-sodium-text" : ""}
+                />
+              </button>
+            ) : pinned ? (
               <Pin
                 size={14}
                 strokeWidth={1.5}
                 className="text-sodium-text"
                 aria-label="Pinned"
               />
-            )}
+            ) : null}
             <PhaseBadge phase={p.phase} />
           </span>
         </div>

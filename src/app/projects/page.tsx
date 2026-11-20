@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { FolderGit2 } from "lucide-react";
-
-import { ProjectExplorer } from "@/components/projects/project-explorer";
+import { ExplorerPage } from "@/components/explorer/explorer-page";
+import type { ExplorerViewMode } from "@/components/explorer/explorer-toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getSessionUser } from "@/lib/auth";
 import { getAllProjects } from "@/services/devspace-store";
+import type { Difficulty } from "@/types/project";
+import type { Phase } from "@/components/redesign/types";
 
 export const metadata: Metadata = {
   title: "Project Explorer",
@@ -20,8 +22,8 @@ interface ExplorerSearchParams {
   category?: string;
   tech?: string;
   technology?: string;
-  status?: string;
-  verification?: string;
+  phase?: string;
+  health?: string;
   view?: string;
 }
 
@@ -33,17 +35,27 @@ async function ExplorerContent({
   const [user, resolvedParams] = await Promise.all([getSessionUser(), searchParams]);
   const projects = await getAllProjects(user?.id);
 
+  const initialView: ExplorerViewMode =
+    resolvedParams.view === "plates" ||
+    resolvedParams.view === "list" ||
+    resolvedParams.view === "field"
+      ? resolvedParams.view
+      : "field";
+
   return (
-    <ProjectExplorer
+    <ExplorerPage
       initialProjects={projects}
+      initialView={initialView}
       initialFilters={{
-        search: resolvedParams.q ?? resolvedParams.search ?? "",
-        difficulty: resolvedParams.difficulty ?? "all",
-        category: resolvedParams.category ?? "all",
-        technology: resolvedParams.tech ?? resolvedParams.technology ?? "all",
-        status: resolvedParams.status ?? "all",
-        verification: resolvedParams.verification ?? "all",
-        view: resolvedParams.view === "list" ? "list" : "grid",
+        difficulty: resolvedParams.difficulty
+          ? [resolvedParams.difficulty as Difficulty]
+          : [],
+        category: resolvedParams.category ? [resolvedParams.category] : [],
+        tech:
+          (resolvedParams.tech ?? resolvedParams.technology)
+            ? [resolvedParams.tech ?? resolvedParams.technology!]
+            : [],
+        phase: resolvedParams.phase ? [resolvedParams.phase as Phase] : [],
       }}
     />
   );
@@ -55,31 +67,28 @@ export default function ProjectsPage({
   searchParams: Promise<ExplorerSearchParams>;
 }) {
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="space-y-2 border-b border-border/60 pb-6">
-        <div className="inline-flex items-center gap-2 text-xs font-medium text-violet-400">
-          <FolderGit2 className="size-4" aria-hidden="true" />
+    <div className="mx-auto w-full max-w-[1440px] space-y-6 px-3 py-6 sm:px-6 lg:px-8">
+      {/* Page Header */}
+      <div className="space-y-1.5 border-b border-line pb-5">
+        <div className="inline-flex items-center gap-2 text-xs font-medium text-sodium-text">
+          <FolderGit2 className="size-3.5" aria-hidden="true" />
           <span>Canonical Collection (#001 – #100)</span>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        <h1 className="font-sans text-2xl font-bold tracking-tight text-fg sm:text-3xl">
           Project Explorer
         </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground">
-          All 100 project slots ordered strictly from #001 to #100. Inspect repositories,
-          filter by track or technology, switch between grid and tabular views, and launch
-          individual modernization workspaces.
+        <p className="max-w-2xl text-xs text-fg2 sm:text-sm">
+          All 100 project slots ordered strictly from #001 to #100. Inspect
+          specifications, filter by lifecycle phase or technology, and switch between
+          field, plates, and list views.
         </p>
       </div>
 
       <Suspense
         fallback={
           <div className="space-y-4">
-            <Skeleton className="h-40 w-full rounded-xl" />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, idx) => (
-                <Skeleton key={idx} className="h-56 rounded-xl" />
-              ))}
-            </div>
+            <Skeleton className="h-10 w-full rounded-ctl" />
+            <Skeleton className="h-96 w-full rounded-panel" />
           </div>
         }
       >

@@ -3,16 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, Compass, ShieldAlert } from "lucide-react";
-
-import { ProjectExplorer } from "@/components/projects/project-explorer";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { ExplorerPage } from "@/components/explorer/explorer-page";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LEARNING_PATHS } from "@/config/workflow";
 import { getSessionUser } from "@/lib/auth";
-import { getDifficultyBgColor, getDifficultyColor } from "@/lib/utils";
+import { cn, getDifficultyBgColor, getDifficultyColor } from "@/lib/utils";
 import { getAllProjects } from "@/services/devspace-store";
 import type { Difficulty } from "@/types/project";
 
@@ -35,7 +30,7 @@ export async function generateMetadata({
   }
   const spec = LEARNING_PATHS[level];
   return {
-    title: `${spec.title} (${spec.rangeLabel})`,
+    title: `${spec.title} (${spec.rangeLabel}) | Arman's Devspace`,
     description: spec.summary,
   };
 }
@@ -55,73 +50,93 @@ async function PathDetailContent({ level }: { level: Difficulty }) {
 
   return (
     <div className="space-y-8">
+      {/* Telemetry and Overview Cards */}
       <div className="grid gap-5 lg:grid-cols-3">
-        <Card className="border-border/80 bg-card lg:col-span-2">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Expected Learning Outcomes</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ul className="space-y-2.5 text-sm text-muted-foreground">
-              {spec.outcomes.map((outcome) => (
-                <li key={outcome} className="flex items-start gap-2.5">
-                  <CheckCircle2
-                    className="mt-0.5 size-4 shrink-0 text-emerald-400"
-                    aria-hidden="true"
-                  />
-                  <span>{outcome}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Learning Outcomes and Complexity Note */}
+        <div className="rounded-panel border border-line bg-surface p-5 lg:col-span-2 space-y-4">
+          <h2 className="text-sm font-semibold tracking-tight text-fg">
+            Expected Learning Outcomes
+          </h2>
+          <ul className="space-y-2 text-xs text-fg2">
+            {spec.outcomes.map((outcome) => (
+              <li key={outcome} className="flex items-start gap-2.5">
+                <CheckCircle2
+                  className="mt-0.5 size-3.5 shrink-0 text-ship"
+                  aria-hidden="true"
+                />
+                <span>{outcome}</span>
+              </li>
+            ))}
+          </ul>
 
-            <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
-              <p className="mb-1 flex items-center gap-1.5 font-medium text-amber-400">
-                <ShieldAlert className="size-3.5" aria-hidden="true" />
-                <span>Codebase Complexity & Audit Note</span>
-              </p>
-              <p>{spec.complexityNote}</p>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="rounded border border-amber-500/25 bg-amber-500/5 p-3.5 text-xs text-fg2">
+            <p className="mb-1 flex items-center gap-1.5 font-semibold text-amber-400">
+              <ShieldAlert className="size-3.5" aria-hidden="true" />
+              <span>Codebase Complexity & Audit Note</span>
+            </p>
+            <p>{spec.complexityNote}</p>
+          </div>
+        </div>
 
-        <Card className="flex flex-col justify-between border-border/80 bg-card">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Track Telemetry & Skills</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
+        {/* Track Telemetry & Skills */}
+        <div className="flex flex-col justify-between rounded-panel border border-line bg-surface p-5 space-y-5">
+          <div className="space-y-4">
+            <h2 className="text-sm font-semibold tracking-tight text-fg">
+              Track Telemetry & Skills
+            </h2>
+
             <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">
+              <div className="flex items-center justify-between text-2xs">
+                <span className="text-fg3">
                   {completed} / {pathProjects.length} completed · {active} active
                 </span>
-                <span className="font-mono font-semibold">{pct}%</span>
+                <span className="font-mono font-semibold text-fg">{pct}%</span>
               </div>
-              <Progress value={pct} aria-label={`${spec.title} completion`} />
+              <div
+                role="progressbar"
+                aria-valuenow={pct}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`${spec.title} completion`}
+                className="h-2 w-full overflow-hidden rounded-full bg-inset"
+              >
+                <div
+                  className="h-full rounded-full bg-sodium transition-all duration-300"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <p className="text-xs font-medium text-muted-foreground">
+            <div className="space-y-2 pt-2 border-t border-line">
+              <p className="text-2xs font-semibold uppercase tracking-wider text-fg3">
                 Recommended Technical Skills
               </p>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1">
                 {spec.recommendedSkills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                    className="rounded border border-line bg-inset px-2 py-0.5 font-mono text-[11px] text-fg3"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <ProjectExplorer
-        initialProjects={pathProjects}
-        lockDifficulty={level}
-        showDifficultyFilter={false}
-      />
+      {/* Embedded Project Explorer for this Track */}
+      <div>
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-fg3">
+          Track Projects ({pathProjects.length})
+        </h2>
+        <ExplorerPage
+          initialProjects={pathProjects}
+          lockDifficulty={level}
+          initialView="plates"
+        />
+      </div>
     </div>
   );
 }
@@ -139,38 +154,40 @@ export default async function LearningPathLevelPage({
   const spec = LEARNING_PATHS[level];
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="space-y-4 border-b border-border/60 pb-6">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="-ml-2 gap-1.5 text-xs"
-          render={<Link href="/paths" />}
+    <div className="mx-auto w-full max-w-[1440px] space-y-6 px-3 py-6 sm:px-6 lg:px-8">
+      {/* Track Header */}
+      <div className="space-y-3 border-b border-line pb-5">
+        <Link
+          href="/paths"
+          className="-ml-2 inline-flex h-7 items-center gap-1.5 rounded-ctl px-2.5 text-xs text-fg2 transition-colors hover:bg-elevated hover:text-fg"
         >
           <ArrowLeft className="size-3.5" aria-hidden="true" />
-          <span>Back to Learning Paths</span>
-        </Button>
+          <span>Back to Categories & Paths</span>
+        </Link>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <Badge
-            variant="outline"
-            className={`capitalize ${getDifficultyBgColor(level)} ${getDifficultyColor(level)}`}
+          <span
+            className={cn(
+              "rounded px-2 py-0.5 text-xs font-semibold capitalize",
+              getDifficultyBgColor(level),
+              getDifficultyColor(level),
+            )}
           >
             {level}
-          </Badge>
-          <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-            <Compass className="size-3.5 text-violet-400" aria-hidden="true" />
+          </span>
+          <span className="inline-flex items-center gap-1.5 font-mono text-xs text-fg3">
+            <Compass className="size-3.5 text-sodium-text" aria-hidden="true" />
             {spec.rangeLabel}
           </span>
         </div>
 
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        <h1 className="font-sans text-2xl font-bold tracking-tight text-fg sm:text-3xl">
           {spec.title}
         </h1>
-        <p className="max-w-3xl text-sm text-muted-foreground">{spec.summary}</p>
+        <p className="max-w-3xl text-xs text-fg2 sm:text-sm">{spec.summary}</p>
       </div>
 
-      <Suspense fallback={<Skeleton className="h-[460px] w-full rounded-xl" />}>
+      <Suspense fallback={<Skeleton className="h-[460px] w-full rounded-panel" />}>
         <PathDetailContent level={level} />
       </Suspense>
     </div>
