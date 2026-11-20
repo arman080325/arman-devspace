@@ -33,13 +33,15 @@ export type KanbanColumnId =
   | "testing"
   | "completed";
 
+export type RoadmapStatus = "pending" | "in-progress" | "completed";
+
 export interface ProjectRoadmapItem {
   id: string;
   projectId: string;
   phase: number;
   title: string;
   description: string;
-  status: "pending" | "in-progress" | "completed";
+  status: RoadmapStatus;
   order: number;
 }
 
@@ -68,6 +70,10 @@ export interface ProjectActivityItem {
   action: string;
   summary: string;
   createdAt: string;
+  type?: string;
+  description?: string;
+  timestamp?: string;
+  metadata?: Record<string, unknown> | null;
 }
 
 export interface DeploymentRecord {

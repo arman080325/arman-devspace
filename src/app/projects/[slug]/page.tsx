@@ -34,7 +34,7 @@ export async function generateMetadata({
   };
 }
 
-async function ProjectDetailContent({ slug }: { slug: string }) {
+async function ProjectDetailContent({ slug, tab }: { slug: string; tab?: string }) {
   const user = await getSessionUser();
   const detail = await getProjectDetail(slug, user?.id);
 
@@ -62,14 +62,17 @@ async function ProjectDetailContent({ slug }: { slug: string }) {
       nextProject={
         next ? { number: next.number, title: next.title, slug: next.slug } : null
       }
+      initialTab={tab}
     />
   );
 }
 
 export default async function ProjectDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ tab?: string }>;
 }) {
   const { slug } = await params;
   const canonical = getCanonicalProjectBySlug(slug);
@@ -77,8 +80,10 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
+  const resolvedSearch = searchParams ? await searchParams : undefined;
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[1440px] px-3 py-6 sm:px-6 lg:px-8">
       <Suspense
         fallback={
           <div className="space-y-6">
@@ -87,7 +92,7 @@ export default async function ProjectDetailPage({
           </div>
         }
       >
-        <ProjectDetailContent slug={slug} />
+        <ProjectDetailContent slug={slug} tab={resolvedSearch?.tab} />
       </Suspense>
     </div>
   );
