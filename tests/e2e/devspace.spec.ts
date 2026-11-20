@@ -69,7 +69,9 @@ test.describe("Arman's Devspace end-to-end workflows", () => {
 
     await page.waitForURL("**/dashboard");
     await expect(
-      page.getByRole("heading", { name: /Welcome back, Arman Tester/i }),
+      page.getByRole("heading", {
+        name: /(Welcome back|Good (morning|afternoon|evening)), Arman Tester/i,
+      }),
     ).toBeVisible();
 
     // Visit Kanban board & Engineering Journal

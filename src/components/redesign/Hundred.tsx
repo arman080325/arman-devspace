@@ -1,4 +1,25 @@
-import { type CellPhase, PHASE_COLOR_VAR } from "./types";
+"use client";
+
+import { useCallback, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import { projects as canonicalProjects } from "@/data/projects";
+import type { Project } from "@/types/project";
+import { SpecPlate } from "./SpecPlate";
+import { PhaseGlyph } from "./glyphs";
+import { cx } from "./ui";
+import {
+  CATEGORIES,
+  LOOP_ORDER,
+  PHASES,
+  PHASE_COLOR_VAR,
+  PHASE_LABEL,
+  type CellPhase,
+  type DeployState,
+  type Health,
+  type Phase,
+  type SpecPlateProject,
+} from "./types";
 
 export type SortMode = "number" | "phase" | "category" | "activity";
 export type HundredSize = "hero" | "compact" | "mini";
@@ -8,6 +29,142 @@ export const HUNDRED_GEOM: Record<HundredSize, { gap: number; width: string }> =
   compact: { gap: 3, width: "227px" }, // 20px cells
   mini: { gap: 1, width: "49px" }, // 4px cells
 };
+
+/* ============================================================================
+   LIFECYCLE MAPPING & DATA HELPERS
+   ============================================================================ */
+
+/**
+ * Maps a real production Project to a redesign CellPhase strictly derived from real data.
+ */
+export function projectToCellPhase(p: Project): CellPhase {
+  if (p.isPlaceholder) return "unknown";
+  if (p.verificationStatus === "archived" || p.repositoryMetadata?.isArchived) {
+    return "archived";
+  }
+  if (
+    p.repositoryMetadata?.latestWorkflowRun?.conclusion === "failure" ||
+    p.repositoryMetadata?.health?.status === "unavailable"
+  ) {
+    return "breaking";
+  }
+  switch (p.status) {
+    case "completed":
+      return "shipped";
+    case "in-development":
+    case "testing":
+      return "building";
+    case "analyzing":
+    case "planning":
+      return "rebuilding";
+    case "awaiting":
+    case "backlog":
+    case "cloned":
+      return "exploring";
+    default:
+      return "unknown";
+  }
+}
+
+/**
+ * Maps a canonical Project to the SpecPlate schema for rich hover cards and pinned shelf.
+ */
+export function projectToSpecPlate(p: Project): SpecPlateProject {
+  const phase = projectToCellPhase(p);
+  const padNum = String(p.number).padStart(3, "0");
+
+  let health: Health = "unknown";
+  if (p.repositoryMetadata?.health?.status === "healthy") health = "good";
+  else if (
+    p.repositoryMetadata?.health?.status === "needs-review" ||
+    p.repositoryMetadata?.health?.status === "stale"
+  ) {
+    health = "fair";
+  } else if (p.repositoryMetadata?.health?.status === "unavailable") {
+    health = "poor";
+  }
+
+  let deploy: DeployState = "none";
+  if (p.deploymentUrl) deploy = "ready";
+  else if (p.status === "completed") deploy = "ready";
+  else if (p.status === "in-development" || p.status === "testing") deploy = "building";
+
+  return {
+    num: p.number,
+    id: padNum,
+    name: p.title,
+    slug: p.slug,
+    description: p.description,
+    category: p.category,
+    stack: p.technologies ?? [],
+    phase,
+    repo: p.verifiedRepoUrl ?? p.originalRepoUrl ?? null,
+    health,
+    deploy,
+    deployUrl: p.deploymentUrl ?? null,
+    stars: p.repositoryMetadata?.stars ?? null,
+    forks: p.repositoryMetadata?.forks ?? null,
+    reason: p.discrepancyNotes ?? (phase === "breaking" ? "Needs attention" : undefined),
+    focus: p.status === "in-development" ? "Active implementation" : undefined,
+  };
+}
+
+/**
+ * Counts projects per phase.
+ */
+export function phaseCounts(
+  projects: Project[],
+): Record<Phase | "archived" | "unknown", number> {
+  const counts: Record<Phase | "archived" | "unknown", number> = {
+    exploring: 0,
+    building: 0,
+    shipped: 0,
+    breaking: 0,
+    rebuilding: 0,
+    archived: 0,
+    unknown: 0,
+  };
+  for (const p of projects) {
+    const phase = projectToCellPhase(p);
+    counts[phase] = (counts[phase] ?? 0) + 1;
+  }
+  return counts;
+}
+
+/**
+ * Sorts project catalogue according to active sort mode.
+ */
+export function sortProjects(list: Project[], mode: SortMode): Project[] {
+  const copy = [...list];
+  if (mode === "number") {
+    copy.sort((a, b) => a.number - b.number);
+  } else if (mode === "phase") {
+    copy.sort((a, b) => {
+      const pa = projectToCellPhase(a);
+      const pb = projectToCellPhase(b);
+      const diff = LOOP_ORDER.indexOf(pa as Phase) - LOOP_ORDER.indexOf(pb as Phase);
+      return diff !== 0 ? diff : a.number - b.number;
+    });
+  } else if (mode === "category") {
+    copy.sort((a, b) => {
+      const ca = CATEGORIES.indexOf(a.category);
+      const cb = CATEGORIES.indexOf(b.category);
+      const diff = (ca === -1 ? 999 : ca) - (cb === -1 ? 999 : cb);
+      return diff !== 0 ? diff : a.number - b.number;
+    });
+  } else if (mode === "activity") {
+    copy.sort((a, b) => {
+      const ta = a.lastAccessedAt ? new Date(a.lastAccessedAt).getTime() : 0;
+      const tb = b.lastAccessedAt ? new Date(b.lastAccessedAt).getTime() : 0;
+      return tb !== ta ? tb - ta : a.number - b.number;
+    });
+  }
+  return copy;
+}
+
+/* ============================================================================
+   CELL FACE (GEOMETRIC SHAPE ENCODING)
+   ============================================================================ */
 
 /** Visual face of one cell. Shape encodes phase so it reads in greyscale without colour dependence. */
 export function CellFace({ phase, mini }: { phase: CellPhase; mini?: boolean }) {
@@ -88,4 +245,267 @@ export function CellFace({ phase, mini }: { phase: CellPhase; mini?: boolean }) 
         </span>
       );
   }
+}
+
+/* ============================================================================
+   HOVER FLOATING PLATE (PORTAL)
+   ============================================================================ */
+
+function HoverPlate({ p, rect }: { p: SpecPlateProject; rect: DOMRect }) {
+  if (typeof window === "undefined" || typeof document === "undefined") return null;
+  const W = 300;
+  const right = rect.right + 10 + W < window.innerWidth;
+  const left = right ? rect.right + 10 : Math.max(8, rect.left - 10 - W);
+  const top = Math.min(Math.max(8, rect.top - 20), Math.max(8, window.innerHeight - 250));
+
+  return createPortal(
+    <div className="anim-fade pointer-events-none fixed z-[85]" style={{ left, top }}>
+      <SpecPlate p={p} tooltip />
+    </div>,
+    document.body,
+  );
+}
+
+/* ============================================================================
+   THE HUNDRED GRID COMPONENT
+   ============================================================================ */
+
+export interface HundredProps {
+  size: HundredSize;
+  projects?: Project[];
+  sort?: SortMode;
+  current?: number;
+  isLit?: (p: Project) => boolean;
+  mode?: "data" | "unknown" | "loading";
+  label?: string;
+  onOpen?: (p: Project) => void;
+  miniCell?: 3 | 4;
+  interactive?: boolean;
+  className?: string;
+}
+
+export function Hundred({
+  size,
+  projects = canonicalProjects,
+  sort = "number",
+  current,
+  isLit,
+  mode = "data",
+  label = "The Hundred: all 100 projects by phase",
+  onOpen,
+  miniCell = 4,
+  interactive = true,
+  className,
+}: HundredProps) {
+  const router = useRouter();
+  const ordered = useMemo(() => sortProjects(projects, sort), [projects, sort]);
+  const [focusIdx, setFocusIdx] = useState(0);
+  const [hover, setHover] = useState<{ p: SpecPlateProject; rect: DOMRect } | null>(null);
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const g = HUNDRED_GEOM[size];
+  const gap = size === "mini" ? 1 : g.gap;
+  const width = size === "mini" ? `${miniCell * 10 + 9}px` : g.width;
+  const mini = size === "mini";
+
+  const handleOpen = useCallback(
+    (p: Project) => {
+      if (onOpen) {
+        onOpen(p);
+      } else {
+        router.push(`/projects/${p.slug}`);
+      }
+    },
+    [onOpen, router],
+  );
+
+  const handleKeyDown = (e: KeyboardEvent, idx: number) => {
+    let next = idx;
+    if (e.key === "ArrowRight") next = Math.min(99, idx + 1);
+    else if (e.key === "ArrowLeft") next = Math.max(0, idx - 1);
+    else if (e.key === "ArrowDown") next = Math.min(99, idx + 10);
+    else if (e.key === "ArrowUp") next = Math.max(0, idx - 10);
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = 99;
+    else return;
+
+    e.preventDefault();
+    setFocusIdx(next);
+    refs.current[next]?.focus();
+  };
+
+  return (
+    <div className={cx("relative select-none", className)} style={{ width }}>
+      <div
+        role={interactive ? "grid" : "img"}
+        aria-label={label}
+        className="grid grid-cols-10 aspect-square w-full"
+        style={{ gap: `${gap}px` }}
+      >
+        {ordered.map((p, idx) => {
+          const phase = mode === "unknown" ? "unknown" : projectToCellPhase(p);
+          const isCurrent = current === p.number;
+          const dim = isLit ? !isLit(p) : false;
+          const padNum = String(p.number).padStart(3, "0");
+
+          const face =
+            mode === "loading" ? (
+              <span className="skeleton absolute inset-0 rounded-cell" />
+            ) : (
+              <CellFace phase={phase} mini={mini} />
+            );
+
+          const ring = isCurrent ? (
+            <span
+              aria-hidden
+              className="pointer-events-none absolute rounded-[3px]"
+              style={{
+                inset: mini ? -2 : -3,
+                boxShadow: `0 0 0 ${mini ? 1 : 2}px var(--sodium)`,
+              }}
+            />
+          ) : null;
+
+          if (!interactive) {
+            return (
+              <div
+                key={p.number}
+                className="relative aspect-square w-full"
+                style={{ opacity: dim ? 0.2 : 1 }}
+              >
+                {face}
+                {ring}
+              </div>
+            );
+          }
+
+          return (
+            <button
+              key={p.number}
+              ref={(el) => {
+                refs.current[idx] = el;
+              }}
+              type="button"
+              role="gridcell"
+              tabIndex={idx === focusIdx ? 0 : -1}
+              aria-label={`${padNum} ${p.title}, ${PHASE_LABEL[phase]}${
+                isCurrent ? ", current project" : ""
+              }${dim ? ", filtered out" : ""}`}
+              onClick={() => handleOpen(p)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleOpen(p);
+                } else {
+                  handleKeyDown(e, idx);
+                }
+              }}
+              onMouseEnter={(e) => {
+                if (!mini) {
+                  setHover({
+                    p: projectToSpecPlate(p),
+                    rect: e.currentTarget.getBoundingClientRect(),
+                  });
+                }
+              }}
+              onMouseLeave={() => setHover(null)}
+              onFocus={(e) => {
+                setFocusIdx(idx);
+                if (!mini && e.currentTarget.matches(":focus-visible")) {
+                  setHover({
+                    p: projectToSpecPlate(p),
+                    rect: e.currentTarget.getBoundingClientRect(),
+                  });
+                }
+              }}
+              onBlur={() => setHover(null)}
+              className={cx(
+                "relative aspect-square w-full rounded-cell outline-none transition-all duration-100",
+                mini
+                  ? "hover:outline hover:outline-1 hover:outline-offset-1 hover:outline-sodium focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-sodium"
+                  : "hover:outline hover:outline-1 hover:outline-offset-2 hover:outline-sodium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sodium",
+              )}
+              style={{ opacity: dim ? 0.2 : 1 }}
+            >
+              {face}
+              {ring}
+            </button>
+          );
+        })}
+      </div>
+
+      {hover && mode !== "unknown" && <HoverPlate p={hover.p} rect={hover.rect} />}
+    </div>
+  );
+}
+
+/* ============================================================================
+   HUNDRED LEGEND WITH LENS FILTERING
+   ============================================================================ */
+
+export function HundredLegend({
+  projects = canonicalProjects,
+  lens,
+  onLens,
+  unknown,
+  layout = "row",
+}: {
+  projects?: Project[];
+  lens?: Phase | null;
+  onLens?: (p: Phase | null) => void;
+  unknown?: boolean;
+  layout?: "row" | "column";
+}) {
+  const counts = useMemo(() => phaseCounts(projects), [projects]);
+
+  return (
+    <div
+      className={cx(
+        "flex gap-x-4 gap-y-1.5",
+        layout === "row" ? "flex-wrap items-center" : "flex-col",
+      )}
+    >
+      <div className="flex items-baseline gap-1.5 text-fg">
+        <span className="font-mono text-2xl font-bold leading-none">
+          {projects.length}
+        </span>
+        <span className="text-xs text-fg2">projects</span>
+      </div>
+
+      {unknown ? (
+        <span className="inline-flex items-center gap-1.5 text-xs text-fg2">
+          <PhaseGlyph phase="unknown" /> 100 unknown until a source is connected
+        </span>
+      ) : (
+        PHASES.map((ph) => {
+          const on = lens === ph;
+          const Comp = onLens ? "button" : "span";
+          return (
+            <Comp
+              key={ph}
+              {...(onLens
+                ? {
+                    type: "button",
+                    onClick: () => onLens(on ? null : ph),
+                    "aria-pressed": on,
+                    title: on ? "Show all" : `Show only ${PHASE_LABEL[ph].toLowerCase()}`,
+                  }
+                : {})}
+              className={cx(
+                "inline-flex h-7 items-center gap-1.5 rounded-ctl text-xs transition-colors",
+                onLens && "px-1.5 -mx-1.5 hover:bg-elevated cursor-pointer",
+                on && "bg-elevated shadow-[inset_0_0_0_1px_var(--border-default)]",
+                lens && !on && "opacity-50",
+              )}
+            >
+              <PhaseGlyph phase={ph} />
+              <span className="font-mono text-xs font-semibold text-fg">
+                {counts[ph]}
+              </span>
+              <span className="text-fg2">{PHASE_LABEL[ph].toLowerCase()}</span>
+            </Comp>
+          );
+        })
+      )}
+    </div>
+  );
 }
