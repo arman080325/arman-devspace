@@ -1,10 +1,7 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { CommandPalette } from "@/components/layout/command-palette";
-import { Footer } from "@/components/layout/footer";
-import { Navbar } from "@/components/layout/navbar";
+import { AppShell } from "@/components/shell";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { siteConfig } from "@/config/site";
@@ -64,7 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <meta name="color-scheme" content="dark light" />
       </head>
-      <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
+      <body className="flex min-h-full flex-col bg-base font-sans text-fg antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -72,18 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <Suspense
-              fallback={
-                <header className="sticky top-0 z-40 h-14 w-full border-b border-border/80 bg-background/85 backdrop-blur-md" />
-              }
-            >
-              <Navbar />
-            </Suspense>
-            <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-              {children}
-            </main>
-            <Footer />
-            <CommandPalette />
+            <AppShell>{children}</AppShell>
           </TooltipProvider>
         </ThemeProvider>
       </body>
