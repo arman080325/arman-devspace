@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const THEME_OPTIONS = [
-  { value: "dark", label: "Dark", icon: Moon },
-  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Night Shift", icon: Moon },
+  { value: "light", label: "Day Shift", icon: Sun },
   { value: "system", label: "System", icon: Monitor },
 ] as const;
 
@@ -43,7 +43,9 @@ export function ThemeToggle() {
         theme === "light" ? "light" : theme === "dark" ? "dark" : "light dark",
       );
     }
-  }, [theme, mounted]);
+    const currentMode = resolvedTheme === "light" ? "day" : "night";
+    document.documentElement.setAttribute("data-theme", currentMode);
+  }, [theme, resolvedTheme, mounted]);
 
   const currentIcon = !mounted ? (
     <Moon className="size-4" aria-hidden="true" />
