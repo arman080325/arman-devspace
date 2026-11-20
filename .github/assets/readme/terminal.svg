@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 324" width="900" height="324" role="img" aria-label="Terminal: clone, install, copy env, npm run dev, ready on localhost:3000">
+<title>Boot sequence</title>
+<style>
+@keyframes l0{0%,2.50%{transform:scaleX(0);animation-timing-function:steps(59,end)}16.25%,94%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes pl0{0%,1.56%{opacity:0}1.88%,94%{opacity:1}100%{opacity:0}}
+@keyframes l1{0%,19.06%{transform:scaleX(0);animation-timing-function:steps(32,end)}27.63%,94%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes pl1{0%,18.13%{opacity:0}18.44%,94%{opacity:1}100%{opacity:0}}
+@keyframes l2{0%,30.44%{opacity:0;transform:translateX(-6px)}32.00%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes l3{0%,32.63%{transform:scaleX(0);animation-timing-function:steps(20,end)}38.56%,94%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes pl3{0%,31.69%{opacity:0}32.00%,94%{opacity:1}100%{opacity:0}}
+@keyframes l4{0%,41.38%{transform:scaleX(0);animation-timing-function:steps(11,end)}45.34%,94%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes pl4{0%,40.44%{opacity:0}40.75%,94%{opacity:1}100%{opacity:0}}
+@keyframes l5{0%,48.16%{opacity:0;transform:translateX(-6px)}49.72%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes l6{0%,50.34%{opacity:0;transform:translateX(-6px)}51.91%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes l7{0%,52.53%{opacity:0;transform:translateX(-6px)}54.09%,94%{opacity:1;transform:none}100%{opacity:0}}
+.l0{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;animation:l0 16s infinite}.pl0{opacity:0;animation:pl0 16s infinite}
+.l1{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;animation:l1 16s infinite}.pl1{opacity:0;animation:pl1 16s infinite}
+.l2{opacity:0;animation:l2 16s ease-out infinite}
+.l3{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;animation:l3 16s infinite}.pl3{opacity:0;animation:pl3 16s infinite}
+.l4{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;animation:l4 16s infinite}.pl4{opacity:0;animation:pl4 16s infinite}
+.l5{opacity:0;animation:l5 16s ease-out infinite}
+.l6{opacity:0;animation:l6 16s ease-out infinite}
+.l7{opacity:0;animation:l7 16s ease-out infinite}
+.cur{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+<rect x="1" y="1" width="898" height="322" rx="16" fill="#0B0D12" stroke="#263244" stroke-width="2"/>
+<path d="M1 17a16 16 0 0 1 16-16h866a16 16 0 0 1 16 16v23H1z" fill="#11151D"/>
+<line x1="1" y1="40" x2="899" y2="40" stroke="#263244" stroke-width="1.5"/>
+<circle cx="24" cy="21" r="6" fill="#EF4444" opacity=".85"/><circle cx="44" cy="21" r="6" fill="#F59E0B" opacity=".85"/><circle cx="64" cy="21" r="6" fill="#22C55E" opacity=".85"/>
+<text x="450" y="26" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">arman@devspace: ~</text>
+<g font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="14" xml:space="preserve">
+<g class="pl0"><text x="30" y="74" fill="#8B5CF6">❯</text></g>
+<clipPath id="cl0"><rect x="50" y="56" width="518.1" height="24" class="l0"/></clipPath>
+<text x="50" y="74" fill="#F8FAFC" clip-path="url(#cl0)">git clone https://github.com/arman080325/arman-devspace.git</text>
+<g class="pl1"><text x="30" y="100" fill="#8B5CF6">❯</text></g>
+<clipPath id="cl1"><rect x="50" y="82" width="283.8" height="24" class="l1"/></clipPath>
+<text x="50" y="100" fill="#F8FAFC" clip-path="url(#cl1)">cd arman-devspace &amp;&amp; npm install</text>
+<text x="50" y="126" fill="#22C55E" class="l2">✔ dependencies installed</text>
+<g class="pl3"><text x="30" y="152" fill="#8B5CF6">❯</text></g>
+<clipPath id="cl3"><rect x="50" y="134" width="179.6" height="24" class="l3"/></clipPath>
+<text x="50" y="152" fill="#F8FAFC" clip-path="url(#cl3)">cp .env.example .env</text>
+<g class="pl4"><text x="30" y="178" fill="#8B5CF6">❯</text></g>
+<clipPath id="cl4"><rect x="50" y="160" width="101.5" height="24" class="l4"/></clipPath>
+<text x="50" y="178" fill="#F8FAFC" clip-path="url(#cl4)">npm run dev</text>
+<text x="50" y="204" fill="#F8FAFC" class="l5">▲ Next.js 16.4.6</text>
+<text x="50" y="230" fill="#38BDF8" class="l6">  - Local:   http://localhost:3000</text>
+<text x="50" y="256" fill="#8B5CF6" class="l7">✓ Ready — Explore. Build. Break. Rebuild.</text>
+<text x="30" y="282" fill="#8B5CF6">❯</text><rect x="50" y="268" width="9" height="18" fill="#38BDF8" class="cur"/>
+</g>
+</svg>
