@@ -173,7 +173,16 @@ export function IntegrationsSection({
       const payload =
         coverage.unsyncedSampleIds.length > 0
           ? { projectIds: coverage.unsyncedSampleIds.slice(0, 10) }
-          : { projectIds: ["01", "02", "03", "04", "05"], forceRefresh: false };
+          : {
+              projectIds: [
+                "project-1",
+                "project-2",
+                "project-3",
+                "project-4",
+                "project-5",
+              ],
+              forceRefresh: false,
+            };
 
       const res = await fetch("/api/github/sync", {
         method: "POST",

@@ -41,15 +41,18 @@ async function TechnologiesContent() {
             .slice(0, 4);
 
           return (
-            <Card key={item.name} className="border-border/80 bg-card">
+            <Card key={item.name} className="border-line bg-surface">
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-base">{item.name}</CardTitle>
-                  <Badge variant="outline" className="font-mono text-xs">
+                  <CardTitle className="text-base text-fg">{item.name}</CardTitle>
+                  <Badge
+                    variant="outline"
+                    className="border-edge font-mono text-xs text-fg2"
+                  >
                     {item.count} {item.count === 1 ? "repo" : "repos"}
                   </Badge>
                 </div>
-                <CardDescription className="text-xs">
+                <CardDescription className="text-xs text-fg3">
                   {item.completedCount} completed ·{" "}
                   {Math.round((item.count / stats.definedProjects) * 100)}% of defined
                   collection
@@ -63,7 +66,7 @@ async function TechnologiesContent() {
                     <Link
                       key={proj.id}
                       href={`/projects/${proj.slug}`}
-                      className="rounded border border-border/70 bg-background/60 px-2 py-0.5 font-mono text-[11px] text-muted-foreground hover:border-violet-500/40 hover:text-foreground"
+                      className="rounded border border-line bg-inset px-2 py-0.5 font-mono text-[11px] text-fg2 hover:border-sodium/50 hover:text-fg"
                     >
                       #{String(proj.number).padStart(3, "0")}
                     </Link>
@@ -72,7 +75,7 @@ async function TechnologiesContent() {
 
                 <Link
                   href={`/projects?tech=${encodeURIComponent(item.name)}`}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-violet-400 hover:underline"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-sodium-text hover:underline"
                 >
                   <span>Filter {item.count} projects</span>
                   <ArrowUpRight className="size-3.5" aria-hidden="true" />
@@ -88,16 +91,16 @@ async function TechnologiesContent() {
 
 export default function TechnologiesPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="space-y-2 border-b border-border/60 pb-6">
-        <div className="inline-flex items-center gap-2 text-xs font-medium text-violet-400">
+    <div className="mx-auto w-full max-w-[1440px] space-y-8 px-3 py-6 sm:px-6 lg:px-8">
+      <div className="space-y-2 border-b border-line pb-6">
+        <div className="inline-flex items-center gap-2 text-xs font-medium text-sodium-text">
           <Layers className="size-4" aria-hidden="true" />
           <span>Stack Ecosystem Index</span>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        <h1 className="display text-2xl leading-tight text-fg sm:text-3xl">
           Technology Tracker
         </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground">
+        <p className="max-w-2xl text-sm text-fg2">
           Technology footprint computed directly from the canonical project definitions
           and persisted completion states.
         </p>

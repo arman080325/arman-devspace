@@ -223,6 +223,7 @@ export function RoadmapTab({
 
                   {/* Status Dropdown */}
                   <select
+                    aria-label={`Phase ${phase.phase}: ${phase.title} status`}
                     value={phase.status}
                     onChange={(e) =>
                       onUpdatePhaseStatus(phase.id, e.target.value as RoadmapStatus)
@@ -257,6 +258,7 @@ export function RoadmapTab({
               <div className="flex gap-2">
                 <input
                   type="text"
+                  aria-label="New modernization task description"
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
                   placeholder="Add a new modernization task..."
@@ -274,6 +276,7 @@ export function RoadmapTab({
               </div>
 
               <select
+                aria-label="Task lifecycle phase"
                 value={newTaskPhase}
                 onChange={(e) => setNewTaskPhase(e.target.value)}
                 className="h-7 w-full rounded-ctl border border-edge bg-inset px-2 text-2xs text-fg3 focus-visible:border-sodium focus-visible:outline-none"

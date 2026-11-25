@@ -111,10 +111,6 @@ export function Tooltip({
     };
   }, []);
 
-  if (typeof document === "undefined") {
-    return children;
-  }
-
   return (
     <>
       <span
@@ -130,6 +126,7 @@ export function Tooltip({
         {children}
       </span>
       {pos &&
+        typeof document !== "undefined" &&
         createPortal(
           <div
             role="tooltip"

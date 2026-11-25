@@ -261,7 +261,10 @@ export function ListView({
 
       {/* Desktop & Tablet Table */}
       <div ref={tableRef} className="overflow-x-auto">
-        <table className="w-full min-w-[760px] border-separate border-spacing-0 text-left text-xs">
+        <table
+          aria-label="Canonical 100-project catalog"
+          className="w-full min-w-[760px] border-separate border-spacing-0 text-left text-xs"
+        >
           <thead>
             <tr>
               {renderSortHeader("num", "No.", "left", "w-16")}

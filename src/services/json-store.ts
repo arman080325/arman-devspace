@@ -539,12 +539,21 @@ export async function getProjectDetail(
   const roadmap =
     store.roadmaps[`${userId}:${canonical.id}`] ?? defaultRoadmapForProject(canonical.id);
 
-  const milestones = store.milestones.filter((m) => m.projectId === canonical.id);
+  const milestones = store.milestones.filter((m) => {
+    const owner = (m as ProjectMilestone & { userId?: string }).userId;
+    return m.projectId === canonical.id && (!owner || owner === userId);
+  });
 
-  const screenshots = store.screenshots.filter((s) => s.projectId === canonical.id);
+  const screenshots = store.screenshots.filter((s) => {
+    const owner = (s as ProjectScreenshot & { userId?: string }).userId;
+    return s.projectId === canonical.id && (!owner || owner === userId);
+  });
 
   const deployments = store.deployments
-    .filter((d) => d.projectId === canonical.id)
+    .filter((d) => {
+      const owner = (d as DeploymentRecord & { userId?: string }).userId;
+      return d.projectId === canonical.id && (!owner || owner === userId);
+    })
     .sort((a, b) => b.deployedAt.localeCompare(a.deployedAt));
 
   const activities = store.activities
@@ -738,7 +747,10 @@ export async function getUserDashboardFeed(userId: string) {
     });
 
   const upcomingMilestones = store.milestones
-    .filter((m) => !m.completed)
+    .filter((m) => {
+      const owner = (m as ProjectMilestone & { userId?: string }).userId;
+      return !m.completed && (!owner || owner === userId);
+    })
     .slice(0, 6)
     .map((milestone) => {
       const proj = canonicalProjects.find((p) => p.id === milestone.projectId);
@@ -1243,9 +1255,10 @@ export async function addProjectScreenshot(
 ): Promise<ProjectScreenshot> {
   return mutateStore((store) => {
     const now = new Date().toISOString();
-    const item: ProjectScreenshot = {
+    const item: ProjectScreenshot & { userId?: string } = {
       id: randomUUID(),
       projectId,
+      userId,
       title: input.title,
       url: input.url,
       caption: input.caption,

@@ -69,8 +69,8 @@ async function PathDetailContent({ level }: { level: Difficulty }) {
             ))}
           </ul>
 
-          <div className="rounded border border-amber-500/25 bg-amber-500/5 p-3.5 text-xs text-fg2">
-            <p className="mb-1 flex items-center gap-1.5 font-semibold text-amber-400">
+          <div className="rounded border border-warn/30 bg-warn/10 p-3.5 text-xs text-fg2">
+            <p className="mb-1 flex items-center gap-1.5 font-semibold text-warn">
               <ShieldAlert className="size-3.5" aria-hidden="true" />
               <span>Codebase Complexity & Audit Note</span>
             </p>

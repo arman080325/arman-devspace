@@ -613,6 +613,7 @@ export function ProjectWorkspace({
         prevProject={prevProject}
         nextProject={nextProject}
         currentTab={activeTab}
+        isAuthenticated={isAuthenticated}
         onTogglePin={handleTogglePin}
         onCopySuccess={(msg) => setFeedback({ type: "success", text: msg })}
       />
@@ -627,7 +628,7 @@ export function ProjectWorkspace({
       />
 
       {/* Active Tab Content Panel */}
-      <main
+      <div
         role="tabpanel"
         id={`panel-${activeTab}`}
         aria-labelledby={`tab-${activeTab}`}
@@ -695,7 +696,7 @@ export function ProjectWorkspace({
             onDeleteScreenshot={handleDeleteScreenshot}
           />
         )}
-      </main>
+      </div>
     </div>
   );
 }

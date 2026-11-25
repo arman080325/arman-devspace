@@ -166,4 +166,63 @@ describe("Stage G: Registration Hardening and Owner Isolation", () => {
       }
     });
   });
+
+  it("isolates milestones, screenshots, deployments, and dashboard feeds per user in JSON store", async () => {
+    const u1 = await jsonStore.registerUserAccount({
+      name: "User One",
+      email: `user1-${Date.now()}@example.com`,
+      password: "PasswordOne123!",
+    });
+    const u2 = await jsonStore.registerUserAccount({
+      name: "User Two",
+      email: `user2-${Date.now()}@example.com`,
+      password: "PasswordTwo123!",
+    });
+
+    if (!("user" in u1) || !("user" in u2)) {
+      throw new Error("Expected registered users");
+    }
+
+    await jsonStore.createProjectMilestone(u1.user.id, "project-1", {
+      title: "User1 Exclusive Milestone",
+      dueDate: "2026-12-31",
+    });
+    await jsonStore.addProjectScreenshot(u1.user.id, "project-1", {
+      title: "User1 Screenshot",
+      url: "https://example.com/u1.png",
+      caption: "Private screenshot",
+    });
+    await jsonStore.addDeploymentRecord(u1.user.id, "project-1", {
+      environment: "production",
+      url: "https://u1-app.example.com",
+      provider: "Vercel",
+      status: "active",
+      notes: "User1 deployment",
+    });
+
+    const detail1 = await jsonStore.getProjectDetail("online-bookstore", u1.user.id);
+    const detail2 = await jsonStore.getProjectDetail("online-bookstore", u2.user.id);
+
+    expect(detail1?.progress?.milestones.map((m) => m.title)).toContain(
+      "User1 Exclusive Milestone",
+    );
+    expect(detail1?.progress?.screenshots.map((s) => s.title)).toContain(
+      "User1 Screenshot",
+    );
+    expect(detail1?.progress?.deployments.map((d) => d.url)).toContain(
+      "https://u1-app.example.com",
+    );
+
+    expect(detail2?.progress?.milestones).toHaveLength(0);
+    expect(detail2?.progress?.screenshots).toHaveLength(0);
+    expect(detail2?.progress?.deployments).toHaveLength(0);
+
+    const feed1 = await jsonStore.getUserDashboardFeed(u1.user.id);
+    const feed2 = await jsonStore.getUserDashboardFeed(u2.user.id);
+
+    expect(feed1.upcomingMilestones.map((m) => m.title)).toContain(
+      "User1 Exclusive Milestone",
+    );
+    expect(feed2.upcomingMilestones).toHaveLength(0);
+  });
 });

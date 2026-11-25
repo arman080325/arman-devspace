@@ -56,7 +56,7 @@ function PasswordGuidance({ password, email }: { password: string; email: string
   return (
     <ul
       id="auth-password-rules"
-      aria-label="Password guidance"
+      aria-label="Complexity checklist"
       className="mb-2 grid gap-1 rounded-ctl border border-line bg-inset px-3 py-2 text-2xs"
     >
       {checks.map((item) => (

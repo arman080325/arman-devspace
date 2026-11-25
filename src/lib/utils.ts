@@ -26,26 +26,26 @@ export function truncate(text: string, length: number): string {
 export function getDifficultyColor(difficulty: string): string {
   switch (difficulty) {
     case "beginner":
-      return "text-emerald-400";
+      return "text-ship";
     case "intermediate":
-      return "text-amber-400";
+      return "text-warn";
     case "advanced":
-      return "text-red-400";
+      return "text-break";
     default:
-      return "text-slate-400";
+      return "text-fg3";
   }
 }
 
 export function getDifficultyBgColor(difficulty: string): string {
   switch (difficulty) {
     case "beginner":
-      return "bg-emerald-400/10 text-emerald-400 border-emerald-400/20";
+      return "bg-ship/10 text-ship border-ship/30";
     case "intermediate":
-      return "bg-amber-400/10 text-amber-400 border-amber-400/20";
+      return "bg-warn/10 text-warn border-warn/30";
     case "advanced":
-      return "bg-red-400/10 text-red-400 border-red-400/20";
+      return "bg-break/10 text-break border-break/30";
     default:
-      return "bg-slate-400/10 text-slate-400 border-slate-400/20";
+      return "bg-inset text-fg3 border-edge";
   }
 }
 

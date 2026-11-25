@@ -1,4 +1,4 @@
-import { projectToCellPhase } from "@/components/redesign/Hundred";
+import { projectToCellPhase } from "@/lib/hundred-utils";
 import type { CellPhase } from "@/components/redesign/types";
 import { isMilestoneOverdue } from "@/lib/roadmap-utils";
 import type {
