@@ -1,14 +1,19 @@
 import { cx } from "./ui";
+import { getWorkspaceBrandName } from "@/lib/brand";
+
+export { getWorkspaceBrandName };
 
 /** 3x3 mark. Eight cells on grid; middle-right cell knocked 2px loose (Break -> Rebuild). */
 export function Mark({
   size = 24,
   className,
   loose = true,
+  label,
 }: {
   size?: number;
   className?: string;
   loose?: boolean;
+  label?: string;
 }) {
   const cells: Array<[number, number]> = [];
   for (let r = 0; r < 3; r++) {
@@ -24,7 +29,7 @@ export function Mark({
       viewBox="0 0 24 24"
       className={cx("shrink-0", className)}
       role="img"
-      aria-label="Arman’s Devspace"
+      aria-label={label ?? "Devspace"}
     >
       {cells.map(([r, c]) => {
         const isLoose = r === 1 && c === 2;
@@ -46,7 +51,16 @@ export function Mark({
   );
 }
 
-export function Wordmark({ className }: { className?: string }) {
+export function Wordmark({
+  name,
+  brandText,
+  className,
+}: {
+  name?: string | null;
+  brandText?: string;
+  className?: string;
+} = {}) {
+  const text = brandText ?? getWorkspaceBrandName(name);
   return (
     <span
       className={cx("whitespace-nowrap text-fg", className)}
@@ -57,16 +71,27 @@ export function Wordmark({ className }: { className?: string }) {
         letterSpacing: "-0.005em",
       }}
     >
-      Arman’s Devspace
+      {text}
     </span>
   );
 }
 
-export function Lockup({ size = 16, className }: { size?: number; className?: string }) {
+export function Lockup({
+  name,
+  brandText,
+  size = 16,
+  className,
+}: {
+  name?: string | null;
+  brandText?: string;
+  size?: number;
+  className?: string;
+} = {}) {
+  const text = brandText ?? getWorkspaceBrandName(name);
   return (
     <span className={cx("inline-flex items-center gap-2", className)}>
-      <Mark size={Math.round(size * 1.5)} />
-      <Wordmark className="leading-none" />
+      <Mark size={Math.round(size * 1.5)} label={text} />
+      <Wordmark brandText={text} className="leading-none" />
     </span>
   );
 }

@@ -1,24 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Check, Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const THEME_OPTIONS = [
-  { value: "dark", label: "Night Shift", icon: Moon },
-  { value: "light", label: "Day Shift", icon: Sun },
-  { value: "system", label: "System", icon: Monitor },
-] as const;
+import { Tooltip } from "@/components/redesign/ui";
 
 const emptySubscribe = () => () => {};
 
@@ -30,68 +15,70 @@ function useIsMounted() {
   );
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const mounted = useIsMounted();
 
+  const isLight =
+    mounted && (resolvedTheme === "light" || (!resolvedTheme && theme === "light"));
+
+  // Keep DOM attributes synchronized on theme updates
   React.useEffect(() => {
     if (!mounted) return;
+    const currentMode = isLight ? "day" : "night";
+    document.documentElement.setAttribute("data-theme", currentMode);
     const meta = document.querySelector('meta[name="color-scheme"]');
     if (meta) {
-      meta.setAttribute(
-        "content",
-        theme === "light" ? "light" : theme === "dark" ? "dark" : "light dark",
-      );
+      meta.setAttribute("content", isLight ? "light" : "dark");
     }
-    const currentMode = resolvedTheme === "light" ? "day" : "night";
-    document.documentElement.setAttribute("data-theme", currentMode);
-  }, [theme, resolvedTheme, mounted]);
+  }, [isLight, mounted]);
 
-  const currentIcon = !mounted ? (
-    <Moon className="size-4" aria-hidden="true" />
-  ) : resolvedTheme === "light" ? (
-    <Sun className="size-4" aria-hidden="true" />
+  const handleToggle = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const nextTheme = isLight ? "dark" : "light";
+      setTheme(nextTheme);
+
+      // Instant client-side DOM sync for immediate zero-latency feedback
+      const nextMode = nextTheme === "light" ? "day" : "night";
+      document.documentElement.setAttribute("data-theme", nextMode);
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) {
+        meta.setAttribute("content", nextTheme === "light" ? "light" : "dark");
+      }
+    },
+    [isLight, setTheme],
+  );
+
+  const label = isLight ? "Switch to Night Shift (dark)" : "Switch to Day Shift (light)";
+  const icon = isLight ? (
+    <Sun
+      className="size-4 text-sodium transition-transform duration-150 rotate-0"
+      aria-hidden="true"
+    />
   ) : (
-    <Moon className="size-4" aria-hidden="true" />
+    <Moon
+      className="size-4 text-fg2 transition-transform duration-150 rotate-0"
+      aria-hidden="true"
+    />
   );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="ghost"
-            size="icon-lg"
-            className="size-9 border border-transparent hover:border-border"
-            aria-label="Color theme"
-          />
+    <Tooltip label={label} shortcut={["T"]}>
+      <button
+        type="button"
+        onClick={handleToggle}
+        className={
+          className ??
+          "inline-flex h-8 w-8 items-center justify-center rounded-ctl text-fg2 transition-colors hover:bg-elevated hover:text-fg focus-visible:outline-2 focus-visible:outline-sodium"
         }
+        aria-label={label}
+        aria-pressed={isLight}
       >
-        {currentIcon}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {THEME_OPTIONS.map((option) => {
-          const Icon = option.icon;
-          const isSelected = mounted && theme === option.value;
-          return (
-            <DropdownMenuItem
-              key={option.value}
-              onClick={() => setTheme(option.value)}
-              className="flex items-center justify-between"
-            >
-              <span className="flex items-center gap-2">
-                <Icon className="size-3.5 text-muted-foreground" aria-hidden="true" />
-                {option.label}
-              </span>
-              {isSelected ? (
-                <Check className="size-3.5 text-primary" aria-hidden="true" />
-              ) : null}
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+        {icon}
+      </button>
+    </Tooltip>
   );
 }

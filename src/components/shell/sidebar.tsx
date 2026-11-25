@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Mark, Wordmark } from "@/components/redesign/brand";
+import { getWorkspaceBrandName } from "@/lib/brand";
 import { IconButton, Tooltip, Popover, MenuItem, cx } from "@/components/redesign/ui";
 import { PRIMARY_NAV_ITEMS, SECONDARY_NAV_ITEMS } from "./nav-items";
 import { MiniHundred } from "./mini-hundred";
@@ -60,6 +61,8 @@ export function Sidebar({
       ? sessionUser.email[0].toUpperCase()
       : "AD";
 
+  const brandName = getWorkspaceBrandName(sessionUser?.name);
+
   return (
     <nav
       aria-label="Main Navigation"
@@ -79,10 +82,12 @@ export function Sidebar({
           href="/dashboard"
           onClick={onNavigate}
           className="flex min-w-0 items-center gap-2 rounded-ctl focus-visible:outline-2 focus-visible:outline-sodium"
-          aria-label="Arman’s Devspace, overview"
+          aria-label={`${brandName}, overview`}
         >
-          <Mark size={24} />
-          {!collapsed && <Wordmark className="truncate text-[15px]" />}
+          <Mark size={24} label={brandName} />
+          {!collapsed && (
+            <Wordmark name={sessionUser?.name} className="truncate text-[15px]" />
+          )}
         </Link>
         {!collapsed && onToggleCollapse && (
           <IconButton
@@ -279,7 +284,7 @@ export function Sidebar({
               </span>
               <div className="min-w-0 flex-1 truncate">
                 <p className="truncate text-xs font-medium text-fg">
-                  {sessionUser ? sessionUser.name || "Arman" : "Devspace Account"}
+                  {sessionUser ? sessionUser.name || "Developer" : "Devspace Account"}
                 </p>
                 <p className="truncate text-2xs text-fg3">
                   {sessionUser ? sessionUser.email : "Explore & build"}

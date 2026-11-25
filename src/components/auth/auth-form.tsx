@@ -273,7 +273,7 @@ export function AuthForm({
             <Link
               href="/"
               className="inline-flex items-center gap-2 rounded-ctl focus-visible:outline-2 focus-visible:outline-sodium"
-              aria-label="Arman's Devspace home"
+              aria-label="Devspace home"
             >
               <Mark size={26} />
               <Wordmark className="text-[18px]" />

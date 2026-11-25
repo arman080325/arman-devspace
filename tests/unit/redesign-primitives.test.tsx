@@ -25,20 +25,36 @@ describe("Redesign Milestone 1 Primitives", () => {
   describe("Brand Components", () => {
     it("renders Mark SVG with accessible label", () => {
       render(<Mark size={32} />);
-      const el = screen.getByLabelText("Arman’s Devspace");
+      const el = screen.getByLabelText("Devspace");
       expect(el).toBeInTheDocument();
       expect(el.tagName.toLowerCase()).toBe("svg");
+
+      render(<Mark size={24} label="Rahul's Devspace" />);
+      expect(screen.getByLabelText("Rahul's Devspace")).toBeInTheDocument();
     });
 
-    it("renders Wordmark with correct text", () => {
+    it("renders Wordmark with correct dynamic text and neutral fallback", () => {
       render(<Wordmark />);
-      expect(screen.getByText("Arman’s Devspace")).toBeInTheDocument();
+      expect(screen.getByText("Devspace")).toBeInTheDocument();
+
+      render(<Wordmark name="Arman" />);
+      expect(screen.getByText("Arman's Devspace")).toBeInTheDocument();
+
+      render(<Wordmark name="Rahul" />);
+      expect(screen.getByText("Rahul's Devspace")).toBeInTheDocument();
+
+      render(<Wordmark name="Sanjana" />);
+      expect(screen.getByText("Sanjana's Devspace")).toBeInTheDocument();
     });
 
     it("renders Lockup with Mark and Wordmark", () => {
+      render(<Lockup size={20} name="Arman" />);
+      expect(screen.getByLabelText("Arman's Devspace")).toBeInTheDocument();
+      expect(screen.getByText("Arman's Devspace")).toBeInTheDocument();
+
       render(<Lockup size={20} />);
-      expect(screen.getByLabelText("Arman’s Devspace")).toBeInTheDocument();
-      expect(screen.getByText("Arman’s Devspace")).toBeInTheDocument();
+      expect(screen.getByLabelText("Devspace")).toBeInTheDocument();
+      expect(screen.getByText("Devspace")).toBeInTheDocument();
     });
 
     it("renders Tagline with all four lifecycle words", () => {

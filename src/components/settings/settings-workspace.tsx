@@ -14,6 +14,7 @@ import {
   User,
 } from "lucide-react";
 import { Mark } from "@/components/redesign/brand";
+import { getWorkspaceBrandName } from "@/lib/brand";
 import {
   Button,
   Dialog,
@@ -855,7 +856,7 @@ export function SettingsWorkspace({
       <Dialog
         open={signOutConfirmOpen}
         onClose={() => !signingOut && setSignOutConfirmOpen(false)}
-        title="Sign out of Arman’s Devspace?"
+        title={`Sign out of ${getWorkspaceBrandName(account.name)}?`}
         footer={
           <>
             <Button

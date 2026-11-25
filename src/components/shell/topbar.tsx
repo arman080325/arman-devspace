@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, Bell, LogIn } from "lucide-react";
 import { Mark } from "@/components/redesign/brand";
+import { getWorkspaceBrandName } from "@/lib/brand";
 import { IconButton, Kbd, Tooltip } from "@/components/redesign/ui";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { PageBreadcrumbs, computeBreadcrumbs } from "./breadcrumbs";
@@ -20,7 +21,8 @@ export function TopBar({
 }) {
   const pathname = usePathname();
   const crumbs = computeBreadcrumbs(pathname);
-  const pageTitle = crumbs[crumbs.length - 1]?.label ?? "Arman’s Devspace";
+  const brandName = getWorkspaceBrandName(sessionUser?.name);
+  const pageTitle = crumbs[crumbs.length - 1]?.label ?? brandName;
 
   return (
     <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center gap-2 border-b border-line bg-base px-2 md:px-4">
@@ -38,9 +40,9 @@ export function TopBar({
       <Link
         href="/dashboard"
         className="inline-flex h-10 w-8 items-center justify-center md:hidden"
-        aria-label="Overview"
+        aria-label={`${brandName}, overview`}
       >
-        <Mark size={20} />
+        <Mark size={20} label={brandName} />
       </Link>
 
       {/* Mobile Page Title */}

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { Mark, Wordmark } from "@/components/redesign/brand";
+import { getWorkspaceBrandName } from "@/lib/brand";
 import { IconButton, useFocusTrap } from "@/components/redesign/ui";
 import { Sidebar } from "./sidebar";
 import type { SessionUser } from "@/types/project";
@@ -56,8 +57,8 @@ export function MobileNavDrawer({
       >
         <div className="flex h-12 shrink-0 items-center justify-between border-b border-line pl-4 pr-2">
           <div className="flex items-center gap-2">
-            <Mark size={24} />
-            <Wordmark className="text-[15px]" />
+            <Mark size={24} label={getWorkspaceBrandName(sessionUser?.name)} />
+            <Wordmark name={sessionUser?.name} className="text-[15px]" />
           </div>
           <IconButton label="Close navigation" size="touch" onClick={onClose}>
             <X size={18} strokeWidth={1.5} />

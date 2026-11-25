@@ -156,8 +156,18 @@ describe("Redesign Milestone 2 Application Shell", () => {
 
   describe("Sidebar component", () => {
     it("renders brand mark, wordmark, and primary/secondary nav items when expanded", () => {
-      render(<Sidebar collapsed={false} />);
-      expect(screen.getAllByText("Arman’s Devspace").length).toBeGreaterThan(0);
+      render(
+        <Sidebar
+          collapsed={false}
+          sessionUser={{
+            id: "u1",
+            email: "arman@test.com",
+            name: "Arman Khan",
+            role: "developer",
+          }}
+        />,
+      );
+      expect(screen.getAllByText("Arman's Devspace").length).toBeGreaterThan(0);
 
       for (const item of PRIMARY_NAV_ITEMS) {
         expect(screen.getByText(item.label)).toBeInTheDocument();
@@ -165,6 +175,11 @@ describe("Redesign Milestone 2 Application Shell", () => {
       for (const item of SECONDARY_NAV_ITEMS) {
         expect(screen.getByText(item.label)).toBeInTheDocument();
       }
+    });
+
+    it("renders neutral fallback branding when unauthenticated", () => {
+      render(<Sidebar collapsed={false} sessionUser={null} />);
+      expect(screen.getAllByText("Devspace").length).toBeGreaterThan(0);
     });
 
     it("renders collapse toggle button and calls onToggleCollapse", () => {

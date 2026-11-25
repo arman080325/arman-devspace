@@ -305,8 +305,8 @@ export function CommandPalette({
         result.push({
           id: "account-signin",
           group: "Account",
-          text: "Sign in to Arman’s Devspace",
-          label: "Sign in to Arman’s Devspace",
+          text: "Sign in to Devspace",
+          label: "Sign in to Devspace",
           icon: <LogIn size={14} />,
           run: () => navigate("/login"),
         });
