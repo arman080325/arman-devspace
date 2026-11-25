@@ -16,7 +16,6 @@ import {
   type SortMode,
 } from "@/lib/hundred-utils";
 import {
-  LOOP_ORDER,
   PHASES,
   PHASE_COLOR_VAR,
   PHASE_LABEL,

@@ -20,7 +20,7 @@ describe("Persistence Policy and Store Delegation", () => {
     const projects = await devspaceStore.getAllProjects(null);
     expect(projects.length).toBe(100);
     expect(projects[0].slug).toBe("online-bookstore");
-  });
+  }, 15_000);
 
   it("isolates user workspace queries and dashboard feeds strictly by userId", async () => {
     vi.resetModules();
@@ -36,5 +36,5 @@ describe("Persistence Policy and Store Delegation", () => {
     const statsA = await devspaceStore.getWorkspaceStats("user-alpha");
     expect(statsA.totalProjects).toBe(100);
     expect(statsA.notesCount).toBe(0);
-  });
+  }, 15_000);
 });

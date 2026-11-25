@@ -217,6 +217,25 @@ describe("Stage G: Registration Hardening and Owner Isolation", () => {
     expect(detail2?.progress?.screenshots).toHaveLength(0);
     expect(detail2?.progress?.deployments).toHaveLength(0);
 
+    const s1Id = detail1?.progress?.screenshots[0]?.id;
+    expect(s1Id).toBeDefined();
+
+    // User 2 cannot delete user 1's screenshot
+    const unauthorizedDelete = await jsonStore.deleteProjectScreenshot(
+      u2.user.id,
+      "project-1",
+      s1Id!,
+    );
+    expect(unauthorizedDelete).toBe(false);
+
+    // User 1 deletes their own screenshot
+    const authorizedDelete = await jsonStore.deleteProjectScreenshot(
+      u1.user.id,
+      "project-1",
+      s1Id!,
+    );
+    expect(authorizedDelete).toBe(true);
+
     const feed1 = await jsonStore.getUserDashboardFeed(u1.user.id);
     const feed2 = await jsonStore.getUserDashboardFeed(u2.user.id);
 

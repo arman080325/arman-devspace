@@ -1611,6 +1611,21 @@ export async function addProjectScreenshot(
   });
 }
 
+export async function deleteProjectScreenshot(
+  userId: string,
+  projectId: string,
+  screenshotId: string,
+): Promise<boolean> {
+  const prisma = requirePrisma();
+  const screenshot = await prisma.projectScreenshot.findFirst({
+    where: { id: screenshotId, projectId, userId },
+  });
+  if (!screenshot) return false;
+
+  await prisma.projectScreenshot.delete({ where: { id: screenshotId } });
+  return true;
+}
+
 export async function saveRepositoryVerification(
   userId: string,
   projectId: string,

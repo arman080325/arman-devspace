@@ -1277,6 +1277,24 @@ export async function addProjectScreenshot(
   });
 }
 
+export async function deleteProjectScreenshot(
+  userId: string,
+  projectId: string,
+  screenshotId: string,
+): Promise<boolean> {
+  return mutateStore((store) => {
+    const idx = store.screenshots.findIndex(
+      (s) =>
+        s.id === screenshotId &&
+        s.projectId === projectId &&
+        (s as ProjectScreenshot & { userId?: string }).userId === userId,
+    );
+    if (idx === -1) return false;
+    store.screenshots.splice(idx, 1);
+    return true;
+  });
+}
+
 export async function saveRepositoryVerification(
   userId: string,
   projectId: string,

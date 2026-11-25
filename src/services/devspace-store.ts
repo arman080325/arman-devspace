@@ -279,6 +279,17 @@ export async function addProjectScreenshot(
   return jsonStore.addProjectScreenshot(userId, projectId, input);
 }
 
+export async function deleteProjectScreenshot(
+  userId: string,
+  projectId: string,
+  screenshotId: string,
+): Promise<boolean> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.deleteProjectScreenshot(userId, projectId, screenshotId);
+  }
+  return jsonStore.deleteProjectScreenshot(userId, projectId, screenshotId);
+}
+
 export async function saveRepositoryVerification(
   userId: string,
   projectId: string,

@@ -22,7 +22,6 @@ function isPastDue(dateStr?: string | null): boolean {
 }
 
 export function MilestonesTab({
-  project: _project,
   progress,
   onCreateMilestone,
   onToggleMilestone,
