@@ -1,105 +1,117 @@
-<div align="center">
-
-<a href="#readme-top"><img src=".github/assets/readme/hero.svg" alt="Arman's Devspace — Explore. Build. Break. Rebuild. A hundred projects. One continuous engineering journey." width="100%"></a>
-
-<br>
-
 <a name="readme-top"></a>
 
-<img src="https://img.shields.io/badge/Next.js-16.4-F8FAFC?style=for-the-badge&logo=nextdotjs&logoColor=F8FAFC&labelColor=0B0D12&color=7C3AED" alt="Next.js 16">
-<img src="https://img.shields.io/badge/React-19.3-F8FAFC?style=for-the-badge&logo=react&logoColor=38BDF8&labelColor=0B0D12&color=0284C7" alt="React 19">
-<img src="https://img.shields.io/badge/TypeScript-strict-F8FAFC?style=for-the-badge&logo=typescript&logoColor=38BDF8&labelColor=0B0D12&color=7C3AED" alt="TypeScript strict">
-<img src="https://img.shields.io/badge/Tailwind-v4-F8FAFC?style=for-the-badge&logo=tailwindcss&logoColor=38BDF8&labelColor=0B0D12&color=0284C7" alt="Tailwind CSS v4">
-<br>
-<img src="https://img.shields.io/badge/Prisma-13_models-F8FAFC?style=for-the-badge&logo=prisma&logoColor=F8FAFC&labelColor=0B0D12&color=7C3AED" alt="Prisma — 13 models">
-<img src="https://img.shields.io/badge/PostgreSQL-16-F8FAFC?style=for-the-badge&logo=postgresql&logoColor=38BDF8&labelColor=0B0D12&color=0284C7" alt="PostgreSQL 16">
-<img src="https://img.shields.io/badge/Supabase-auth-F8FAFC?style=for-the-badge&logo=supabase&logoColor=22C55E&labelColor=0B0D12&color=7C3AED" alt="Supabase Auth">
-<img src="https://img.shields.io/badge/Vitest_+_Playwright-tested-F8FAFC?style=for-the-badge&logo=vitest&logoColor=22C55E&labelColor=0B0D12&color=0284C7" alt="Vitest and Playwright">
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/hero-night.svg">
+  <source media="(prefers-color-scheme: light)" srcset=".github/assets/readme/hero-day.svg">
+  <img src=".github/assets/readme/hero-night.svg" width="100%" alt="Arman's Devspace — Explore. Build. Break. Rebuild. A hundred projects. One continuous engineering journey.">
+</picture>
+
+<sub>☾ switch your GitHub theme: the hero changes from <b>Night Shift</b> to <b>Day Shift</b>, just like the app.</sub>
 
 <br><br>
 
-<code>&nbsp;❯ <a href="#boot">boot</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#manifesto">manifesto</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#catalogue">catalogue</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#features">features</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#workflow">workflow</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#architecture">architecture</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#quick-start">quick&nbsp;start</a>&nbsp;</code>
-<code>&nbsp;❯ <a href="#scripts">scripts</a>&nbsp;</code>
+<img src="https://img.shields.io/badge/Next.js-16.4-8fb4ff?style=for-the-badge&logo=nextdotjs&logoColor=eceae4&labelColor=1a1c20" alt="Next.js 16.4">
+<img src="https://img.shields.io/badge/React-19.3-f2b63c?style=for-the-badge&logo=react&logoColor=eceae4&labelColor=1a1c20" alt="React 19.3">
+<img src="https://img.shields.io/badge/TypeScript-strict-4cc3a0?style=for-the-badge&logo=typescript&logoColor=eceae4&labelColor=1a1c20" alt="TypeScript strict">
+<img src="https://img.shields.io/badge/Tailwind-v4-a99bff?style=for-the-badge&logo=tailwindcss&logoColor=eceae4&labelColor=1a1c20" alt="Tailwind CSS v4">
+<br>
+<img src="https://img.shields.io/badge/Prisma-13_models-ff6b57?style=for-the-badge&logo=prisma&logoColor=eceae4&labelColor=1a1c20" alt="Prisma, 13 models">
+<img src="https://img.shields.io/badge/PostgreSQL-16-8fb4ff?style=for-the-badge&logo=postgresql&logoColor=eceae4&labelColor=1a1c20" alt="PostgreSQL 16">
+<img src="https://img.shields.io/badge/Supabase-auth-f2b63c?style=for-the-badge&logo=supabase&logoColor=eceae4&labelColor=1a1c20" alt="Supabase Auth">
+<img src="https://img.shields.io/badge/Vercel-ready-4cc3a0?style=for-the-badge&logo=vercel&logoColor=eceae4&labelColor=1a1c20" alt="Vercel ready">
+<img src="https://img.shields.io/badge/Vitest_+_Playwright-tested-a99bff?style=for-the-badge&logo=vitest&logoColor=eceae4&labelColor=1a1c20" alt="Vitest and Playwright">
+
+<br><br>
+
+<kbd>&nbsp;<a href="#shift-log">#000&nbsp;shift&nbsp;log</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#the-loop">#001&nbsp;the&nbsp;loop</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#the-hundred">#002&nbsp;the&nbsp;hundred</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#instruments">#003&nbsp;instruments</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#keyboard">#004&nbsp;keyboard</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#pipeline">#005&nbsp;pipeline</a>&nbsp;</kbd>
+<br>
+<kbd>&nbsp;<a href="#wiring">#006&nbsp;wiring</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#ignition">#007&nbsp;ignition</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#environment">#008&nbsp;environment</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#commands">#009&nbsp;commands</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#materials">#010&nbsp;materials</a>&nbsp;</kbd>
+<kbd>&nbsp;<a href="#further-reading">#011&nbsp;further&nbsp;reading</a>&nbsp;</kbd>
 
 </div>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="boot"></a>
+<a name="shift-log"></a>
 
-## ⟩_ 00 · Boot sequence
+## `#000` &nbsp;Shift log
 
 ```text
-┌─ arman@devspace ─────────────────────────────────────────────────────────────┐
-│  $ whoami                                                                    │
-│  a personal engineering workspace for one long, deliberate journey:          │
-│  discover, inspect, modernize, document, test and ship 100 real projects —   │
-│  each in its own isolated workspace, none coupled to the app's own stack.    │
-└──────────────────────────────────────────────────────────────────── ● online ┘
+┌─ arman@devspace ──────────────────────────────────────────────── ● night shift ─┐
+│ $ whoami                                                                        │
+│ one engineer, one hundred numbered projects, one long deliberate journey:       │
+│ discover · inspect · modernize · document · test · ship — then do it again.     │
+│                                                                                 │
+│ $ cat ./rules                                                                   │
+│ 1. order is sacred        #001 → #100, never reshuffled                         │
+│ 2. sources stay verbatim  every supplied URL is stored exactly as given         │
+│ 3. nothing is invented    no fake stars, no fake stacks, no fake status         │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Arman's Devspace** is not a portfolio template and not a todo list. It is a cockpit: a Next.js 16 app that holds a canonical, numbered catalogue of **100 software projects**, gives every one of them a full **15-section workspace**, and wires in **live GitHub, CI/CD and deployment intelligence** so the state of the journey is always real, never invented.
+**Arman's Devspace** is a cockpit, not a portfolio template. It's a Next.js 16 app holding a numbered catalogue of **100 software projects**. Each project gets its own **isolated workspace**, and the app wires in **live GitHub, CI and Vercel signals**, so the board always shows what is actually happening.
+
+The interface runs on a sodium-lamp palette called **Night Shift**, with a paper-toned **Day Shift** for daylight. It's built around one idea: every project is a cell in a 10 × 10 grid, and the shape of the cell tells you where it is in the loop.
 
 <div align="center">
-<img src=".github/assets/readme/stats.svg" width="100%" alt="100 canonical slots · 73 linked repositories · 27 reserved slots · 7 modernization phases · 13 Prisma models">
+<img src=".github/assets/readme/stats.svg" width="100%" alt="100 canonical slots, 73 sourced repositories, 27 reserved slots, 7 workflow phases, 5 loop states, 13 Prisma models">
 </div>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="manifesto"></a>
+<a name="the-loop"></a>
 
-## ⟩_ 01 · The manifesto
+## `#001` &nbsp;The Loop
 
-<table>
-<tr>
-<td width="25%" valign="top">
+<div align="center">
+<img src=".github/assets/readme/loop.svg" width="100%" alt="The Loop: a project cell travels Explore, Build, Break, Rebuild, Shipped, then loops again">
+</div>
 
-### 🔭 Explore.
-Read code you didn't write. Every slot links to a real upstream repository, verified live against the GitHub API — anomalies flagged, never hidden.
+The tagline is the state machine. Every project sits at exactly one point of the loop, and that state comes **from real data only** (see [`src/lib/hundred-utils.ts`](src/lib/hundred-utils.ts)):
 
-</td>
-<td width="25%" valign="top">
+| Phase | Derived from | Means |
+|:--|:--|:--|
+| 🔵 **Exploring** | `awaiting` · `backlog` · `cloned` | Idea, research or spike. No stable build yet. |
+| 🟡 **Building** | `in-development` · `testing` | Active development. |
+| 🔴 **Breaking** | latest workflow run failed · repo health `unavailable` | Needs attention: failing CI, failed deploy or degraded health. |
+| 🟣 **Rebuilding** | `analyzing` · `planning` | Refactor, rewrite, v2 or migration. |
+| 🟢 **Shipped** | `completed` | Live or complete, and healthy. |
+| ⚫ **Archived** | upstream archived | No longer maintained. |
+| ◽ **No data** | reserved slot | Nothing to show yet, and nothing made up. |
 
-### 🧱 Build.
-Rebuild it with a modern stack. Each workspace carries an original-vs-modernized architecture editor, tasks, milestones and notes.
+Loops are counted too. A project that comes back around reads *Rebuilt once*, *Rebuilt twice*, *Rebuilt 3 times* in its loop track.
 
-</td>
-<td width="25%" valign="top">
+<div align="center">
+<img src=".github/assets/readme/cells.svg" width="100%" alt="Cell grammar: dashed outline for exploring, half filled for building, cracked for breaking, notched for rebuilding, solid for shipped, faded for archived, centre dot for no data">
+</div>
 
-### 💥 Break.
-Test it until it cracks. Testing summaries, CI run status and deployment failures surface straight into the Activity Center.
-
-</td>
-<td width="25%" valign="top">
-
-### ♻️ Rebuild.
-Document, ship, repeat. Seven phases, seven Kanban columns, one journal — and then the next slot.
-
-</td>
-</tr>
-</table>
+> [!NOTE]
+> **Colour is never the only signal.** Every phase also has its own cell shape: dashed, half-filled, cracked, notched or solid. Turn the colour off (as the plate above does every few seconds) and the grid still reads.
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="catalogue"></a>
+<a name="the-hundred"></a>
 
-## ⟩_ 02 · The 100-slot catalogue
+## `#002` &nbsp;The Hundred
 
 <div align="center">
-<img src=".github/assets/readme/catalogue.svg" width="100%" alt="A 10 by 10 grid of all 100 project slots, coloured by difficulty, with 27 reserved slots outlined">
+<img src=".github/assets/readme/catalogue.svg" width="100%" alt="The Hundred: all 100 project slots in order with track colours, anomaly flags and reserved slots; the numeric jump types 081 to open Trello Clone">
 </div>
 
-The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mirrored into Postgres by [`prisma/seed.ts`](prisma/seed.ts). Its rules are strict:
+The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts), and [`prisma/seed.ts`](prisma/seed.ts) mirrors it into Postgres. **73** slots point at real upstream repositories. **27** slots (`#051–059`, `#066–074`, `#085–093`) are reserved and marked *Awaiting Source Information*, with no stack, stars or features filled in.
 
-- **Order is sacred** — positions `#001` → `#100` never move.
-- **Sources stay verbatim** — the 73 supplied repository URLs are stored exactly as given; normalisation issues live in separate `discrepancyNotes`.
-- **Nothing is fabricated** — the 27 reserved slots (`#51–59`, `#66–74`, `#85–93`) say *Awaiting Source Information* and carry no invented stack, stars or features.
+**Try it in the app:** type `0` `8` `1` anywhere in the workspace. A toast shows `#081 Trello Clone`, and <kbd>↵</kbd> takes you there.
 
 <details>
 <summary><b>🟢 Beginner Engineering Track</b> · <code>#001–#030</code> · full-stack fundamentals, CRUD, REST, stateful UIs</summary>
@@ -111,7 +123,7 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 | `002` | Quiz Application | Education |
 | `003` | Student Portal System | Education |
 | `004` | Portfolio Builder | Developer Tools |
-| `005` | Blog Platform (Medium Clone) 🔵 | Social |
+| `005` | Blog Platform (Medium Clone) ◎ | Social |
 | `006` | Recipe Sharing Platform | Lifestyle |
 | `007` | Expense Tracker | Finance |
 | `008` | Fitness Tracker | Health |
@@ -124,7 +136,7 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 | `015` | Code Snippet Manager | Developer Tools |
 | `016` | Meal Planner App | Lifestyle |
 | `017` | Restaurant Menu Management | Business |
-| `018` | Budget Planning App 🔵 | Finance |
+| `018` | Budget Planning App ◎ | Finance |
 | `019` | Newsletter Platform | Media |
 | `020` | Wiki System | Knowledge |
 | `021` | Documentation Platform | Developer Tools |
@@ -132,16 +144,16 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 | `023` | Map Visualization Tool | Data Visualization |
 | `024` | Quiz Game Multiplayer | Education |
 | `025` | Tic-Tac-Toe Multiplayer | Games |
-| `026` | Progressive Web App Store ⚪ | Developer Tools |
+| `026` | Progressive Web App Store ▣ | Developer Tools |
 | `027` | Online Course Platform | Education |
-| `028` | Task Management App 🟠 | Productivity |
+| `028` | Task Management App ⚠ | Productivity |
 | `029` | Job Board Platform | Business |
 | `030` | Inventory Management System | Business |
 
 </details>
 
 <details>
-<summary><b>🟠 Intermediate Systems Track</b> · <code>#031–#050</code> · auth, RBAC, webhooks, real-time, external SDKs</summary>
+<summary><b>🟡 Intermediate Systems Track</b> · <code>#031–#050</code> · auth, RBAC, webhooks, real-time, external SDKs</summary>
 <br>
 
 | # | Project | Domain |
@@ -164,7 +176,7 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 | `046` | Travel Planner App | Travel |
 | `047` | Real Estate Listing Platform | Business |
 | `048` | House Rental Platform | Business |
-| `049` | Email Client 🟠 | Communication |
+| `049` | Email Client ⚠ | Communication |
 | `050` | CRM Application | Business |
 
 </details>
@@ -175,14 +187,14 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 
 | # | Project | Domain |
 |:-:|:--|:--|
-| `051–059` | ░░ _reserved · awaiting source information_ ░░ | — |
+| `051–059` | ▨▨ _reserved · awaiting source information_ ▨▨ | — |
 | `060` | Pharmacy Management System | Health |
-| `061` | Stock Market Portfolio Tracker 🔵 | Finance |
+| `061` | Stock Market Portfolio Tracker ◎ | Finance |
 | `062` | CMS Platform | Developer Tools |
 | `063` | API Testing Tool | Developer Tools |
 | `064` | Data Visualization Dashboard | Data Visualization |
 | `065` | Hospital Management System | Health |
-| `066–074` | ░░ _reserved · awaiting source information_ ░░ | — |
+| `066–074` | ▨▨ _reserved · awaiting source information_ ▨▨ | — |
 | `075` | Spotify Clone | Entertainment |
 | `076` | Music Streaming App | Entertainment |
 | `077` | Video Conferencing App | Communication |
@@ -193,7 +205,7 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 | `082` | Notion Clone | Productivity |
 | `083` | Jira Clone | Productivity |
 | `084` | Kanban Board | Productivity |
-| `085–093` | ░░ _reserved · awaiting source information_ ░░ | — |
+| `085–093` | ▨▨ _reserved · awaiting source information_ ▨▨ | — |
 | `094` | Password Manager | Security |
 | `095` | Two-Factor Authentication System | Security |
 | `096` | Image Recognition App | AI/ML |
@@ -204,99 +216,126 @@ The catalogue lives in [`src/data/projects.ts`](src/data/projects.ts) and is mir
 
 </details>
 
-<sub>🟠 link anomaly &nbsp;·&nbsp; 🔵 collection-only (subtree / list repository) &nbsp;·&nbsp; ⚪ archived upstream — all flagged by repository intelligence, all kept visible.</sub>
+<sub>⚠ link anomaly (owner segment contains a space) &nbsp;·&nbsp; ◎ collection-only source (monorepo / curated list) &nbsp;·&nbsp; ▣ archived upstream &nbsp;·&nbsp; ▨ reserved. Repository intelligence flags all of these, and none of them are hidden.</sub>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="features"></a>
+<a name="instruments"></a>
 
-## ⟩_ 03 · Feature tour
+## `#003` &nbsp;Instruments
+
+The console, panel by panel.
+
+<div align="center">
+<img src=".github/assets/readme/workspace.svg" width="100%" alt="Project workspace for #081 Trello Clone cycling through Overview, Roadmap, Milestones, GitHub, Deployments, Activity and Docs tabs">
+</div>
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-#### 🗂️ Project Explorer &nbsp;<code>/projects</code>
-Search, filter by difficulty · category · technology · status · verification · bookmarks, sort, paginate. Switch between a **Grid** and an accessible, sortable **List** table.
+#### ▦ &nbsp;Overview &nbsp;<code>/dashboard</code>
+**The Hundred** as a hero grid, with spec plates on hover, a pinned-project shelf, workspace metrics, category distribution and a live signal stream. Arrow keys move around the grid and <kbd>↵</kbd> opens a cell.
 
 </td>
 <td width="50%" valign="top">
 
-#### 🧪 15-section Project Workspace &nbsp;<code>/projects/[slug]</code>
-Original vs. modernized architecture, local clone path, 7-phase roadmap, milestones, auto-scoring task checklist, notes, deployments, screenshots, testing summary and live GitHub sync — **per project, fully isolated**.
+#### ☰ &nbsp;All projects &nbsp;<code>/projects</code>
+Three views: **Field** (the grid), **Plates** (cards) and **List** (an accessible table that sorts by number · name · category · phase · difficulty · health · last commit, and pages through results). Search by number (`031`), title or tech, then narrow by phase · category · complexity · technology · health · pinned.
 
 </td>
 </tr>
 <tr>
 <td valign="top">
 
-#### 🛰️ Repository Intelligence &nbsp;<code>/api/github/*</code>
-Live verification of every upstream repo: existence, archive state, README, license, releases, freshness (`active` · `moderate` · `stale`) and a computed health signal. Rate limits handled gracefully, batch sync supported, **missing stats stay missing**.
+#### ◫ &nbsp;Project workspace &nbsp;<code>/projects/[slug]</code>
+Seven tabs: **Overview · Roadmap · Milestones · GitHub · Deployments · Activity · Docs**. It holds original vs. modernized stack, local clone path, the 7-phase roadmap, an auto-scored task checklist, notes, screenshots and a testing summary. Each workspace is **fully isolated** from the others.
 
 </td>
 <td valign="top">
 
-#### 🚀 Deployment & CI/CD Intelligence
-Latest **GitHub Actions** workflow runs per repository plus **Vercel** deployment states (`BUILDING` · `READY` · `ERROR` …) with commit SHA, ref and inspector links — when the tokens are configured, silent when they're not.
-
-</td>
-</tr>
-<tr>
-<td valign="top">
-
-#### 🔔 Activity Center &nbsp;<code>/activity</code>
-One notification stream for **repository · deployment · CI · workspace** events, tagged `critical` · `warning` · `success` · `info`, deduplicated, read/unread tracked, with *mark all read* and on-demand sync.
-
-</td>
-<td valign="top">
-
-#### 📊 Dashboard & Analytics &nbsp;<code>/dashboard</code> · <code>/analytics</code>
-Persisted KPIs, 7-day engineering cadence, streaks, recently touched projects, upcoming milestones, track mastery and verification audit counts.
+#### ⌥ &nbsp;Repository intelligence &nbsp;<code>/technologies</code> · <code>/api/github/*</code>
+Checks every upstream repo live: existence, archive state, README, license, releases, freshness (`active` · `moderate` · `stale`), latest workflow run and a computed health signal. It handles rate limits and supports batch sync. **If a stat is missing, it shows as missing.**
 
 </td>
 </tr>
 <tr>
 <td valign="top">
 
-#### 📋 7-column Kanban &nbsp;<code>/kanban</code>
-`Backlog → Cloned → Analyzing → Planning → In Development → Testing → Completed`, with drag-and-drop **and** keyboard stage controls.
+#### ◉ &nbsp;Activity &nbsp;<code>/activity</code>
+One logbook for **repository · deployment · CI · workspace** events, tagged `critical` · `warning` · `success` · `info`. Events are deduplicated and tracked as read or unread, with *mark all read* and on-demand sync.
 
 </td>
 <td valign="top">
 
-#### 📓 Engineering Journal &nbsp;<code>/journal</code>
-A cross-project log filtered by `general` · `architecture` · `bug` · `solution` · `learning` — the *why* behind every rebuild.
+#### ⇢ &nbsp;Roadmaps &nbsp;<code>/kanban</code>
+A 7-column board: `Backlog → Cloned → Analyzing → Planning → In Development → Testing → Completed`. Move cards with drag-and-drop **or** keyboard stage controls.
 
 </td>
 </tr>
 <tr>
 <td valign="top">
 
-#### 🧭 Learning Paths & Tech Tracker &nbsp;<code>/paths</code> · <code>/technologies</code>
-Three structured tracks with outcomes and recommended skills, plus an ecosystem index computed from every project's stack.
+#### ✎ &nbsp;Journal &nbsp;<code>/journal</code>
+A cross-project engineering log filtered by `general` · `architecture` · `bug` · `solution` · `learning`. It records *why* each rebuild happened.
 
 </td>
 <td valign="top">
 
-#### ⌨️ Command Palette &nbsp;<kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd>
-Jump to any route or any of the 100 projects, or flip the theme, from anywhere. Dark-first theme with Light and System modes.
+#### ▁▃▅ &nbsp;Analytics &nbsp;<code>/analytics</code>
+Saved KPIs, 7-day engineering cadence, streaks, track mastery and verification audit counts.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+#### ⚙ &nbsp;Settings &nbsp;<code>/settings</code>
+Profile, **Appearance** (Night Shift · Day Shift · System, comfortable/compact density, reduce motion), Workspace defaults (Field · Plates · List), account security and **Integrations**. Integrations shows live GitHub, Vercel and Supabase/Postgres diagnostics.
+
+</td>
+<td valign="top">
+
+#### ⧉ &nbsp;Learning paths &nbsp;<code>/paths</code>
+Three tracks (Beginner, Intermediate, Advanced) with outcomes and recommended skills, plus a technology index built from every project's stack.
 
 </td>
 </tr>
 </table>
 
+<div align="center">
+<img src=".github/assets/readme/signals.svg" width="100%" alt="Activity Center signal stream scrolling through repository, CI, deployment and workspace events">
+</div>
+
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="workflow"></a>
+<a name="keyboard"></a>
 
-## ⟩_ 04 · The workflow engine
-
-Every project walks the same road twice: once as a **board position**, once as a **roadmap**.
+## `#004` &nbsp;Keyboard-first
 
 <div align="center">
-<img src=".github/assets/readme/kanban.svg" width="100%" alt="Animated Kanban pipeline: a project card travels from Backlog to Completed">
-<br><br>
-<img src=".github/assets/readme/roadmap.svg" width="100%" alt="Animated seven-phase roadmap drawn as a git graph">
+<img src=".github/assets/readme/keys.svg" width="100%" alt="Animated keycaps: Cmd+K, g then o, g then p, g then s, and the [ key">
+</div>
+
+| Chord | Goes to | | Chord | Goes to |
+|:--|:--|:-:|:--|:--|
+| <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd> | Command palette (routes, all 100 projects, theme) | | <kbd>g</kbd> <kbd>i</kbd> | Repository intelligence |
+| <kbd>g</kbd> <kbd>o</kbd> | Overview | | <kbd>g</kbd> <kbd>j</kbd> | Journal |
+| <kbd>g</kbd> <kbd>p</kbd> | All projects | | <kbd>g</kbd> <kbd>y</kbd> | Analytics |
+| <kbd>g</kbd> <kbd>c</kbd> | Categories | | <kbd>g</kbd> <kbd>s</kbd> | Settings |
+| <kbd>g</kbd> <kbd>a</kbd> | Activity | | <kbd>[</kbd> | Collapse / expand sidebar |
+| <kbd>g</kbd> <kbd>r</kbd> | Roadmaps | | <kbd>0</kbd>–<kbd>9</kbd> … <kbd>↵</kbd> | Jump to project `#NNN` (<kbd>Esc</kbd> cancels) |
+
+<img src=".github/assets/readme/divider.svg" width="100%" alt="">
+
+<a name="pipeline"></a>
+
+## `#005` &nbsp;The pipeline
+
+Each project goes through the work twice: once as a **board position**, once as a **roadmap**.
+
+<div align="center">
+<img src=".github/assets/readme/pipeline.svg" width="100%" alt="Kanban board: the #081 Trello Clone card moves across seven columns while its progress bar fills">
 </div>
 
 | Phase | Branch | What happens there |
@@ -311,21 +350,21 @@ Every project walks the same road twice: once as a **board position**, once as a
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="architecture"></a>
+<a name="wiring"></a>
 
-## ⟩_ 05 · Architecture
+## `#006` &nbsp;Wiring
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"background":"#0B0D12","primaryColor":"#151B26","primaryTextColor":"#F8FAFC","primaryBorderColor":"#8B5CF6","secondaryColor":"#11151D","tertiaryColor":"#11151D","lineColor":"#38BDF8","clusterBkg":"#11151D","clusterBorder":"#263244","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace"}}}%%
+%%{init: {"theme":"base","themeVariables":{"background":"#1a1c20","primaryColor":"#212328","primaryTextColor":"#eceae4","primaryBorderColor":"#f2b63c","secondaryColor":"#16181b","tertiaryColor":"#16181b","lineColor":"#f2b63c","clusterBkg":"#16181b","clusterBorder":"#3a3e45","edgeLabelBackground":"#212328","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace"}}}%%
 flowchart LR
-    U(["👤 Owner"]) --> PX["🛡️ src/proxy.ts<br/>auth gate + security headers"]
+    U(["👤 Owner"]) --> PX["🛡️ src/proxy.ts<br/>auth gate · security headers"]
     PX --> APP
 
-    subgraph APP["⚡ Next.js 16 · App Router"]
+    subgraph APP["⚡ Next.js 16 · App Router · Cache Components"]
         direction TB
         PUB["Public<br/>/ · /projects · /paths · /technologies"]
-        PRIV["Workspace<br/>/dashboard · /kanban · /journal · /analytics · /activity"]
-        API["Route Handlers<br/>/api/*  ·  Zod-validated"]
+        PRIV["Workspace shell<br/>/dashboard · /kanban · /journal<br/>/analytics · /activity · /settings"]
+        API["Route handlers<br/>/api/* · Zod-validated"]
     end
 
     API --> SVC
@@ -355,11 +394,11 @@ flowchart LR
 |:--|:--|
 | Sessions | `HS256` JWT via `jose` in an `HttpOnly`, `SameSite=Lax` cookie |
 | Passwords | Node `scrypt` hashing with timing-safe comparison |
-| Ownership | First owner claimed only with `DEVSPACE_OWNER_EMAIL` + a `DEVSPACE_OWNER_BOOTSTRAP_TOKEN` (SHA-256 + `timingSafeEqual`), or a verified OAuth email |
-| Routing | `src/proxy.ts` redirects unauthenticated workspace requests to `/login?redirect=…` |
+| Ownership | The first owner can only be claimed with `DEVSPACE_OWNER_EMAIL` + `DEVSPACE_OWNER_BOOTSTRAP_TOKEN` (SHA-256 + `timingSafeEqual`), or a verified OAuth email |
+| Routing | `src/proxy.ts` sends unauthenticated requests for `/dashboard`, `/activity`, `/kanban`, `/journal`, `/analytics` and `/settings` to `/login?redirect=…` |
 | Headers | `X-Frame-Options: DENY`, `nosniff`, strict `Referrer-Policy`, locked-down `Permissions-Policy` |
-| Indexing | Private routes ship `X-Robots-Tag: noindex, nofollow`; `robots.ts` + `sitemap.ts` agree |
-| Input | Every route handler parses with Zod; `javascript:` / `data:` URLs are rejected |
+| Indexing | Private routes send `X-Robots-Tag: noindex, nofollow`; `robots.ts` and `sitemap.ts` agree with them |
+| Input | Every route handler parses input with Zod; `javascript:` / `data:` URLs are rejected |
 | Secrets | DB clients, tokens and password logic are `import "server-only"` |
 
 </details>
@@ -371,7 +410,7 @@ flowchart LR
 | Surface | Routes |
 |:--|:--|
 | **Public** | `/` · `/projects` · `/projects/[slug]` · `/paths` · `/paths/[level]` · `/technologies` · `/login` · `/register` |
-| **Workspace** *(sign-in)* | `/dashboard` · `/kanban` · `/journal` · `/analytics` · `/activity` |
+| **Workspace** *(sign-in)* | `/dashboard` · `/activity` · `/kanban` · `/journal` · `/analytics` · `/settings` |
 | **Auth API** | `/api/auth/register` · `login` · `logout` · `me` · `callback` |
 | **Projects API** | `/api/projects` · `/api/projects/[slug]` · `…/progress` · `…/tasks` · `…/notes` · `…/roadmap` · `…/milestones` · `…/deployments` · `…/screenshots` |
 | **Intelligence API** | `/api/github/verify` · `/api/github/sync` · `/api/activity` · `/api/activity/[id]` · `/api/activity/sync` · `/api/activity/mark-all-read` |
@@ -385,93 +424,106 @@ flowchart LR
 
 `User` · `ProjectCategory` · `Project` · `ProjectTechnology` · `UserProjectProgress` · `ProjectTask` · `ProjectNote` · `ProjectRoadmap` · `ProjectScreenshot` · `ProjectMilestone` · `ProjectActivity` · `RepositoryMetadata` · `DeploymentRecord`
 
-No database yet? The app runs fully on the atomic JSON store, and `npm run db:migrate-json` previews the move to Postgres when you're ready.
+No database yet? The app runs entirely on the atomic JSON store. When you're ready for Postgres, `npm run db:migrate-json` shows a preview of the move.
 
 </details>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="quick-start"></a>
+<a name="ignition"></a>
 
-## ⟩_ 06 · Quick start
+## `#007` &nbsp;Ignition
 
 <div align="center">
-<img src=".github/assets/readme/terminal.svg" width="80%" alt="Animated terminal: clone, install, copy env, run dev server">
+<img src=".github/assets/readme/terminal.svg" width="80%" alt="Animated terminal: clone, install, copy env, run the dev server on localhost:3000">
 </div>
 
-**Zero-infrastructure mode** — runs on the local JSON store, no database needed:
+**① Zero-infrastructure mode.** No database needed; the app uses the local JSON store:
 
 ```bash
 git clone https://github.com/arman080325/arman-devspace.git
-cd arman-devspace
-npm install
+```
+
+```bash
+cd arman-devspace && npm install
+```
+
+```bash
 cp .env.example .env
+```
+
+```bash
 npm run dev
 ```
 
 Open **http://localhost:3000**, register on `/register`, and the workspace is yours.
 
-**Full Postgres mode** — set `DATABASE_URL` / `DIRECT_URL` in `.env`, then:
+**② Full Postgres mode.** Set `DATABASE_URL` and `DIRECT_URL` in `.env`, then run:
 
 ```bash
 docker compose up -d
-npx prisma generate
-npx prisma db push
+```
+
+```bash
+npx prisma generate && npx prisma db push
+```
+
+```bash
 npm run db:seed
 ```
 
+**③ Shipping to Vercel + Supabase.** Point `DATABASE_URL` at the Supabase **transaction pooler** (port `6543`, `pgbouncer=true`) and `DIRECT_URL` at the **direct session** connection (port `5432`), which the Prisma CLI uses for migrations. Set `NEXT_PUBLIC_SITE_URL` to the deployed origin. The full checklist is in the [Deployment Guide](docs/deployment/DEPLOYMENT_GUIDE.md).
+
 > [!TIP]
-> `npm run db:seed` is idempotent — it writes the 100 canonical positions in order and can be re-run safely.
+> `npm run db:seed` is idempotent. It writes the 100 canonical positions in order and is safe to run again.
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
 <a name="environment"></a>
 
-## ⟩_ 07 · Environment
+## `#008` &nbsp;Environment
 
-| Variable | Required | Purpose |
+| Variable | | Purpose |
 |:--|:-:|:--|
-| `SESSION_SECRET` | ✅ | 32+ char secret that signs session cookies |
-| `NEXT_PUBLIC_SITE_URL` | ✅ | Public base URL (metadata, sitemap) |
-| `DATABASE_URL` · `DIRECT_URL` | ◻️ | PostgreSQL / Supabase Postgres — omit to use the local JSON store |
-| `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ◻️ | Enables Supabase Auth and Google OAuth |
-| `GITHUB_TOKEN` | ◻️ | Lifts the GitHub API limit from 60 to 5,000 req/hr |
-| `VERCEL_TOKEN` · `VERCEL_PROJECT_ID` · `VERCEL_TEAM_ID` | ◻️ | Turns on deployment intelligence |
-| `DEVSPACE_OWNER_EMAIL` · `DEVSPACE_OWNER_BOOTSTRAP_TOKEN` | ◻️ | Locks first-owner claim to a known email + 16+ char token |
+| `SESSION_SECRET` | ● | 32+ character secret that signs session cookies |
+| `NEXT_PUBLIC_SITE_URL` | ● | Public base URL for OAuth redirects, metadata and the sitemap |
+| `DATABASE_URL` · `DIRECT_URL` | ○ | PostgreSQL / Supabase Postgres (pooler + direct). Leave unset to use the local JSON store |
+| `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ○ | Turns on Supabase Auth and Google OAuth |
+| `GITHUB_TOKEN` | ○ | Raises the GitHub API limit from 60 to 5,000 requests per hour |
+| `VERCEL_TOKEN` · `VERCEL_PROJECT_ID` · `VERCEL_TEAM_ID` | ○ | Turns on deployment intelligence |
+| `DEVSPACE_OWNER_EMAIL` · `DEVSPACE_OWNER_BOOTSTRAP_TOKEN` | ○ | Restricts the first-owner claim to a known email and a 16+ character token |
 
-<sub>✅ needed · ◻️ optional — every integration degrades gracefully when its variables are absent.</sub>
+<sub>● required &nbsp;·&nbsp; ○ optional. Each integration switches itself off quietly when its variables are missing, and <code>/settings → Integrations</code> shows which ones are live.</sub>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="scripts"></a>
+<a name="commands"></a>
 
-## ⟩_ 08 · Command reference
+## `#009` &nbsp;Commands & quality gates
 
-| Command | Does |
+| Command | What it does |
 |:--|:--|
 | `npm run dev` | Start the dev server |
 | `npm run build` · `npm run start` | Build and serve the production bundle |
 | `npm run typecheck` | `tsc --noEmit` on strict TypeScript |
-| `npm run lint` · `npm run format:check` | ESLint and Prettier gates |
+| `npm run lint` · `npm run format:check` | ESLint and Prettier checks |
 | `npm test` · `npm run test:watch` | Vitest unit, integration and component suites |
 | `npm run test:e2e` | Playwright end-to-end flows |
 | `npm run db:generate` · `db:validate` · `db:push` · `db:migrate` | Prisma client, schema checks and migrations |
 | `npm run db:seed` | Seed the 100 canonical positions |
 | `npm run db:migrate-json` | Dry-run migration from the JSON store into Postgres |
 
-### Quality gates
-
-Every push and pull request to `main` / `master` runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
+Every push and pull request to `main` / `master` runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml) on Node 22:
 
 ```text
- npm ci ─▶ prisma generate ─▶ prisma validate ─▶ typecheck ─▶ lint ─▶ format:check ─▶ vitest ─▶ next build ─▶ ✔
+ npm ci ─▶ prisma generate ─▶ prisma validate ─▶ typecheck ─▶ lint ─▶ format:check ─▶ vitest ─▶ next build ─▶ ✔ shipped
 ```
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="stack"></a>
+<a name="materials"></a>
 
-## ⟩_ 09 · Stack & layout
+## `#010` &nbsp;Materials
 
 <table>
 <tr>
@@ -481,6 +533,7 @@ Every push and pull request to `main` / `master` runs [`.github/workflows/ci.yml
 |:--|:--|
 | Framework | Next.js 16 · App Router · Cache Components |
 | UI | React 19 · Tailwind CSS v4 · shadcn (`base-nova`) · Base UI · Lucide · Motion · `cmdk` |
+| Type | **Anybody** variable width (display) · Geist Sans & Mono |
 | Forms | React Hook Form · Zod 4 |
 | Data | PostgreSQL · Prisma 6 · JSON fallback store |
 | Auth | `jose` JWT · `scrypt` · Supabase SSR |
@@ -495,12 +548,14 @@ arman-devspace/
 ├── src/
 │   ├── app/            routes, layouts, /api handlers
 │   │   └── (dashboard)/  private workspace
-│   ├── components/     ui · layout · projects · dashboard · activity
-│   ├── config/         site, design tokens, workflow
+│   ├── components/
+│   │   ├── redesign/   Hundred · SpecPlate · brand · glyphs
+│   │   ├── shell/      sidebar · topbar · palette · jump
+│   │   └── …           projects · dashboard · settings
+│   ├── config/         site, tokens, workflow
 │   ├── data/           projects.ts ← the 100 slots
-│   ├── lib/            auth, prisma, supabase, validations
+│   ├── lib/            auth, prisma, hundred-utils
 │   ├── services/       store · github · vercel · activity
-│   ├── types/
 │   └── proxy.ts        auth gate + security headers
 ├── prisma/             schema · seed · migrate-json
 ├── tests/              unit · integration · e2e
@@ -512,25 +567,32 @@ arman-devspace/
 </table>
 
 <details>
-<summary><b>🎨 Design tokens</b></summary>
+<summary><b>🎨 The palette</b> · Night Shift / Day Shift</summary>
 <br>
 
-| Token | Hex | Role |
-|:--|:--|:--|
-| ![](https://img.shields.io/badge/-%20%20%20%20-0B0D12?style=flat-square) | `#0B0D12` | Background |
-| ![](https://img.shields.io/badge/-%20%20%20%20-11151D?style=flat-square) | `#11151D` | Secondary surface |
-| ![](https://img.shields.io/badge/-%20%20%20%20-151B26?style=flat-square) | `#151B26` | Cards & popovers |
-| ![](https://img.shields.io/badge/-%20%20%20%20-8B5CF6?style=flat-square) | `#8B5CF6` | Accent · violet |
-| ![](https://img.shields.io/badge/-%20%20%20%20-38BDF8?style=flat-square) | `#38BDF8` | Secondary accent · sky |
-| ![](https://img.shields.io/badge/-%20%20%20%20-22C55E?style=flat-square) ![](https://img.shields.io/badge/-%20%20%20%20-F59E0B?style=flat-square) ![](https://img.shields.io/badge/-%20%20%20%20-EF4444?style=flat-square) | `#22C55E` `#F59E0B` `#EF4444` | Beginner · Intermediate · Advanced |
+The mark is a 3 × 3 grid with **one cell knocked loose** in sodium amber: something broke, and it's being rebuilt. The tagline is set in **Anybody** at a different width per word: *Explore.* wide, *Build.* regular, *Break.* condensed with its `k` dropped a pixel, *Rebuild.* regular again.
+
+| Token | ☾ Night Shift | ☀ Day Shift | Role |
+|:--|:--|:--|:--|
+| `--bg-base` | ![](https://img.shields.io/badge/-%20%20%20%20-1a1c20?style=flat-square) `#1a1c20` | ![](https://img.shields.io/badge/-%20%20%20%20-ecece7?style=flat-square) `#ecece7` | Canvas |
+| `--bg-surface` | ![](https://img.shields.io/badge/-%20%20%20%20-212328?style=flat-square) `#212328` | ![](https://img.shields.io/badge/-%20%20%20%20-f6f6f3?style=flat-square) `#f6f6f3` | Panels & cards |
+| `--text-primary` | ![](https://img.shields.io/badge/-%20%20%20%20-eceae4?style=flat-square) `#eceae4` | ![](https://img.shields.io/badge/-%20%20%20%20-1d1f23?style=flat-square) `#1d1f23` | Ink |
+| `--sodium` | ![](https://img.shields.io/badge/-%20%20%20%20-f2b63c?style=flat-square) `#f2b63c` | ![](https://img.shields.io/badge/-%20%20%20%20-f2b63c?style=flat-square) `#f2b63c` | Focus, selection, the loose cell |
+| `--ph-explore` | ![](https://img.shields.io/badge/-%20%20%20%20-8fb4ff?style=flat-square) `#8fb4ff` | ![](https://img.shields.io/badge/-%20%20%20%20-2f5fd0?style=flat-square) `#2f5fd0` | Exploring |
+| `--ph-build` | ![](https://img.shields.io/badge/-%20%20%20%20-f2b63c?style=flat-square) `#f2b63c` | ![](https://img.shields.io/badge/-%20%20%20%20-8a5a00?style=flat-square) `#8a5a00` | Building |
+| `--ph-break` | ![](https://img.shields.io/badge/-%20%20%20%20-ff6b57?style=flat-square) `#ff6b57` | ![](https://img.shields.io/badge/-%20%20%20%20-b83226?style=flat-square) `#b83226` | Breaking |
+| `--ph-rebuild` | ![](https://img.shields.io/badge/-%20%20%20%20-a99bff?style=flat-square) `#a99bff` | ![](https://img.shields.io/badge/-%20%20%20%20-5b44c9?style=flat-square) `#5b44c9` | Rebuilding |
+| `--ph-ship` | ![](https://img.shields.io/badge/-%20%20%20%20-4cc3a0?style=flat-square) `#4cc3a0` | ![](https://img.shields.io/badge/-%20%20%20%20-0a7457?style=flat-square) `#0a7457` | Shipped |
+
+<sub>Easter egg: when the hero plate at the top loads, its lamp warms from red to amber, the way a real low-pressure sodium lamp does.</sub>
 
 </details>
 
 <img src=".github/assets/readme/divider.svg" width="100%" alt="">
 
-<a name="docs"></a>
+<a name="further-reading"></a>
 
-## ⟩_ 10 · Further reading
+## `#011` &nbsp;Further reading
 
 | 📐 [System Architecture](docs/architecture/SYSTEM_ARCHITECTURE.md) | 🛠️ [Development Guide](docs/development/DEVELOPMENT_GUIDE.md) | 🚢 [Deployment Guide](docs/deployment/DEPLOYMENT_GUIDE.md) | 📜 [Changelog](CHANGELOG.md) |
 |:-:|:-:|:-:|:-:|
@@ -540,5 +602,5 @@ arman-devspace/
 <div align="center">
 <img src=".github/assets/readme/footer.svg" width="100%" alt="Explore. Build. Break. Rebuild. — crafted by Arman">
 
-<sub><a href="#readme-top">▲ back to the top</a></sub>
+<sub><a href="#readme-top">▲ back to plate #000</a></sub>
 </div>

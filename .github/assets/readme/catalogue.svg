@@ -1,308 +1,459 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1192 736" width="1192" height="736" role="img" aria-label="The 100-slot catalogue: 73 linked repositories and 27 reserved slots, coloured by difficulty">
-<title>The 100-slot catalogue</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="960" viewBox="0 0 1280 960" role="img" aria-label="The Hundred: all 100 project slots in order, with the numeric jump shortcut demonstrated">
+<title>The Hundred: all 100 project slots in order, with the numeric jump shortcut demonstrated</title>
 <style>
-.n{font-family:'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;font-size:13px;font-weight:700}
-.t{font-family:'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;font-size:10.5px}
-.in{opacity:0;animation:in .6s ease-out both}
-@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.wave{opacity:0;animation:wave 5.5s ease-in-out infinite}
-@keyframes wave{0%,100%{opacity:0}10%{opacity:.32}24%{opacity:0}}
-.res{animation:res 5.5s ease-in-out infinite}
-@keyframes res{0%,100%{stroke-opacity:.5}10%{stroke-opacity:1;stroke:#8B5CF6}24%{stroke-opacity:.5}}
-.ping{animation:ping 1.8s ease-in-out infinite}
-@keyframes ping{50%{opacity:.25}}
-.cur{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
-@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+text{font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif}
+.m{font-family:ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace}
+.ci{animation:ci .5s cubic-bezier(.2,0,0,1) both}@keyframes ci{from{opacity:0}to{opacity:1}}@keyframes w0{0%,5.32%{opacity:0}5.33%,6.8%{opacity:1}6.81%,100%{opacity:0}}.kp1{animation:w0 15s linear infinite}@keyframes w1{0%,5.32%{opacity:0}5.33%,11.33%{opacity:1}11.34%,100%{opacity:0}}.s2{animation:w1 15s linear infinite}@keyframes w2{0%,11.32%{opacity:0}11.33%,12.8%{opacity:1}12.81%,100%{opacity:0}}.kp3{animation:w2 15s linear infinite}@keyframes w3{0%,11.32%{opacity:0}11.33%,17.33%{opacity:1}17.34%,100%{opacity:0}}.s4{animation:w3 15s linear infinite}@keyframes w4{0%,17.32%{opacity:0}17.33%,18.8%{opacity:1}18.81%,100%{opacity:0}}.kp5{animation:w4 15s linear infinite}@keyframes w5{0%,17.32%{opacity:0}17.33%,26%{opacity:1}26.01%,100%{opacity:0}}.s6{animation:w5 15s linear infinite}@keyframes w6{0%,25.99%{opacity:0}26%,27.47%{opacity:1}27.48%,100%{opacity:0}}.kp7{animation:w6 15s linear infinite}@keyframes w7{0%,25.99%{opacity:0}26%,36.67%{opacity:1}36.68%,100%{opacity:0}}.s8{animation:w7 15s linear infinite}@keyframes w8{0%,36.66%{opacity:0}36.67%,38.13%{opacity:1}38.14%,100%{opacity:0}}.kp9{animation:w8 15s linear infinite}@keyframes w9{0%,36.66%{opacity:0}36.67%,42.67%{opacity:1}42.68%,100%{opacity:0}}.s10{animation:w9 15s linear infinite}@keyframes w10{0%,42.66%{opacity:0}42.67%,44.13%{opacity:1}44.14%,100%{opacity:0}}.kp11{animation:w10 15s linear infinite}@keyframes w11{0%,42.66%{opacity:0}42.67%,51.33%{opacity:1}51.34%,100%{opacity:0}}.s12{animation:w11 15s linear infinite}@keyframes w12{0%,51.32%{opacity:0}51.33%,52.8%{opacity:1}52.81%,100%{opacity:0}}.kp13{animation:w12 15s linear infinite}@keyframes w13{0%,51.32%{opacity:0}51.33%,62%{opacity:1}62.01%,100%{opacity:0}}.s14{animation:w13 15s linear infinite}@keyframes w14{0%,61.99%{opacity:0}62%,63.47%{opacity:1}63.48%,100%{opacity:0}}.kp15{animation:w14 15s linear infinite}@keyframes w15{0%,61.99%{opacity:0}62%,68%{opacity:1}68.01%,100%{opacity:0}}.s16{animation:w15 15s linear infinite}@keyframes w16{0%,67.99%{opacity:0}68%,69.47%{opacity:1}69.48%,100%{opacity:0}}.kp17{animation:w16 15s linear infinite}@keyframes w17{0%,67.99%{opacity:0}68%,74%{opacity:1}74.01%,100%{opacity:0}}.s18{animation:w17 15s linear infinite}@keyframes w18{0%,73.99%{opacity:0}74%,75.47%{opacity:1}75.48%,100%{opacity:0}}.kp19{animation:w18 15s linear infinite}@keyframes w19{0%,73.99%{opacity:0}74%,82.67%{opacity:1}82.68%,100%{opacity:0}}.s20{animation:w19 15s linear infinite}@keyframes w20{0%,82.66%{opacity:0}82.67%,84.13%{opacity:1}84.14%,100%{opacity:0}}.kp21{animation:w20 15s linear infinite}@keyframes w21{0%,82.66%{opacity:0}82.67%,93.33%{opacity:1}93.34%,100%{opacity:0}}.s22{animation:w21 15s linear infinite}
 </style>
-<rect x="1" y="1" width="1190" height="734" rx="22" fill="#0B0D12" stroke="#263244" stroke-width="2"/>
-<text x="40" y="46" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="13" fill="#8B5CF6">$ devspace catalogue --all --order=canonical<tspan class="cur" fill="#38BDF8"> ▍</tspan></text>
-<text x="40" y="70" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="20" font-weight="800" fill="#F8FAFC">The 100-slot catalogue</text>
-<text x="1152" y="70" text-anchor="end" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">73 linked · 27 reserved · 0 fabricated</text>
-<g class="in" style="animation-delay:0.000s"><rect x="40" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="40" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.00s"/>
-<text x="92" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#001</text><text x="92" y="128" text-anchor="middle" class="t" fill="#94A3B8">Online Bookstore</text></g>
-<g class="in" style="animation-delay:0.018s"><rect x="152" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="152" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.12s"/>
-<text x="204" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#002</text><text x="204" y="128" text-anchor="middle" class="t" fill="#94A3B8">Quiz Application</text></g>
-<g class="in" style="animation-delay:0.036s"><rect x="264" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="264" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.24s"/>
-<text x="316" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#003</text><text x="316" y="128" text-anchor="middle" class="t" fill="#94A3B8">Student Portal</text></g>
-<g class="in" style="animation-delay:0.054s"><rect x="376" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="376" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.36s"/>
-<text x="428" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#004</text><text x="428" y="128" text-anchor="middle" class="t" fill="#94A3B8">Portfolio Builder</text></g>
-<g class="in" style="animation-delay:0.072s"><rect x="488" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="488" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.48s"/>
-<text x="540" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#005</text><text x="540" y="128" text-anchor="middle" class="t" fill="#94A3B8">Blog Platform</text><circle cx="582" cy="102" r="3.5" fill="#38BDF8" class="ping"/></g>
-<g class="in" style="animation-delay:0.090s"><rect x="600" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="600" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.60s"/>
-<text x="652" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#006</text><text x="652" y="128" text-anchor="middle" class="t" fill="#94A3B8">Recipe Sharing</text></g>
-<g class="in" style="animation-delay:0.108s"><rect x="712" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="712" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.72s"/>
-<text x="764" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#007</text><text x="764" y="128" text-anchor="middle" class="t" fill="#94A3B8">Expense Tracker</text></g>
-<g class="in" style="animation-delay:0.126s"><rect x="824" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="824" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.84s"/>
-<text x="876" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#008</text><text x="876" y="128" text-anchor="middle" class="t" fill="#94A3B8">Fitness Tracker</text></g>
-<g class="in" style="animation-delay:0.144s"><rect x="936" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="936" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.96s"/>
-<text x="988" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#009</text><text x="988" y="128" text-anchor="middle" class="t" fill="#94A3B8">Weather App</text></g>
-<g class="in" style="animation-delay:0.162s"><rect x="1048" y="92" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="1048" y="92" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.08s"/>
-<text x="1100" y="113" text-anchor="middle" class="n" fill="#F8FAFC">#010</text><text x="1100" y="128" text-anchor="middle" class="t" fill="#94A3B8">News Aggregator</text></g>
-<g class="in" style="animation-delay:0.180s"><rect x="40" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="40" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.12s"/>
-<text x="92" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#011</text><text x="92" y="182" text-anchor="middle" class="t" fill="#94A3B8">Meme Generator</text></g>
-<g class="in" style="animation-delay:0.198s"><rect x="152" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="152" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.24s"/>
-<text x="204" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#012</text><text x="204" y="182" text-anchor="middle" class="t" fill="#94A3B8">Auth System</text></g>
-<g class="in" style="animation-delay:0.216s"><rect x="264" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="264" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.36s"/>
-<text x="316" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#013</text><text x="316" y="182" text-anchor="middle" class="t" fill="#94A3B8">URL Shortener</text></g>
-<g class="in" style="animation-delay:0.234s"><rect x="376" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="376" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.48s"/>
-<text x="428" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#014</text><text x="428" y="182" text-anchor="middle" class="t" fill="#94A3B8">Note-Taking App</text></g>
-<g class="in" style="animation-delay:0.252s"><rect x="488" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="488" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.60s"/>
-<text x="540" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#015</text><text x="540" y="182" text-anchor="middle" class="t" fill="#94A3B8">Snippet Manager</text></g>
-<g class="in" style="animation-delay:0.270s"><rect x="600" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="600" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.72s"/>
-<text x="652" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#016</text><text x="652" y="182" text-anchor="middle" class="t" fill="#94A3B8">Meal Planner App</text></g>
-<g class="in" style="animation-delay:0.288s"><rect x="712" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="712" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.84s"/>
-<text x="764" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#017</text><text x="764" y="182" text-anchor="middle" class="t" fill="#94A3B8">Restaurant Menu</text></g>
-<g class="in" style="animation-delay:0.306s"><rect x="824" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="824" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.96s"/>
-<text x="876" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#018</text><text x="876" y="182" text-anchor="middle" class="t" fill="#94A3B8">Budget Planner</text><circle cx="918" cy="156" r="3.5" fill="#38BDF8" class="ping"/></g>
-<g class="in" style="animation-delay:0.324s"><rect x="936" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="936" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.08s"/>
-<text x="988" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#019</text><text x="988" y="182" text-anchor="middle" class="t" fill="#94A3B8">Newsletters</text></g>
-<g class="in" style="animation-delay:0.342s"><rect x="1048" y="146" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="1048" y="146" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.20s"/>
-<text x="1100" y="167" text-anchor="middle" class="n" fill="#F8FAFC">#020</text><text x="1100" y="182" text-anchor="middle" class="t" fill="#94A3B8">Wiki System</text></g>
-<g class="in" style="animation-delay:0.360s"><rect x="40" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="40" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.24s"/>
-<text x="92" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#021</text><text x="92" y="236" text-anchor="middle" class="t" fill="#94A3B8">Docs Platform</text></g>
-<g class="in" style="animation-delay:0.378s"><rect x="152" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="152" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.36s"/>
-<text x="204" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#022</text><text x="204" y="236" text-anchor="middle" class="t" fill="#94A3B8">Location Service</text></g>
-<g class="in" style="animation-delay:0.396s"><rect x="264" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="264" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.48s"/>
-<text x="316" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#023</text><text x="316" y="236" text-anchor="middle" class="t" fill="#94A3B8">Map Visualizer</text></g>
-<g class="in" style="animation-delay:0.414s"><rect x="376" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="376" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.60s"/>
-<text x="428" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#024</text><text x="428" y="236" text-anchor="middle" class="t" fill="#94A3B8">Multiplayer Quiz</text></g>
-<g class="in" style="animation-delay:0.432s"><rect x="488" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="488" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.72s"/>
-<text x="540" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#025</text><text x="540" y="236" text-anchor="middle" class="t" fill="#94A3B8">Tic-Tac-Toe</text></g>
-<g class="in" style="animation-delay:0.450s"><rect x="600" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="600" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.84s"/>
-<text x="652" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#026</text><text x="652" y="236" text-anchor="middle" class="t" fill="#94A3B8">PWA Store</text><circle cx="694" cy="210" r="3.5" fill="#94A3B8" class="ping"/></g>
-<g class="in" style="animation-delay:0.468s"><rect x="712" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="712" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:0.96s"/>
-<text x="764" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#027</text><text x="764" y="236" text-anchor="middle" class="t" fill="#94A3B8">Online Courses</text></g>
-<g class="in" style="animation-delay:0.486s"><rect x="824" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="824" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.08s"/>
-<text x="876" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#028</text><text x="876" y="236" text-anchor="middle" class="t" fill="#94A3B8">Task Manager</text><circle cx="918" cy="210" r="3.5" fill="#FB923C" class="ping"/></g>
-<g class="in" style="animation-delay:0.504s"><rect x="936" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="936" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.20s"/>
-<text x="988" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#029</text><text x="988" y="236" text-anchor="middle" class="t" fill="#94A3B8">Job Board Platform</text></g>
-<g class="in" style="animation-delay:0.522s"><rect x="1048" y="200" width="104" height="46" rx="9" fill="#22C55E" fill-opacity=".1" stroke="#22C55E" stroke-opacity=".45"/>
-<rect x="1048" y="200" width="104" height="46" rx="9" fill="#22C55E" class="wave" style="animation-delay:1.32s"/>
-<text x="1100" y="221" text-anchor="middle" class="n" fill="#F8FAFC">#030</text><text x="1100" y="236" text-anchor="middle" class="t" fill="#94A3B8">Inventory Mgmt</text></g>
-<g class="in" style="animation-delay:0.540s"><rect x="40" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="40" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.36s"/>
-<text x="92" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#031</text><text x="92" y="290" text-anchor="middle" class="t" fill="#94A3B8">Social Media</text></g>
-<g class="in" style="animation-delay:0.558s"><rect x="152" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="152" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.48s"/>
-<text x="204" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#032</text><text x="204" y="290" text-anchor="middle" class="t" fill="#94A3B8">Instagram Clone</text></g>
-<g class="in" style="animation-delay:0.576s"><rect x="264" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="264" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.60s"/>
-<text x="316" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#033</text><text x="316" y="290" text-anchor="middle" class="t" fill="#94A3B8">Twitter Clone</text></g>
-<g class="in" style="animation-delay:0.594s"><rect x="376" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="376" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.72s"/>
-<text x="428" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#034</text><text x="428" y="290" text-anchor="middle" class="t" fill="#94A3B8">Real-Time Chat</text></g>
-<g class="in" style="animation-delay:0.612s"><rect x="488" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="488" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.84s"/>
-<text x="540" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#035</text><text x="540" y="290" text-anchor="middle" class="t" fill="#94A3B8">LMS Platform</text></g>
-<g class="in" style="animation-delay:0.630s"><rect x="600" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="600" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.96s"/>
-<text x="652" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#036</text><text x="652" y="290" text-anchor="middle" class="t" fill="#94A3B8">Hotel Booking</text></g>
-<g class="in" style="animation-delay:0.648s"><rect x="712" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="712" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.08s"/>
-<text x="764" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#037</text><text x="764" y="290" text-anchor="middle" class="t" fill="#94A3B8">Restaurant Booking</text></g>
-<g class="in" style="animation-delay:0.666s"><rect x="824" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="824" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.20s"/>
-<text x="876" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#038</text><text x="876" y="290" text-anchor="middle" class="t" fill="#94A3B8">Movie Tickets</text></g>
-<g class="in" style="animation-delay:0.684s"><rect x="936" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="936" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.32s"/>
-<text x="988" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#039</text><text x="988" y="290" text-anchor="middle" class="t" fill="#94A3B8">Calendar App</text></g>
-<g class="in" style="animation-delay:0.702s"><rect x="1048" y="254" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="1048" y="254" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.44s"/>
-<text x="1100" y="275" text-anchor="middle" class="n" fill="#F8FAFC">#040</text><text x="1100" y="290" text-anchor="middle" class="t" fill="#94A3B8">Grocery Delivery</text></g>
-<g class="in" style="animation-delay:0.720s"><rect x="40" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="40" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.48s"/>
-<text x="92" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#041</text><text x="92" y="344" text-anchor="middle" class="t" fill="#94A3B8">Banking App</text></g>
-<g class="in" style="animation-delay:0.738s"><rect x="152" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="152" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.60s"/>
-<text x="204" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#042</text><text x="204" y="344" text-anchor="middle" class="t" fill="#94A3B8">Crypto Dashboard</text></g>
-<g class="in" style="animation-delay:0.756s"><rect x="264" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="264" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.72s"/>
-<text x="316" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#043</text><text x="316" y="344" text-anchor="middle" class="t" fill="#94A3B8">Invoice Mgmt</text></g>
-<g class="in" style="animation-delay:0.774s"><rect x="376" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="376" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.84s"/>
-<text x="428" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#044</text><text x="428" y="344" text-anchor="middle" class="t" fill="#94A3B8">Doctor Booking</text></g>
-<g class="in" style="animation-delay:0.792s"><rect x="488" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="488" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:0.96s"/>
-<text x="540" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#045</text><text x="540" y="344" text-anchor="middle" class="t" fill="#94A3B8">Car Rental System</text></g>
-<g class="in" style="animation-delay:0.810s"><rect x="600" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="600" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.08s"/>
-<text x="652" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#046</text><text x="652" y="344" text-anchor="middle" class="t" fill="#94A3B8">Travel Planner App</text></g>
-<g class="in" style="animation-delay:0.828s"><rect x="712" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="712" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.20s"/>
-<text x="764" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#047</text><text x="764" y="344" text-anchor="middle" class="t" fill="#94A3B8">Real Estate</text></g>
-<g class="in" style="animation-delay:0.846s"><rect x="824" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="824" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.32s"/>
-<text x="876" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#048</text><text x="876" y="344" text-anchor="middle" class="t" fill="#94A3B8">House Rentals</text></g>
-<g class="in" style="animation-delay:0.864s"><rect x="936" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="936" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.44s"/>
-<text x="988" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#049</text><text x="988" y="344" text-anchor="middle" class="t" fill="#94A3B8">Email Client</text><circle cx="1030" cy="318" r="3.5" fill="#FB923C" class="ping"/></g>
-<g class="in" style="animation-delay:0.882s"><rect x="1048" y="308" width="104" height="46" rx="9" fill="#F59E0B" fill-opacity=".1" stroke="#F59E0B" stroke-opacity=".45"/>
-<rect x="1048" y="308" width="104" height="46" rx="9" fill="#F59E0B" class="wave" style="animation-delay:1.56s"/>
-<text x="1100" y="329" text-anchor="middle" class="n" fill="#F8FAFC">#050</text><text x="1100" y="344" text-anchor="middle" class="t" fill="#94A3B8">CRM Application</text></g>
-<g class="in" style="animation-delay:0.900s"><rect x="40" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.60s"/>
-<text x="92" y="383" text-anchor="middle" class="n" fill="#475569">#051</text><text x="92" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:0.918s"><rect x="152" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.72s"/>
-<text x="204" y="383" text-anchor="middle" class="n" fill="#475569">#052</text><text x="204" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:0.936s"><rect x="264" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.84s"/>
-<text x="316" y="383" text-anchor="middle" class="n" fill="#475569">#053</text><text x="316" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:0.954s"><rect x="376" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.96s"/>
-<text x="428" y="383" text-anchor="middle" class="n" fill="#475569">#054</text><text x="428" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:0.972s"><rect x="488" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.08s"/>
-<text x="540" y="383" text-anchor="middle" class="n" fill="#475569">#055</text><text x="540" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:0.990s"><rect x="600" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.20s"/>
-<text x="652" y="383" text-anchor="middle" class="n" fill="#475569">#056</text><text x="652" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.008s"><rect x="712" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.32s"/>
-<text x="764" y="383" text-anchor="middle" class="n" fill="#475569">#057</text><text x="764" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.026s"><rect x="824" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.44s"/>
-<text x="876" y="383" text-anchor="middle" class="n" fill="#475569">#058</text><text x="876" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.044s"><rect x="936" y="362" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.56s"/>
-<text x="988" y="383" text-anchor="middle" class="n" fill="#475569">#059</text><text x="988" y="398" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.062s"><rect x="1048" y="362" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="1048" y="362" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.68s"/>
-<text x="1100" y="383" text-anchor="middle" class="n" fill="#F8FAFC">#060</text><text x="1100" y="398" text-anchor="middle" class="t" fill="#94A3B8">Pharmacy Mgmt</text></g>
-<g class="in" style="animation-delay:1.080s"><rect x="40" y="416" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="40" y="416" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:0.72s"/>
-<text x="92" y="437" text-anchor="middle" class="n" fill="#F8FAFC">#061</text><text x="92" y="452" text-anchor="middle" class="t" fill="#94A3B8">Stock Portfolio</text><circle cx="134" cy="426" r="3.5" fill="#38BDF8" class="ping"/></g>
-<g class="in" style="animation-delay:1.098s"><rect x="152" y="416" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="152" y="416" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:0.84s"/>
-<text x="204" y="437" text-anchor="middle" class="n" fill="#F8FAFC">#062</text><text x="204" y="452" text-anchor="middle" class="t" fill="#94A3B8">CMS Platform</text></g>
-<g class="in" style="animation-delay:1.116s"><rect x="264" y="416" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="264" y="416" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:0.96s"/>
-<text x="316" y="437" text-anchor="middle" class="n" fill="#F8FAFC">#063</text><text x="316" y="452" text-anchor="middle" class="t" fill="#94A3B8">API Testing Tool</text></g>
-<g class="in" style="animation-delay:1.134s"><rect x="376" y="416" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="376" y="416" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.08s"/>
-<text x="428" y="437" text-anchor="middle" class="n" fill="#F8FAFC">#064</text><text x="428" y="452" text-anchor="middle" class="t" fill="#94A3B8">Data Viz Dashboard</text></g>
-<g class="in" style="animation-delay:1.152s"><rect x="488" y="416" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="488" y="416" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.20s"/>
-<text x="540" y="437" text-anchor="middle" class="n" fill="#F8FAFC">#065</text><text x="540" y="452" text-anchor="middle" class="t" fill="#94A3B8">Hospital Mgmt</text></g>
-<g class="in" style="animation-delay:1.170s"><rect x="600" y="416" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.32s"/>
-<text x="652" y="437" text-anchor="middle" class="n" fill="#475569">#066</text><text x="652" y="452" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.188s"><rect x="712" y="416" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.44s"/>
-<text x="764" y="437" text-anchor="middle" class="n" fill="#475569">#067</text><text x="764" y="452" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.206s"><rect x="824" y="416" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.56s"/>
-<text x="876" y="437" text-anchor="middle" class="n" fill="#475569">#068</text><text x="876" y="452" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.224s"><rect x="936" y="416" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.68s"/>
-<text x="988" y="437" text-anchor="middle" class="n" fill="#475569">#069</text><text x="988" y="452" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.242s"><rect x="1048" y="416" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.80s"/>
-<text x="1100" y="437" text-anchor="middle" class="n" fill="#475569">#070</text><text x="1100" y="452" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.260s"><rect x="40" y="470" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.84s"/>
-<text x="92" y="491" text-anchor="middle" class="n" fill="#475569">#071</text><text x="92" y="506" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.278s"><rect x="152" y="470" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:0.96s"/>
-<text x="204" y="491" text-anchor="middle" class="n" fill="#475569">#072</text><text x="204" y="506" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.296s"><rect x="264" y="470" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.08s"/>
-<text x="316" y="491" text-anchor="middle" class="n" fill="#475569">#073</text><text x="316" y="506" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.314s"><rect x="376" y="470" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.20s"/>
-<text x="428" y="491" text-anchor="middle" class="n" fill="#475569">#074</text><text x="428" y="506" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.332s"><rect x="488" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="488" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.32s"/>
-<text x="540" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#075</text><text x="540" y="506" text-anchor="middle" class="t" fill="#94A3B8">Spotify Clone</text></g>
-<g class="in" style="animation-delay:1.350s"><rect x="600" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="600" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.44s"/>
-<text x="652" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#076</text><text x="652" y="506" text-anchor="middle" class="t" fill="#94A3B8">Music Streaming</text></g>
-<g class="in" style="animation-delay:1.368s"><rect x="712" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="712" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.56s"/>
-<text x="764" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#077</text><text x="764" y="506" text-anchor="middle" class="t" fill="#94A3B8">Video Calls</text></g>
-<g class="in" style="animation-delay:1.386s"><rect x="824" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="824" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.68s"/>
-<text x="876" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#078</text><text x="876" y="506" text-anchor="middle" class="t" fill="#94A3B8">Podcast Platform</text></g>
-<g class="in" style="animation-delay:1.404s"><rect x="936" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="936" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.80s"/>
-<text x="988" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#079</text><text x="988" y="506" text-anchor="middle" class="t" fill="#94A3B8">Airbnb Clone</text></g>
-<g class="in" style="animation-delay:1.422s"><rect x="1048" y="470" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="1048" y="470" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.92s"/>
-<text x="1100" y="491" text-anchor="middle" class="n" fill="#F8FAFC">#080</text><text x="1100" y="506" text-anchor="middle" class="t" fill="#94A3B8">Flight Booking</text></g>
-<g class="in" style="animation-delay:1.440s"><rect x="40" y="524" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="40" y="524" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:0.96s"/>
-<text x="92" y="545" text-anchor="middle" class="n" fill="#F8FAFC">#081</text><text x="92" y="560" text-anchor="middle" class="t" fill="#94A3B8">Trello Clone</text></g>
-<g class="in" style="animation-delay:1.458s"><rect x="152" y="524" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="152" y="524" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.08s"/>
-<text x="204" y="545" text-anchor="middle" class="n" fill="#F8FAFC">#082</text><text x="204" y="560" text-anchor="middle" class="t" fill="#94A3B8">Notion Clone</text></g>
-<g class="in" style="animation-delay:1.476s"><rect x="264" y="524" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="264" y="524" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.20s"/>
-<text x="316" y="545" text-anchor="middle" class="n" fill="#F8FAFC">#083</text><text x="316" y="560" text-anchor="middle" class="t" fill="#94A3B8">Jira Clone</text></g>
-<g class="in" style="animation-delay:1.494s"><rect x="376" y="524" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="376" y="524" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.32s"/>
-<text x="428" y="545" text-anchor="middle" class="n" fill="#F8FAFC">#084</text><text x="428" y="560" text-anchor="middle" class="t" fill="#94A3B8">Kanban Board</text></g>
-<g class="in" style="animation-delay:1.512s"><rect x="488" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.44s"/>
-<text x="540" y="545" text-anchor="middle" class="n" fill="#475569">#085</text><text x="540" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.530s"><rect x="600" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.56s"/>
-<text x="652" y="545" text-anchor="middle" class="n" fill="#475569">#086</text><text x="652" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.548s"><rect x="712" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.68s"/>
-<text x="764" y="545" text-anchor="middle" class="n" fill="#475569">#087</text><text x="764" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.566s"><rect x="824" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.80s"/>
-<text x="876" y="545" text-anchor="middle" class="n" fill="#475569">#088</text><text x="876" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.584s"><rect x="936" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.92s"/>
-<text x="988" y="545" text-anchor="middle" class="n" fill="#475569">#089</text><text x="988" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.602s"><rect x="1048" y="524" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:2.04s"/>
-<text x="1100" y="545" text-anchor="middle" class="n" fill="#475569">#090</text><text x="1100" y="560" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.620s"><rect x="40" y="578" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.08s"/>
-<text x="92" y="599" text-anchor="middle" class="n" fill="#475569">#091</text><text x="92" y="614" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.638s"><rect x="152" y="578" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.20s"/>
-<text x="204" y="599" text-anchor="middle" class="n" fill="#475569">#092</text><text x="204" y="614" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.656s"><rect x="264" y="578" width="104" height="46" rx="9" fill="none" stroke="#475569" stroke-dasharray="4 4" class="res" style="animation-delay:1.32s"/>
-<text x="316" y="599" text-anchor="middle" class="n" fill="#475569">#093</text><text x="316" y="614" text-anchor="middle" class="t" fill="#475569">awaiting</text></g>
-<g class="in" style="animation-delay:1.674s"><rect x="376" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="376" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.44s"/>
-<text x="428" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#094</text><text x="428" y="614" text-anchor="middle" class="t" fill="#94A3B8">Password Manager</text></g>
-<g class="in" style="animation-delay:1.692s"><rect x="488" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="488" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.56s"/>
-<text x="540" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#095</text><text x="540" y="614" text-anchor="middle" class="t" fill="#94A3B8">2FA System</text></g>
-<g class="in" style="animation-delay:1.710s"><rect x="600" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="600" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.68s"/>
-<text x="652" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#096</text><text x="652" y="614" text-anchor="middle" class="t" fill="#94A3B8">Image Recognition</text></g>
-<g class="in" style="animation-delay:1.728s"><rect x="712" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="712" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.80s"/>
-<text x="764" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#097</text><text x="764" y="614" text-anchor="middle" class="t" fill="#94A3B8">Recommender</text></g>
-<g class="in" style="animation-delay:1.746s"><rect x="824" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="824" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:1.92s"/>
-<text x="876" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#098</text><text x="876" y="614" text-anchor="middle" class="t" fill="#94A3B8">Route Optimizer</text></g>
-<g class="in" style="animation-delay:1.764s"><rect x="936" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="936" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:2.04s"/>
-<text x="988" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#099</text><text x="988" y="614" text-anchor="middle" class="t" fill="#94A3B8">DevOps Dashboard</text></g>
-<g class="in" style="animation-delay:1.782s"><rect x="1048" y="578" width="104" height="46" rx="9" fill="#EF4444" fill-opacity=".1" stroke="#EF4444" stroke-opacity=".45"/>
-<rect x="1048" y="578" width="104" height="46" rx="9" fill="#EF4444" class="wave" style="animation-delay:2.16s"/>
-<text x="1100" y="599" text-anchor="middle" class="n" fill="#F8FAFC">#100</text><text x="1100" y="614" text-anchor="middle" class="t" fill="#94A3B8">Code Learning</text></g>
-<rect x="40" y="657" width="16" height="16" rx="4" fill="#22C55E" fill-opacity=".85" stroke="#22C55E" />
-<text x="66" y="670" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F8FAFC">Beginner · #1–30</text>
-<text x="66" y="690" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">30 repos</text><rect x="318" y="657" width="16" height="16" rx="4" fill="#F59E0B" fill-opacity=".85" stroke="#F59E0B" />
-<text x="344" y="670" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F8FAFC">Intermediate · #31–50</text>
-<text x="344" y="690" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">20 repos</text><rect x="596" y="657" width="16" height="16" rx="4" fill="#EF4444" fill-opacity=".85" stroke="#EF4444" />
-<text x="622" y="670" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F8FAFC">Advanced · #51–100</text>
-<text x="622" y="690" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">23 repos</text><rect x="874" y="657" width="16" height="16" rx="4" fill="none" fill-opacity=".85" stroke="#475569" stroke-dasharray="3 3"/>
-<text x="900" y="670" font-family="'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F8FAFC">Reserved slot</text>
-<text x="900" y="690" font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">27 awaiting</text>
-<g font-family="'JetBrains Mono','Fira Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#94A3B8">
-<circle cx="46" cy="718" r="4" fill="#FB923C"/><text x="58" y="722">link anomaly</text>
-<circle cx="186" cy="718" r="4" fill="#38BDF8"/><text x="198" y="722">collection-only</text>
-<circle cx="342" cy="718" r="4" fill="#94A3B8"/><text x="354" y="722">archived upstream</text>
-<text x="1152" y="722" text-anchor="end" fill="#475569">rendered from src/data/projects.ts</text></g>
+<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 V7" stroke="#2e3137" stroke-width="3"/></pattern></defs>
+<rect x="0.5" y="0.5" width="1279" height="959" rx="14" fill="#1a1c20" stroke="#2e3137"/><path d="M18 28 L18 18" stroke="#3a3e45" stroke-width="1"/><path d="M18 18 L28 18" stroke="#3a3e45" stroke-width="1"/><path d="M1252 18 L1262 18" stroke="#3a3e45" stroke-width="1"/><path d="M1262 18 L1262 28" stroke="#3a3e45" stroke-width="1"/><path d="M18 932 L18 942" stroke="#3a3e45" stroke-width="1"/><path d="M18 942 L28 942" stroke="#3a3e45" stroke-width="1"/><path d="M1252 942 L1262 942" stroke="#3a3e45" stroke-width="1"/><path d="M1262 942 L1262 932" stroke="#3a3e45" stroke-width="1"/><text class="m" x="64" y="58" font-size="12" fill="#f2b63c" letter-spacing="2" text-anchor="start">THE HUNDRED  ·  #001 → #100  ·  ORDER IS SACRED</text><text x="64" y="94" font-size="24" font-weight="700" fill="#eceae4">Every slot, in order. Nothing invented to fill a gap.</text><rect x="1060.8" y="82" width="10" height="10" rx="2" fill="#ff6b57"/><text class="m" x="1076.8" y="92" font-size="11.5" fill="#a9abaf">Advanced  #051–100</text><rect x="858" y="82" width="10" height="10" rx="2" fill="#f2b63c"/><text class="m" x="874" y="92" font-size="11.5" fill="#a9abaf">Intermediate  #031–050</text><rect x="684.8" y="82" width="10" height="10" rx="2" fill="#4cc3a0"/><text class="m" x="700.8" y="92" font-size="11.5" fill="#a9abaf">Beginner  #001–030</text><g class="ci" style="animation-delay:0.1s"><rect x="64.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="74" y="152" font-size="11.5" font-weight="700" fill="#94979d">#001</text>
+
+<text x="74" y="170" font-size="11" font-weight="600" fill="#eceae4">Online</text>
+<text x="74" y="185" font-size="11" font-weight="600" fill="#eceae4">Bookstore</text></g><g class="ci" style="animation-delay:0.14s"><rect x="180.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="190" y="152" font-size="11.5" font-weight="700" fill="#94979d">#002</text>
+
+<text x="190" y="170" font-size="11" font-weight="600" fill="#eceae4">Quiz</text>
+<text x="190" y="185" font-size="11" font-weight="600" fill="#eceae4">Application</text></g><g class="ci" style="animation-delay:0.18s"><rect x="296.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="306" y="152" font-size="11.5" font-weight="700" fill="#94979d">#003</text>
+
+<text x="306" y="170" font-size="11" font-weight="600" fill="#eceae4">Student Portal</text>
+<text x="306" y="185" font-size="11" font-weight="600" fill="#eceae4">System</text></g><g class="ci" style="animation-delay:0.22s"><rect x="412.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="422" y="152" font-size="11.5" font-weight="700" fill="#94979d">#004</text>
+
+<text x="422" y="170" font-size="11" font-weight="600" fill="#eceae4">Portfolio</text>
+<text x="422" y="185" font-size="11" font-weight="600" fill="#eceae4">Builder</text></g><g class="ci" style="animation-delay:0.26s"><rect x="528.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="538" y="152" font-size="11.5" font-weight="700" fill="#94979d">#005</text>
+<text x="626" y="152" font-size="12" text-anchor="end" fill="#8fb4ff">◎</text>
+<text x="538" y="170" font-size="11" font-weight="600" fill="#eceae4">Blog Platform</text>
+<text x="538" y="185" font-size="11" font-weight="600" fill="#eceae4">(Medium Clone)</text></g><g class="ci" style="animation-delay:0.3s"><rect x="644.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="654" y="152" font-size="11.5" font-weight="700" fill="#94979d">#006</text>
+
+<text x="654" y="170" font-size="11" font-weight="600" fill="#eceae4">Recipe Sharing</text>
+<text x="654" y="185" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.34s"><rect x="760.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="770" y="152" font-size="11.5" font-weight="700" fill="#94979d">#007</text>
+
+<text x="770" y="170" font-size="11" font-weight="600" fill="#eceae4">Expense</text>
+<text x="770" y="185" font-size="11" font-weight="600" fill="#eceae4">Tracker</text></g><g class="ci" style="animation-delay:0.38s"><rect x="876.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="886" y="152" font-size="11.5" font-weight="700" fill="#94979d">#008</text>
+
+<text x="886" y="170" font-size="11" font-weight="600" fill="#eceae4">Fitness</text>
+<text x="886" y="185" font-size="11" font-weight="600" fill="#eceae4">Tracker</text></g><g class="ci" style="animation-delay:0.42s"><rect x="992.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1002" y="152" font-size="11.5" font-weight="700" fill="#94979d">#009</text>
+
+<text x="1002" y="170" font-size="11" font-weight="600" fill="#eceae4">Weather</text>
+<text x="1002" y="185" font-size="11" font-weight="600" fill="#eceae4">Application</text></g><g class="ci" style="animation-delay:0.46s"><rect x="1108.5" y="132.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="133" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1118" y="152" font-size="11.5" font-weight="700" fill="#94979d">#010</text>
+
+<text x="1118" y="170" font-size="11" font-weight="600" fill="#eceae4">News</text>
+<text x="1118" y="185" font-size="11" font-weight="600" fill="#eceae4">Aggregator</text></g><g class="ci" style="animation-delay:0.14s"><rect x="64.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="74" y="222" font-size="11.5" font-weight="700" fill="#94979d">#011</text>
+
+<text x="74" y="240" font-size="11" font-weight="600" fill="#eceae4">Meme Generator</text>
+</g><g class="ci" style="animation-delay:0.18s"><rect x="180.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="190" y="222" font-size="11.5" font-weight="700" fill="#94979d">#012</text>
+
+<text x="190" y="240" font-size="11" font-weight="600" fill="#eceae4">Authentication</text>
+<text x="190" y="255" font-size="11" font-weight="600" fill="#eceae4">System (OAuth)</text></g><g class="ci" style="animation-delay:0.22s"><rect x="296.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="306" y="222" font-size="11.5" font-weight="700" fill="#94979d">#013</text>
+
+<text x="306" y="240" font-size="11" font-weight="600" fill="#eceae4">URL Shortener</text>
+</g><g class="ci" style="animation-delay:0.26s"><rect x="412.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="422" y="222" font-size="11.5" font-weight="700" fill="#94979d">#014</text>
+
+<text x="422" y="240" font-size="11" font-weight="600" fill="#eceae4">Note-Taking</text>
+<text x="422" y="255" font-size="11" font-weight="600" fill="#eceae4">App</text></g><g class="ci" style="animation-delay:0.3s"><rect x="528.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="538" y="222" font-size="11.5" font-weight="700" fill="#94979d">#015</text>
+
+<text x="538" y="240" font-size="11" font-weight="600" fill="#eceae4">Code Snippet</text>
+<text x="538" y="255" font-size="11" font-weight="600" fill="#eceae4">Manager</text></g><g class="ci" style="animation-delay:0.34s"><rect x="644.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="654" y="222" font-size="11.5" font-weight="700" fill="#94979d">#016</text>
+
+<text x="654" y="240" font-size="11" font-weight="600" fill="#eceae4">Meal Planner</text>
+<text x="654" y="255" font-size="11" font-weight="600" fill="#eceae4">App</text></g><g class="ci" style="animation-delay:0.38s"><rect x="760.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="770" y="222" font-size="11.5" font-weight="700" fill="#94979d">#017</text>
+
+<text x="770" y="240" font-size="11" font-weight="600" fill="#eceae4">Restaurant</text>
+<text x="770" y="255" font-size="11" font-weight="600" fill="#eceae4">Menu…</text></g><g class="ci" style="animation-delay:0.42s"><rect x="876.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="886" y="222" font-size="11.5" font-weight="700" fill="#94979d">#018</text>
+<text x="974" y="222" font-size="12" text-anchor="end" fill="#8fb4ff">◎</text>
+<text x="886" y="240" font-size="11" font-weight="600" fill="#eceae4">Budget</text>
+<text x="886" y="255" font-size="11" font-weight="600" fill="#eceae4">Planning App</text></g><g class="ci" style="animation-delay:0.46s"><rect x="992.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1002" y="222" font-size="11.5" font-weight="700" fill="#94979d">#019</text>
+
+<text x="1002" y="240" font-size="11" font-weight="600" fill="#eceae4">Newsletter</text>
+<text x="1002" y="255" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.5s"><rect x="1108.5" y="202.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="203" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1118" y="222" font-size="11.5" font-weight="700" fill="#94979d">#020</text>
+
+<text x="1118" y="240" font-size="11" font-weight="600" fill="#eceae4">Wiki System</text>
+</g><g class="ci" style="animation-delay:0.18s"><rect x="64.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="74" y="292" font-size="11.5" font-weight="700" fill="#94979d">#021</text>
+
+<text x="74" y="310" font-size="11" font-weight="600" fill="#eceae4">Documentation</text>
+<text x="74" y="325" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.22s"><rect x="180.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="190" y="292" font-size="11.5" font-weight="700" fill="#94979d">#022</text>
+
+<text x="190" y="310" font-size="11" font-weight="600" fill="#eceae4">Location-Based</text>
+<text x="190" y="325" font-size="11" font-weight="600" fill="#eceae4">Service</text></g><g class="ci" style="animation-delay:0.26s"><rect x="296.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="306" y="292" font-size="11.5" font-weight="700" fill="#94979d">#023</text>
+
+<text x="306" y="310" font-size="11" font-weight="600" fill="#eceae4">Map</text>
+<text x="306" y="325" font-size="11" font-weight="600" fill="#eceae4">Visualization…</text></g><g class="ci" style="animation-delay:0.3s"><rect x="412.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="422" y="292" font-size="11.5" font-weight="700" fill="#94979d">#024</text>
+
+<text x="422" y="310" font-size="11" font-weight="600" fill="#eceae4">Quiz Game</text>
+<text x="422" y="325" font-size="11" font-weight="600" fill="#eceae4">Multiplayer</text></g><g class="ci" style="animation-delay:0.34s"><rect x="528.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="538" y="292" font-size="11.5" font-weight="700" fill="#94979d">#025</text>
+
+<text x="538" y="310" font-size="11" font-weight="600" fill="#eceae4">Tic-Tac-Toe</text>
+<text x="538" y="325" font-size="11" font-weight="600" fill="#eceae4">Multiplayer</text></g><g class="ci" style="animation-delay:0.38s"><rect x="644.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="654" y="292" font-size="11.5" font-weight="700" fill="#94979d">#026</text>
+<text x="742" y="292" font-size="12" text-anchor="end" fill="#94979d">▣</text>
+<text x="654" y="310" font-size="11" font-weight="600" fill="#eceae4">Progressive</text>
+<text x="654" y="325" font-size="11" font-weight="600" fill="#eceae4">Web App Store</text></g><g class="ci" style="animation-delay:0.42s"><rect x="760.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="770" y="292" font-size="11.5" font-weight="700" fill="#94979d">#027</text>
+
+<text x="770" y="310" font-size="11" font-weight="600" fill="#eceae4">Online Course</text>
+<text x="770" y="325" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.46s"><rect x="876.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="886" y="292" font-size="11.5" font-weight="700" fill="#94979d">#028</text>
+<text x="974" y="292" font-size="12" text-anchor="end" fill="#f0883e">⚠</text>
+<text x="886" y="310" font-size="11" font-weight="600" fill="#eceae4">Task</text>
+<text x="886" y="325" font-size="11" font-weight="600" fill="#eceae4">Management App</text></g><g class="ci" style="animation-delay:0.5s"><rect x="992.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1002" y="292" font-size="11.5" font-weight="700" fill="#94979d">#029</text>
+
+<text x="1002" y="310" font-size="11" font-weight="600" fill="#eceae4">Job Board</text>
+<text x="1002" y="325" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.54s"><rect x="1108.5" y="272.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="273" width="106" height="3" rx="1.5" fill="#4cc3a0" opacity="0.85"/>
+<text class="m" x="1118" y="292" font-size="11.5" font-weight="700" fill="#94979d">#030</text>
+
+<text x="1118" y="310" font-size="11" font-weight="600" fill="#eceae4">Inventory</text>
+<text x="1118" y="325" font-size="11" font-weight="600" fill="#eceae4">Management…</text></g><g class="ci" style="animation-delay:0.22s"><rect x="64.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="74" y="362" font-size="11.5" font-weight="700" fill="#94979d">#031</text>
+
+<text x="74" y="380" font-size="11" font-weight="600" fill="#eceae4">Social Media</text>
+<text x="74" y="395" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.26s"><rect x="180.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="190" y="362" font-size="11.5" font-weight="700" fill="#94979d">#032</text>
+
+<text x="190" y="380" font-size="11" font-weight="600" fill="#eceae4">Instagram</text>
+<text x="190" y="395" font-size="11" font-weight="600" fill="#eceae4">Clone</text></g><g class="ci" style="animation-delay:0.3s"><rect x="296.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="306" y="362" font-size="11.5" font-weight="700" fill="#94979d">#033</text>
+
+<text x="306" y="380" font-size="11" font-weight="600" fill="#eceae4">Twitter Clone</text>
+</g><g class="ci" style="animation-delay:0.34s"><rect x="412.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="422" y="362" font-size="11.5" font-weight="700" fill="#94979d">#034</text>
+
+<text x="422" y="380" font-size="11" font-weight="600" fill="#eceae4">Real-Time Chat</text>
+<text x="422" y="395" font-size="11" font-weight="600" fill="#eceae4">Application</text></g><g class="ci" style="animation-delay:0.38s"><rect x="528.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="538" y="362" font-size="11.5" font-weight="700" fill="#94979d">#035</text>
+
+<text x="538" y="380" font-size="11" font-weight="600" fill="#eceae4">LMS Platform</text>
+</g><g class="ci" style="animation-delay:0.42s"><rect x="644.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="654" y="362" font-size="11.5" font-weight="700" fill="#94979d">#036</text>
+
+<text x="654" y="380" font-size="11" font-weight="600" fill="#eceae4">Hotel Booking</text>
+<text x="654" y="395" font-size="11" font-weight="600" fill="#eceae4">System</text></g><g class="ci" style="animation-delay:0.46s"><rect x="760.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="770" y="362" font-size="11.5" font-weight="700" fill="#94979d">#037</text>
+
+<text x="770" y="380" font-size="11" font-weight="600" fill="#eceae4">Restaurant</text>
+<text x="770" y="395" font-size="11" font-weight="600" fill="#eceae4">Reservation…</text></g><g class="ci" style="animation-delay:0.5s"><rect x="876.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="886" y="362" font-size="11.5" font-weight="700" fill="#94979d">#038</text>
+
+<text x="886" y="380" font-size="11" font-weight="600" fill="#eceae4">Movie Ticket</text>
+<text x="886" y="395" font-size="11" font-weight="600" fill="#eceae4">Booking</text></g><g class="ci" style="animation-delay:0.54s"><rect x="992.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="1002" y="362" font-size="11.5" font-weight="700" fill="#94979d">#039</text>
+
+<text x="1002" y="380" font-size="11" font-weight="600" fill="#eceae4">Calendar</text>
+<text x="1002" y="395" font-size="11" font-weight="600" fill="#eceae4">Scheduling App</text></g><g class="ci" style="animation-delay:0.58s"><rect x="1108.5" y="342.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="343" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="1118" y="362" font-size="11.5" font-weight="700" fill="#94979d">#040</text>
+
+<text x="1118" y="380" font-size="11" font-weight="600" fill="#eceae4">Grocery</text>
+<text x="1118" y="395" font-size="11" font-weight="600" fill="#eceae4">Delivery App</text></g><g class="ci" style="animation-delay:0.26s"><rect x="64.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="74" y="432" font-size="11.5" font-weight="700" fill="#94979d">#041</text>
+
+<text x="74" y="450" font-size="11" font-weight="600" fill="#eceae4">Banking</text>
+<text x="74" y="465" font-size="11" font-weight="600" fill="#eceae4">Application</text></g><g class="ci" style="animation-delay:0.3s"><rect x="180.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="190" y="432" font-size="11.5" font-weight="700" fill="#94979d">#042</text>
+
+<text x="190" y="450" font-size="11" font-weight="600" fill="#eceae4">Cryptocurrency</text>
+<text x="190" y="465" font-size="11" font-weight="600" fill="#eceae4">Dashboard</text></g><g class="ci" style="animation-delay:0.34s"><rect x="296.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="306" y="432" font-size="11.5" font-weight="700" fill="#94979d">#043</text>
+
+<text x="306" y="450" font-size="11" font-weight="600" fill="#eceae4">Invoice</text>
+<text x="306" y="465" font-size="11" font-weight="600" fill="#eceae4">Management…</text></g><g class="ci" style="animation-delay:0.38s"><rect x="412.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="422" y="432" font-size="11.5" font-weight="700" fill="#94979d">#044</text>
+
+<text x="422" y="450" font-size="11" font-weight="600" fill="#eceae4">Doctor</text>
+<text x="422" y="465" font-size="11" font-weight="600" fill="#eceae4">Appointment…</text></g><g class="ci" style="animation-delay:0.42s"><rect x="528.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="538" y="432" font-size="11.5" font-weight="700" fill="#94979d">#045</text>
+
+<text x="538" y="450" font-size="11" font-weight="600" fill="#eceae4">Car Rental</text>
+<text x="538" y="465" font-size="11" font-weight="600" fill="#eceae4">System</text></g><g class="ci" style="animation-delay:0.46s"><rect x="644.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="654" y="432" font-size="11.5" font-weight="700" fill="#94979d">#046</text>
+
+<text x="654" y="450" font-size="11" font-weight="600" fill="#eceae4">Travel Planner</text>
+<text x="654" y="465" font-size="11" font-weight="600" fill="#eceae4">App</text></g><g class="ci" style="animation-delay:0.5s"><rect x="760.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="770" y="432" font-size="11.5" font-weight="700" fill="#94979d">#047</text>
+
+<text x="770" y="450" font-size="11" font-weight="600" fill="#eceae4">Real Estate</text>
+<text x="770" y="465" font-size="11" font-weight="600" fill="#eceae4">Listing…</text></g><g class="ci" style="animation-delay:0.54s"><rect x="876.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="886" y="432" font-size="11.5" font-weight="700" fill="#94979d">#048</text>
+
+<text x="886" y="450" font-size="11" font-weight="600" fill="#eceae4">House Rental</text>
+<text x="886" y="465" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.58s"><rect x="992.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="1002" y="432" font-size="11.5" font-weight="700" fill="#94979d">#049</text>
+<text x="1090" y="432" font-size="12" text-anchor="end" fill="#f0883e">⚠</text>
+<text x="1002" y="450" font-size="11" font-weight="600" fill="#eceae4">Email Client</text>
+</g><g class="ci" style="animation-delay:0.62s"><rect x="1108.5" y="412.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="413" width="106" height="3" rx="1.5" fill="#f2b63c" opacity="0.85"/>
+<text class="m" x="1118" y="432" font-size="11.5" font-weight="700" fill="#94979d">#050</text>
+
+<text x="1118" y="450" font-size="11" font-weight="600" fill="#eceae4">CRM</text>
+<text x="1118" y="465" font-size="11" font-weight="600" fill="#eceae4">Application</text></g><g class="ci" style="animation-delay:0.3s"><rect x="64.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="74" y="502" font-size="11.5" font-weight="700" fill="#94979d">#051</text>
+<text class="m" x="74" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.34s"><rect x="180.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="190" y="502" font-size="11.5" font-weight="700" fill="#94979d">#052</text>
+<text class="m" x="190" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.38s"><rect x="296.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="306" y="502" font-size="11.5" font-weight="700" fill="#94979d">#053</text>
+<text class="m" x="306" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.42s"><rect x="412.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="422" y="502" font-size="11.5" font-weight="700" fill="#94979d">#054</text>
+<text class="m" x="422" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.46s"><rect x="528.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="538" y="502" font-size="11.5" font-weight="700" fill="#94979d">#055</text>
+<text class="m" x="538" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.5s"><rect x="644.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="654" y="502" font-size="11.5" font-weight="700" fill="#94979d">#056</text>
+<text class="m" x="654" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.54s"><rect x="760.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="770" y="502" font-size="11.5" font-weight="700" fill="#94979d">#057</text>
+<text class="m" x="770" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.58s"><rect x="876.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="886" y="502" font-size="11.5" font-weight="700" fill="#94979d">#058</text>
+<text class="m" x="886" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.62s"><rect x="992.5" y="482.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="1002" y="502" font-size="11.5" font-weight="700" fill="#94979d">#059</text>
+<text class="m" x="1002" y="530" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.66s"><rect x="1108.5" y="482.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="483" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="1118" y="502" font-size="11.5" font-weight="700" fill="#94979d">#060</text>
+
+<text x="1118" y="520" font-size="11" font-weight="600" fill="#eceae4">Pharmacy</text>
+<text x="1118" y="535" font-size="11" font-weight="600" fill="#eceae4">Management…</text></g><g class="ci" style="animation-delay:0.34s"><rect x="64.5" y="552.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="553" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="74" y="572" font-size="11.5" font-weight="700" fill="#94979d">#061</text>
+<text x="162" y="572" font-size="12" text-anchor="end" fill="#8fb4ff">◎</text>
+<text x="74" y="590" font-size="11" font-weight="600" fill="#eceae4">Stock Market</text>
+<text x="74" y="605" font-size="11" font-weight="600" fill="#eceae4">Portfolio…</text></g><g class="ci" style="animation-delay:0.38s"><rect x="180.5" y="552.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="553" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="190" y="572" font-size="11.5" font-weight="700" fill="#94979d">#062</text>
+
+<text x="190" y="590" font-size="11" font-weight="600" fill="#eceae4">CMS Platform</text>
+</g><g class="ci" style="animation-delay:0.42s"><rect x="296.5" y="552.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="553" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="306" y="572" font-size="11.5" font-weight="700" fill="#94979d">#063</text>
+
+<text x="306" y="590" font-size="11" font-weight="600" fill="#eceae4">API Testing</text>
+<text x="306" y="605" font-size="11" font-weight="600" fill="#eceae4">Tool</text></g><g class="ci" style="animation-delay:0.46s"><rect x="412.5" y="552.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="553" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="422" y="572" font-size="11.5" font-weight="700" fill="#94979d">#064</text>
+
+<text x="422" y="590" font-size="11" font-weight="600" fill="#eceae4">Data</text>
+<text x="422" y="605" font-size="11" font-weight="600" fill="#eceae4">Visualization…</text></g><g class="ci" style="animation-delay:0.5s"><rect x="528.5" y="552.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="553" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="538" y="572" font-size="11.5" font-weight="700" fill="#94979d">#065</text>
+
+<text x="538" y="590" font-size="11" font-weight="600" fill="#eceae4">Hospital</text>
+<text x="538" y="605" font-size="11" font-weight="600" fill="#eceae4">Management…</text></g><g class="ci" style="animation-delay:0.54s"><rect x="644.5" y="552.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="654" y="572" font-size="11.5" font-weight="700" fill="#94979d">#066</text>
+<text class="m" x="654" y="600" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.58s"><rect x="760.5" y="552.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="770" y="572" font-size="11.5" font-weight="700" fill="#94979d">#067</text>
+<text class="m" x="770" y="600" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.62s"><rect x="876.5" y="552.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="886" y="572" font-size="11.5" font-weight="700" fill="#94979d">#068</text>
+<text class="m" x="886" y="600" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.66s"><rect x="992.5" y="552.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="1002" y="572" font-size="11.5" font-weight="700" fill="#94979d">#069</text>
+<text class="m" x="1002" y="600" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.7s"><rect x="1108.5" y="552.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="1118" y="572" font-size="11.5" font-weight="700" fill="#94979d">#070</text>
+<text class="m" x="1118" y="600" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.38s"><rect x="64.5" y="622.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="74" y="642" font-size="11.5" font-weight="700" fill="#94979d">#071</text>
+<text class="m" x="74" y="670" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.42s"><rect x="180.5" y="622.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="190" y="642" font-size="11.5" font-weight="700" fill="#94979d">#072</text>
+<text class="m" x="190" y="670" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.46s"><rect x="296.5" y="622.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="306" y="642" font-size="11.5" font-weight="700" fill="#94979d">#073</text>
+<text class="m" x="306" y="670" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.5s"><rect x="412.5" y="622.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="422" y="642" font-size="11.5" font-weight="700" fill="#94979d">#074</text>
+<text class="m" x="422" y="670" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.54s"><rect x="528.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="538" y="642" font-size="11.5" font-weight="700" fill="#94979d">#075</text>
+
+<text x="538" y="660" font-size="11" font-weight="600" fill="#eceae4">Spotify Clone</text>
+</g><g class="ci" style="animation-delay:0.58s"><rect x="644.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="654" y="642" font-size="11.5" font-weight="700" fill="#94979d">#076</text>
+
+<text x="654" y="660" font-size="11" font-weight="600" fill="#eceae4">Music</text>
+<text x="654" y="675" font-size="11" font-weight="600" fill="#eceae4">Streaming App</text></g><g class="ci" style="animation-delay:0.62s"><rect x="760.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="770" y="642" font-size="11.5" font-weight="700" fill="#94979d">#077</text>
+
+<text x="770" y="660" font-size="11" font-weight="600" fill="#eceae4">Video</text>
+<text x="770" y="675" font-size="11" font-weight="600" fill="#eceae4">Conferencing…</text></g><g class="ci" style="animation-delay:0.66s"><rect x="876.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="886" y="642" font-size="11.5" font-weight="700" fill="#94979d">#078</text>
+
+<text x="886" y="660" font-size="11" font-weight="600" fill="#eceae4">Podcast</text>
+<text x="886" y="675" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><g class="ci" style="animation-delay:0.7s"><rect x="992.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="1002" y="642" font-size="11.5" font-weight="700" fill="#94979d">#079</text>
+
+<text x="1002" y="660" font-size="11" font-weight="600" fill="#eceae4">Airbnb Clone</text>
+</g><g class="ci" style="animation-delay:0.74s"><rect x="1108.5" y="622.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="623" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="1118" y="642" font-size="11.5" font-weight="700" fill="#94979d">#080</text>
+
+<text x="1118" y="660" font-size="11" font-weight="600" fill="#eceae4">Flight Booking</text>
+<text x="1118" y="675" font-size="11" font-weight="600" fill="#eceae4">System</text></g><g class="ci" style="animation-delay:0.42s"><rect x="64.5" y="692.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="65" y="693" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="74" y="712" font-size="11.5" font-weight="700" fill="#94979d">#081</text>
+
+<text x="74" y="730" font-size="11" font-weight="600" fill="#eceae4">Trello Clone</text>
+</g><g class="ci" style="animation-delay:0.46s"><rect x="180.5" y="692.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="181" y="693" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="190" y="712" font-size="11.5" font-weight="700" fill="#94979d">#082</text>
+
+<text x="190" y="730" font-size="11" font-weight="600" fill="#eceae4">Notion Clone</text>
+</g><g class="ci" style="animation-delay:0.5s"><rect x="296.5" y="692.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="297" y="693" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="306" y="712" font-size="11.5" font-weight="700" fill="#94979d">#083</text>
+
+<text x="306" y="730" font-size="11" font-weight="600" fill="#eceae4">Jira Clone</text>
+</g><g class="ci" style="animation-delay:0.54s"><rect x="412.5" y="692.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="693" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="422" y="712" font-size="11.5" font-weight="700" fill="#94979d">#084</text>
+
+<text x="422" y="730" font-size="11" font-weight="600" fill="#eceae4">Kanban Board</text>
+</g><g class="ci" style="animation-delay:0.58s"><rect x="528.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="538" y="712" font-size="11.5" font-weight="700" fill="#94979d">#085</text>
+<text class="m" x="538" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.62s"><rect x="644.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="654" y="712" font-size="11.5" font-weight="700" fill="#94979d">#086</text>
+<text class="m" x="654" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.66s"><rect x="760.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="770" y="712" font-size="11.5" font-weight="700" fill="#94979d">#087</text>
+<text class="m" x="770" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.7s"><rect x="876.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="886" y="712" font-size="11.5" font-weight="700" fill="#94979d">#088</text>
+<text class="m" x="886" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.74s"><rect x="992.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="1002" y="712" font-size="11.5" font-weight="700" fill="#94979d">#089</text>
+<text class="m" x="1002" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.78s"><rect x="1108.5" y="692.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="1118" y="712" font-size="11.5" font-weight="700" fill="#94979d">#090</text>
+<text class="m" x="1118" y="740" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.46s"><rect x="64.5" y="762.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="74" y="782" font-size="11.5" font-weight="700" fill="#94979d">#091</text>
+<text class="m" x="74" y="810" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.5s"><rect x="180.5" y="762.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="190" y="782" font-size="11.5" font-weight="700" fill="#94979d">#092</text>
+<text class="m" x="190" y="810" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.54s"><rect x="296.5" y="762.5" width="107" height="61" rx="4" fill="url(#hatch)" stroke="#2e3137"/>
+<text class="m" x="306" y="782" font-size="11.5" font-weight="700" fill="#94979d">#093</text>
+<text class="m" x="306" y="810" font-size="10.5" fill="#94979d">reserved</text></g><g class="ci" style="animation-delay:0.58s"><rect x="412.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="413" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="422" y="782" font-size="11.5" font-weight="700" fill="#94979d">#094</text>
+
+<text x="422" y="800" font-size="11" font-weight="600" fill="#eceae4">Password</text>
+<text x="422" y="815" font-size="11" font-weight="600" fill="#eceae4">Manager</text></g><g class="ci" style="animation-delay:0.62s"><rect x="528.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="529" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="538" y="782" font-size="11.5" font-weight="700" fill="#94979d">#095</text>
+
+<text x="538" y="800" font-size="11" font-weight="600" fill="#eceae4">Two-Factor</text>
+<text x="538" y="815" font-size="11" font-weight="600" fill="#eceae4">Authenticatio…</text></g><g class="ci" style="animation-delay:0.66s"><rect x="644.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="645" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="654" y="782" font-size="11.5" font-weight="700" fill="#94979d">#096</text>
+
+<text x="654" y="800" font-size="11" font-weight="600" fill="#eceae4">Image</text>
+<text x="654" y="815" font-size="11" font-weight="600" fill="#eceae4">Recognition…</text></g><g class="ci" style="animation-delay:0.7s"><rect x="760.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="761" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="770" y="782" font-size="11.5" font-weight="700" fill="#94979d">#097</text>
+
+<text x="770" y="800" font-size="11" font-weight="600" fill="#eceae4">Recommendation</text>
+<text x="770" y="815" font-size="11" font-weight="600" fill="#eceae4">System</text></g><g class="ci" style="animation-delay:0.74s"><rect x="876.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="877" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="886" y="782" font-size="11.5" font-weight="700" fill="#94979d">#098</text>
+
+<text x="886" y="800" font-size="11" font-weight="600" fill="#eceae4">Delivery Route</text>
+<text x="886" y="815" font-size="11" font-weight="600" fill="#eceae4">Optimizer</text></g><g class="ci" style="animation-delay:0.78s"><rect x="992.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="993" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="1002" y="782" font-size="11.5" font-weight="700" fill="#94979d">#099</text>
+
+<text x="1002" y="800" font-size="11" font-weight="600" fill="#eceae4">DevOps</text>
+<text x="1002" y="815" font-size="11" font-weight="600" fill="#eceae4">Dashboard</text></g><g class="ci" style="animation-delay:0.82s"><rect x="1108.5" y="762.5" width="107" height="61" rx="4" fill="#212328" stroke="#2e3137"/>
+<rect x="1109" y="763" width="106" height="3" rx="1.5" fill="#ff6b57" opacity="0.85"/>
+<text class="m" x="1118" y="782" font-size="11.5" font-weight="700" fill="#94979d">#100</text>
+
+<text x="1118" y="800" font-size="11" font-weight="600" fill="#eceae4">Code Learning</text>
+<text x="1118" y="815" font-size="11" font-weight="600" fill="#eceae4">Platform</text></g><text x="64" y="876" font-size="14" font-weight="600" fill="#eceae4">Type a number anywhere.</text><text x="64" y="898" font-size="13" fill="#a9abaf">Digits buffer up to three, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> jumps, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> cancels.</text><g class="s4"><rect x="873" y="129" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s6"><rect x="61" y="689" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s8"><rect x="61" y="689" width="114" height="68" rx="6" fill="#f2b63c" fill-opacity="0.16" stroke="#f2b63c" stroke-width="2.5"/></g><g class="s10"><rect x="293" y="129" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s12"><rect x="409" y="339" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s14"><rect x="409" y="339" width="114" height="68" rx="6" fill="#f2b63c" fill-opacity="0.16" stroke="#f2b63c" stroke-width="2.5"/></g><g class="s16"><rect x="61" y="129" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s18"><rect x="1105" y="129" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s20"><rect x="1105" y="759" width="114" height="68" rx="6" fill="none" stroke="#f2b63c" stroke-width="2" stroke-dasharray="5 4"/></g><g class="s22"><rect x="1105" y="759" width="114" height="68" rx="6" fill="#f2b63c" fill-opacity="0.16" stroke="#f2b63c" stroke-width="2.5"/></g><rect x="404" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="404" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="423" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">0</text><rect x="450" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="450" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="469" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">1</text><rect x="496" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="496" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="515" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">3</text><rect x="542" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="542" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="561" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">4</text><rect x="588" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="588" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="607" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">8</text><rect x="634" y="860" width="38" height="38" rx="6" fill="#2a2d33" stroke="#3a3e45"/><rect x="634" y="894" width="38" height="4" rx="2" fill="#3a3e45"/><text class="m" x="653" y="885" font-size="15" font-weight="700" text-anchor="middle" fill="#eceae4">↵</text><g class="kp1"><rect x="404" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="423" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">0</text></g><g class="kp3"><rect x="588" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="607" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">8</text></g><g class="kp5"><rect x="450" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="469" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">1</text></g><g class="kp7"><rect x="634" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="653" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">↵</text></g><g class="kp9"><rect x="496" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="515" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">3</text></g><g class="kp11"><rect x="542" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="561" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">4</text></g><g class="kp13"><rect x="634" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="653" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">↵</text></g><g class="kp15"><rect x="450" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="469" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">1</text></g><g class="kp17"><rect x="404" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="423" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">0</text></g><g class="kp19"><rect x="404" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="423" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">0</text></g><g class="kp21"><rect x="634" y="862" width="38" height="38" rx="6" fill="#f2b63c"/><text class="m" x="653" y="887" font-size="15" font-weight="700" text-anchor="middle" fill="#121316">↵</text></g><g class="s2"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#000<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#94979d">  Project not found</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s4"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#008<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Fitness Tracker</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s6"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#081<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Trello Clone</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s8"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#4cc3a0"/>
+<text class="m" x="764" y="878" font-size="13" fill="#4cc3a0" font-weight="700">→ /projects/trello-clone</text>
+<text x="764" y="898" font-size="12" fill="#94979d">opening the workspace for #081</text></g><g class="s10"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#003<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Student Portal System</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s12"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#034<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Real-Time Chat Application</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s14"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#4cc3a0"/>
+<text class="m" x="764" y="878" font-size="13" fill="#4cc3a0" font-weight="700">→ /projects/real-time-chat-application</text>
+<text x="764" y="898" font-size="12" fill="#94979d">opening the workspace for #034</text></g><g class="s16"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#001<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Online Bookstore</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s18"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#010<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  News Aggregator</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s20"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#3a3e45"/>
+<text class="m" x="764" y="878" font-size="14" font-weight="700" fill="#f2b63c">#100<tspan font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="13" fill="#eceae4">  Code Learning Platform</tspan></text>
+<text x="764" y="898" font-size="12" fill="#94979d">Press <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">↵</tspan> to jump, <tspan class="m" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" fill="#eceae4">Esc</tspan> to cancel</text>
+<text x="1192" y="888" font-size="16" text-anchor="end" fill="#f2b63c">↵</text></g><g class="s22"><rect x="746" y="854" width="470" height="56" rx="10" fill="#2a2d33" stroke="#4cc3a0"/>
+<text class="m" x="764" y="878" font-size="13" fill="#4cc3a0" font-weight="700">→ /projects/code-learning-platform</text>
+<text x="764" y="898" font-size="12" fill="#94979d">opening the workspace for #100</text></g><text class="m" x="64" y="930" font-size="11.5" fill="#94979d"><tspan fill="#f0883e">⚠</tspan> link anomaly    <tspan fill="#8fb4ff">◎</tspan> collection-only source    <tspan fill="#94979d">▣</tspan> archived upstream    <tspan fill="#94979d">▨</tspan> reserved · awaiting source information</text>
 </svg>
