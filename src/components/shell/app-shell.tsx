@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import { projects as canonicalProjects } from "@/data/projects";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./topbar";
@@ -10,6 +11,12 @@ import { CommandPalette } from "./command-palette";
 import { NumericJump } from "./numeric-jump";
 import { PRIMARY_NAV_ITEMS, SECONDARY_NAV_ITEMS } from "./nav-items";
 import { cx } from "@/components/redesign/ui";
+import {
+  PREFERENCES_CHANGED_EVENT,
+  PREFERENCES_STORAGE_KEY,
+  applyWorkspacePreferences,
+  loadWorkspacePreferences,
+} from "@/lib/preferences";
 import type { SessionUser } from "@/types/project";
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -26,6 +33,7 @@ function isTypingTarget(target: EventTarget | null): boolean {
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, resolvedTheme } = useTheme();
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -36,6 +44,40 @@ export function AppShell({ children }: { children: ReactNode }) {
   const gMode = useRef(false);
   const jumpTimer = useRef<number | null>(null);
   const gTimer = useRef<number | null>(null);
+
+  // Sync theme attributes & color-scheme meta even on routes without TopBar (e.g. /login)
+  useEffect(() => {
+    const mode = resolvedTheme === "light" ? "day" : "night";
+    document.documentElement.setAttribute("data-theme", mode);
+    const meta = document.querySelector('meta[name="color-scheme"]');
+    if (meta) {
+      meta.setAttribute(
+        "content",
+        theme === "light" ? "light" : theme === "dark" ? "dark" : "light dark",
+      );
+    }
+  }, [theme, resolvedTheme]);
+
+  // Apply and listen for browser workspace preferences (reduce-motion, density)
+  useEffect(() => {
+    const syncPrefs = () => {
+      applyWorkspacePreferences(loadWorkspacePreferences());
+    };
+    syncPrefs();
+
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key || e.key === PREFERENCES_STORAGE_KEY) {
+        syncPrefs();
+      }
+    };
+
+    window.addEventListener(PREFERENCES_CHANGED_EVENT, syncPrefs);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener(PREFERENCES_CHANGED_EVENT, syncPrefs);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   // Fetch session on load and route changes
   useEffect(() => {
@@ -151,6 +193,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       if (gMode.current) {
         gMode.current = false;
         const k = e.key.toUpperCase();
+        if (k === "S") {
+          e.preventDefault();
+          router.push("/settings");
+          return;
+        }
         const allNavs = [...PRIMARY_NAV_ITEMS, ...SECONDARY_NAV_ITEMS];
         const match = allNavs.find((n) => n.key === k);
         if (match) {

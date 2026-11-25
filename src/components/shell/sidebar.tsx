@@ -11,6 +11,9 @@ import {
   Moon,
   Sun,
   Monitor,
+  Settings2,
+  ShieldCheck,
+  Plug,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Mark, Wordmark } from "@/components/redesign/brand";
@@ -203,8 +206,43 @@ export function Sidebar({
         </ul>
       </div>
 
-      {/* Bottom Footer Section: Appearance & Account */}
-      <div className="shrink-0 border-t border-line p-2">
+      {/* Bottom Footer Section: Settings, Appearance & Account */}
+      <div className="shrink-0 border-t border-line p-2 space-y-1.5">
+        {(() => {
+          const settingsActive = isNavActive("/settings");
+          const settingsLink = (
+            <Link
+              href="/settings"
+              onClick={onNavigate}
+              aria-current={settingsActive ? "page" : undefined}
+              className={cx(
+                "relative flex items-center gap-2.5 rounded-ctl text-sm transition-colors duration-[120ms] outline-none focus-visible:outline-2 focus-visible:outline-sodium",
+                collapsed ? "mx-auto h-9 w-12 justify-center" : "h-8 px-2.5",
+                settingsActive
+                  ? "bg-elevated font-medium text-fg"
+                  : "text-fg2 hover:bg-[color-mix(in_srgb,var(--bg-elevated)_60%,transparent)] hover:text-fg",
+              )}
+            >
+              {settingsActive && (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-y-1.5 left-0 w-0.5 rounded-r-[1px] bg-sodium"
+                />
+              )}
+              <Settings2 size={16} strokeWidth={1.5} className="shrink-0" />
+              {!collapsed && <span className="truncate">Settings</span>}
+            </Link>
+          );
+
+          return collapsed ? (
+            <Tooltip label="Settings" shortcut={["G", "S"]} side="right">
+              {settingsLink}
+            </Tooltip>
+          ) : (
+            settingsLink
+          );
+        })()}
+
         {collapsed ? (
           <div className="flex flex-col items-center gap-1">
             <IconButton
@@ -256,7 +294,7 @@ export function Sidebar({
           open={accountOpen}
           onClose={() => setAccountOpen(false)}
           anchor={accountAnchor}
-          width={220}
+          width={230}
           align="start"
         >
           {sessionUser ? (
@@ -265,6 +303,40 @@ export function Sidebar({
                 <p className="font-semibold text-fg">{sessionUser.name || "Owner"}</p>
                 <p className="truncate text-2xs text-fg3">{sessionUser.email}</p>
               </div>
+              <MenuItem
+                icon={<User size={14} />}
+                onClick={() => {
+                  setAccountOpen(false);
+                  onNavigate?.();
+                }}
+              >
+                <Link href="/settings?section=profile" className="block w-full">
+                  Account profile
+                </Link>
+              </MenuItem>
+              <MenuItem
+                icon={<ShieldCheck size={14} />}
+                onClick={() => {
+                  setAccountOpen(false);
+                  onNavigate?.();
+                }}
+              >
+                <Link href="/settings?section=security" className="block w-full">
+                  Account security
+                </Link>
+              </MenuItem>
+              <MenuItem
+                icon={<Plug size={14} />}
+                onClick={() => {
+                  setAccountOpen(false);
+                  onNavigate?.();
+                }}
+              >
+                <Link href="/settings?section=integrations" className="block w-full">
+                  Integrations
+                </Link>
+              </MenuItem>
+              <div className="my-1 h-px bg-line" />
               <MenuItem
                 icon={<LogOut size={14} />}
                 danger

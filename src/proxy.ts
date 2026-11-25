@@ -2,7 +2,14 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { SESSION_COOKIE_NAME } from "@/lib/constants";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/kanban", "/journal", "/analytics"];
+const PROTECTED_PREFIXES = [
+  "/dashboard",
+  "/activity",
+  "/kanban",
+  "/journal",
+  "/analytics",
+  "/settings",
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -4,6 +4,7 @@ import { isDatabaseConfigured } from "@/lib/prisma";
 import * as jsonStore from "@/services/json-store";
 import * as prismaStore from "@/services/prisma-store";
 import type {
+  AccountDetails,
   DeploymentRecord,
   NoteType,
   Project,
@@ -64,6 +65,23 @@ export async function syncExternalAuthUser(input: {
     return prismaStore.syncExternalAuthUser(input);
   }
   return jsonStore.syncExternalAuthUser(input);
+}
+
+export async function getAccountDetails(userId: string): Promise<AccountDetails | null> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.getAccountDetails(userId);
+  }
+  return jsonStore.getAccountDetails(userId);
+}
+
+export async function updateUserProfileName(
+  userId: string,
+  name: string,
+): Promise<{ user: SessionUser; profile: AccountDetails } | { error: string }> {
+  if (isDatabaseConfigured()) {
+    return prismaStore.updateUserProfileName(userId, name);
+  }
+  return jsonStore.updateUserProfileName(userId, name);
 }
 
 /* ============================================================================

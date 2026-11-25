@@ -27,6 +27,7 @@ import {
   toPrismaVerificationStatus,
 } from "@/lib/prisma-mappers";
 import type {
+  AccountDetails,
   DeploymentRecord,
   NoteType,
   Project,
@@ -43,6 +44,7 @@ import type {
   VerificationStatus,
   WorkspaceStats,
 } from "@/types/project";
+import { isSafeHttpUrl, sanitizePlainText } from "@/lib/validations";
 
 function requirePrisma() {
   const prisma = getPrismaClient();
@@ -393,6 +395,104 @@ export async function syncExternalAuthUser(input: {
       role: created.role === "owner" ? "owner" : "developer",
     };
   });
+}
+
+export async function getAccountDetails(userId: string): Promise<AccountDetails | null> {
+  const prisma = requirePrisma();
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      avatarUrl: true,
+      createdAt: true,
+      passwordHash: true,
+      supabaseId: true,
+    },
+  });
+
+  if (!user) return null;
+
+  const hasPassword = Boolean(user.passwordHash);
+  const hasSupabase = Boolean(user.supabaseId);
+  const authProvider =
+    hasPassword && hasSupabase ? "hybrid" : hasSupabase ? "oauth" : "credentials";
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role === "owner" ? "owner" : "developer",
+    avatarUrl: user.avatarUrl && isSafeHttpUrl(user.avatarUrl) ? user.avatarUrl : null,
+    createdAt: toIsoStringOrNull(user.createdAt),
+    authProvider,
+    hasPassword,
+    hasSupabase,
+  };
+}
+
+export async function updateUserProfileName(
+  userId: string,
+  name: string,
+): Promise<{ user: SessionUser; profile: AccountDetails } | { error: string }> {
+  const prisma = requirePrisma();
+  const cleanName = sanitizePlainText(name);
+  if (cleanName.length < 2) {
+    return { error: "Display name must be at least 2 characters." };
+  }
+
+  const existing = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true },
+  });
+  if (!existing) {
+    return { error: "Account record not found." };
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: userId },
+    data: { name: cleanName },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      avatarUrl: true,
+      createdAt: true,
+      passwordHash: true,
+      supabaseId: true,
+    },
+  });
+
+  const hasPassword = Boolean(updated.passwordHash);
+  const hasSupabase = Boolean(updated.supabaseId);
+  const role: "owner" | "developer" = updated.role === "owner" ? "owner" : "developer";
+  const avatarUrl =
+    updated.avatarUrl && isSafeHttpUrl(updated.avatarUrl) ? updated.avatarUrl : null;
+
+  return {
+    user: {
+      id: updated.id,
+      email: updated.email,
+      name: updated.name,
+      role,
+      avatarUrl,
+    },
+    profile: {
+      id: updated.id,
+      email: updated.email,
+      name: updated.name,
+      role,
+      avatarUrl,
+      createdAt: toIsoStringOrNull(updated.createdAt),
+      authProvider:
+        hasPassword && hasSupabase ? "hybrid" : hasSupabase ? "oauth" : "credentials",
+      hasPassword,
+      hasSupabase,
+    },
+  };
 }
 
 /* ============================================================================

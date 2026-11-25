@@ -425,4 +425,3 @@ export function computeEngineeringAnalytics(input: {
     technologiesExplored: stats.technologiesExplored,
   };
 }
-

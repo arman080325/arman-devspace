@@ -52,6 +52,39 @@ export function isSafeHttpUrl(url: string): boolean {
   }
 }
 
+/**
+ * Validates relative redirect targets to block open redirects (including
+ * protocol-relative URLs, backslash bypasses, and control characters).
+ */
+export function getSafeRedirectPath(
+  candidate: string | null | undefined,
+  fallback = "/dashboard",
+): string {
+  if (!candidate || typeof candidate !== "string") {
+    return fallback;
+  }
+
+  const trimmed = candidate.trim();
+  if (
+    !trimmed.startsWith("/") ||
+    trimmed.startsWith("//") ||
+    trimmed.startsWith("/\\") ||
+    /[\u0000-\u001F\u007F\\]/.test(trimmed)
+  ) {
+    return fallback;
+  }
+
+  try {
+    const parsed = new URL(trimmed, "https://devspace.local");
+    if (parsed.origin !== "https://devspace.local") {
+      return fallback;
+    }
+    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return fallback;
+  }
+}
+
 export const signupSchema = z.object({
   name: z
     .string()
@@ -69,6 +102,14 @@ export const signupSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().trim().email("Enter a valid email address.").toLowerCase(),
   password: z.string().min(1, "Password is required."),
+});
+
+export const updateProfileSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Display name must be at least 2 characters.")
+    .max(80, "Display name must be under 80 characters."),
 });
 
 export const projectProgressUpdateSchema = z.object({

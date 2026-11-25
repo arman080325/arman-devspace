@@ -1,7 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import {
+  DEFAULT_WORKSPACE_PREFERENCES,
+  loadWorkspacePreferences,
+  subscribeWorkspacePreferences,
+} from "@/lib/preferences";
 import {
   ExplorerToolbar,
   EMPTY_FILTERS,
@@ -18,6 +23,7 @@ import type { Health, Phase } from "@/components/redesign/types";
 export interface ExplorerPageProps {
   initialProjects: Project[];
   initialView?: ExplorerViewMode;
+  useSavedPreference?: boolean;
   initialFilters?: Partial<ExplorerFilters>;
   lockDifficulty?: Difficulty;
   lockCategory?: string;
@@ -26,6 +32,7 @@ export interface ExplorerPageProps {
 export function ExplorerPage({
   initialProjects,
   initialView = "field",
+  useSavedPreference = false,
   initialFilters,
   lockDifficulty,
   lockCategory,
@@ -41,24 +48,34 @@ export function ExplorerPage({
       ? paramView
       : null;
 
-  const [viewState, setViewState] = useState<{
-    view: ExplorerViewMode;
+  const savedPrefs = useSyncExternalStore(
+    subscribeWorkspacePreferences,
+    loadWorkspacePreferences,
+    () => DEFAULT_WORKSPACE_PREFERENCES,
+  );
+
+  const [manualView, setManualView] = useState<{
+    view: ExplorerViewMode | null;
     prevParam: string | null;
   }>({
-    view: validParamView ?? initialView,
+    view: null,
     prevParam: paramView,
   });
 
-  if (paramView !== viewState.prevParam) {
-    setViewState({
-      view: validParamView ?? initialView,
+  if (paramView !== manualView.prevParam) {
+    setManualView({
+      view: null,
       prevParam: paramView,
     });
   }
 
-  const view = viewState.view;
+  const view: ExplorerViewMode =
+    validParamView ??
+    manualView.view ??
+    (useSavedPreference ? savedPrefs.explorerView : initialView);
+
   const setView = (v: ExplorerViewMode) => {
-    setViewState((prev) => ({ ...prev, view: v }));
+    setManualView((prev) => ({ ...prev, view: v }));
   };
 
   // Search query

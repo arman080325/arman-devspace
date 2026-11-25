@@ -226,4 +226,3 @@ describe("Milestone 6 — Redesigned Activity Center", () => {
     expect(screen.getByText("No activity events recorded yet.")).toBeInTheDocument();
   });
 });
-

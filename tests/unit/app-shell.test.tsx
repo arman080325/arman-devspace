@@ -189,6 +189,20 @@ describe("Redesign Milestone 2 Application Shell", () => {
       );
       expect(screen.getByText("AA")).toBeInTheDocument();
       expect(screen.getByText("Arman Ali")).toBeInTheDocument();
+      expect(screen.getByRole("link", { name: "Settings" })).toHaveAttribute(
+        "href",
+        "/settings",
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Account menu" }));
+      expect(screen.getByRole("link", { name: "Account security" })).toHaveAttribute(
+        "href",
+        "/settings?section=security",
+      );
+      expect(screen.getByRole("link", { name: "Integrations" })).toHaveAttribute(
+        "href",
+        "/settings?section=integrations",
+      );
     });
   });
 

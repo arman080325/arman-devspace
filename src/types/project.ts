@@ -291,3 +291,11 @@ export interface SessionUser {
   role: "owner" | "developer";
   avatarUrl?: string | null;
 }
+
+export interface AccountDetails extends SessionUser {
+  avatarUrl: string | null;
+  createdAt: string | null;
+  authProvider: "credentials" | "oauth" | "hybrid";
+  hasPassword: boolean;
+  hasSupabase: boolean;
+}

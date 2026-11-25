@@ -35,17 +35,20 @@ async function ExplorerContent({
   const [user, resolvedParams] = await Promise.all([getSessionUser(), searchParams]);
   const projects = await getAllProjects(user?.id);
 
-  const initialView: ExplorerViewMode =
+  const hasExplicitView =
     resolvedParams.view === "plates" ||
     resolvedParams.view === "list" ||
-    resolvedParams.view === "field"
-      ? resolvedParams.view
-      : "field";
+    resolvedParams.view === "field";
+
+  const initialView: ExplorerViewMode = hasExplicitView
+    ? (resolvedParams.view as ExplorerViewMode)
+    : "field";
 
   return (
     <ExplorerPage
       initialProjects={projects}
       initialView={initialView}
+      useSavedPreference={!hasExplicitView}
       initialFilters={{
         difficulty: resolvedParams.difficulty
           ? [resolvedParams.difficulty as Difficulty]

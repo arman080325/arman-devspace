@@ -27,6 +27,9 @@ import {
   LogIn,
   BookText,
   BarChart3,
+  Settings2,
+  ShieldCheck,
+  Plug,
   X,
 } from "lucide-react";
 import { projects as canonicalProjects } from "@/data/projects";
@@ -206,6 +209,22 @@ export function CommandPalette({
       },
       { label: "Engineering Journal", path: "/journal", icon: <BookText size={14} /> },
       { label: "Learning Analytics", path: "/analytics", icon: <BarChart3 size={14} /> },
+      {
+        label: "Settings",
+        path: "/settings",
+        icon: <Settings2 size={14} />,
+        keys: ["G", "S"],
+      },
+      {
+        label: "Integrations",
+        path: "/settings?section=integrations",
+        icon: <Plug size={14} />,
+      },
+      {
+        label: "Account security",
+        path: "/settings?section=security",
+        icon: <ShieldCheck size={14} />,
+      },
     ];
 
     for (const n of navEntries) {

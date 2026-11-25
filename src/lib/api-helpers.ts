@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import type { ZodError } from "zod";
 import { getCanonicalProjectBySlug } from "@/data/projects";
 import { getSessionUser } from "@/lib/auth";
+import { getSafeRedirectPath } from "@/lib/validations";
 import type { Project, SessionUser } from "@/types/project";
+
+export { getSafeRedirectPath };
 
 export async function parseJsonBody(
   request: Request,
@@ -80,17 +83,4 @@ export function requireCanonicalProject(
     };
   }
   return { project };
-}
-
-/**
- * Validates relative redirect targets to block open redirects.
- */
-export function getSafeRedirectPath(
-  candidate: string | null | undefined,
-  fallback = "/dashboard",
-): string {
-  if (!candidate || !candidate.startsWith("/") || candidate.startsWith("//")) {
-    return fallback;
-  }
-  return candidate;
 }

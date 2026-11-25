@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { AuthForm } from "@/components/auth/auth-form";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getSafeRedirectPath } from "@/lib/api-helpers";
 import { getSessionUser } from "@/lib/auth";
 
@@ -20,16 +19,21 @@ async function RegisterContent({
 }) {
   const user = await getSessionUser();
   const params = await searchParams;
-  const redirectTarget = getSafeRedirectPath(
-    params.redirect ?? params.next,
-    "/dashboard",
-  );
+  const rawRedirect = params.redirect ?? params.next;
+  const hasExplicitRedirect = Boolean(rawRedirect && rawRedirect.trim().length > 0);
+  const redirectTarget = getSafeRedirectPath(rawRedirect, "/dashboard");
 
   if (user) {
     redirect(redirectTarget);
   }
 
-  return <AuthForm mode="register" redirectTo={redirectTarget} />;
+  return (
+    <AuthForm
+      mode="register"
+      redirectTo={redirectTarget}
+      hasExplicitRedirect={hasExplicitRedirect}
+    />
+  );
 }
 
 export default function RegisterPage({
@@ -38,10 +42,14 @@ export default function RegisterPage({
   searchParams: Promise<{ redirect?: string; next?: string }>;
 }) {
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <Suspense fallback={<Skeleton className="h-[480px] w-full max-w-md rounded-xl" />}>
-        <RegisterContent searchParams={searchParams} />
-      </Suspense>
-    </div>
+    <Suspense
+      fallback={
+        <div className="flex min-h-dvh items-center justify-center bg-inset px-4">
+          <div className="h-[520px] w-full max-w-[432px] animate-pulse rounded-panel border border-line bg-surface" />
+        </div>
+      }
+    >
+      <RegisterContent searchParams={searchParams} />
+    </Suspense>
   );
 }

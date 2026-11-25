@@ -17,6 +17,7 @@ import {
 } from "@/lib/auth";
 import { getPrismaClient } from "@/lib/prisma";
 import type {
+  AccountDetails,
   DeploymentRecord,
   Difficulty,
   NoteType,
@@ -34,6 +35,7 @@ import type {
   VerificationStatus,
   WorkspaceStats,
 } from "@/types/project";
+import { sanitizePlainText } from "@/lib/validations";
 
 export interface StoredUser {
   id: string;
@@ -416,6 +418,67 @@ export async function syncExternalAuthUser(input: {
       email: created.email,
       name: created.name,
       role: created.role,
+    };
+  });
+}
+
+export async function getAccountDetails(userId: string): Promise<AccountDetails | null> {
+  const store = await readStore();
+  const user = store.users.find((u) => u.id === userId);
+  if (!user) return null;
+
+  const hasPassword = Boolean(user.passwordHash);
+  const authProvider = hasPassword ? "credentials" : "oauth";
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role === "owner" ? "owner" : "developer",
+    avatarUrl: null,
+    createdAt: user.createdAt ?? null,
+    authProvider,
+    hasPassword,
+    hasSupabase: !hasPassword,
+  };
+}
+
+export async function updateUserProfileName(
+  userId: string,
+  name: string,
+): Promise<{ user: SessionUser; profile: AccountDetails } | { error: string }> {
+  const cleanName = sanitizePlainText(name);
+  if (cleanName.length < 2) {
+    return { error: "Display name must be at least 2 characters." };
+  }
+
+  return mutateStore((store) => {
+    const user = store.users.find((u) => u.id === userId);
+    if (!user) {
+      return { error: "Account record not found." };
+    }
+    user.name = cleanName;
+    const hasPassword = Boolean(user.passwordHash);
+    const role: "owner" | "developer" = user.role === "owner" ? "owner" : "developer";
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role,
+      },
+      profile: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role,
+        avatarUrl: null,
+        createdAt: user.createdAt ?? null,
+        authProvider: hasPassword ? "credentials" : "oauth",
+        hasPassword,
+        hasSupabase: !hasPassword,
+      },
     };
   });
 }
