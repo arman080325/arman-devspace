@@ -810,6 +810,92 @@ export async function getAllNotesForUser(userId: string) {
   }));
 }
 
+export async function getGlobalRoadmapData(userId: string): Promise<{
+  projects: Project[];
+  milestones: ProjectMilestone[];
+  tasks: ProjectTask[];
+  persistedRoadmaps: ProjectRoadmapItem[];
+}> {
+  const prisma = requirePrisma();
+  const [projects, rawMilestones, rawTasks, rawRoadmaps] = await Promise.all([
+    getAllProjects(userId),
+    prisma.projectMilestone.findMany({
+      where: { userId },
+      orderBy: [{ dueDate: "asc" }, { createdAt: "asc" }],
+    }),
+    prisma.projectTask.findMany({
+      where: { userId },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    }),
+    prisma.projectRoadmap.findMany({
+      where: { userId },
+      orderBy: [{ phase: "asc" }],
+    }),
+  ]);
+
+  return {
+    projects,
+    milestones: rawMilestones.map(mapPrismaMilestone),
+    tasks: rawTasks.map((t) => ({
+      id: t.id,
+      projectId: t.projectId,
+      userId: t.userId,
+      title: t.title,
+      completed: t.completed,
+      phase: t.phase,
+      order: t.order,
+      createdAt: toIsoString(t.createdAt),
+      completedAt: toIsoStringOrNull(t.completedAt),
+    })),
+    persistedRoadmaps: rawRoadmaps.map(mapPrismaRoadmap),
+  };
+}
+
+export async function getGlobalAnalyticsData(userId: string): Promise<{
+  projects: Project[];
+  stats: WorkspaceStats;
+  milestones: ProjectMilestone[];
+  tasks: ProjectTask[];
+  deployments: DeploymentRecord[];
+  activities: ProjectActivityItem[];
+}> {
+  const prisma = requirePrisma();
+  const [projects, stats, rawMilestones, rawTasks, rawDeployments, rawActivities] =
+    await Promise.all([
+      getAllProjects(userId),
+      getWorkspaceStats(userId),
+      prisma.projectMilestone.findMany({ where: { userId } }),
+      prisma.projectTask.findMany({ where: { userId } }),
+      prisma.deploymentRecord.findMany({
+        where: { userId },
+        orderBy: { deployedAt: "desc" },
+      }),
+      prisma.projectActivity.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
+  return {
+    projects,
+    stats,
+    milestones: rawMilestones.map(mapPrismaMilestone),
+    tasks: rawTasks.map((t) => ({
+      id: t.id,
+      projectId: t.projectId,
+      userId: t.userId,
+      title: t.title,
+      completed: t.completed,
+      phase: t.phase,
+      order: t.order,
+      createdAt: toIsoString(t.createdAt),
+      completedAt: toIsoStringOrNull(t.completedAt),
+    })),
+    deployments: rawDeployments.map(mapPrismaDeployment),
+    activities: rawActivities.map(mapPrismaActivity),
+  };
+}
+
 /* ============================================================================
    MUTATIONS (TRANSACTIONAL & USER-ISOLATED)
    ============================================================================ */

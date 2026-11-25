@@ -4,30 +4,35 @@ import * as React from "react";
 import Link from "next/link";
 import {
   Activity,
-  AlertCircle,
-  AlertOctagon,
-  AlertTriangle,
+  ArrowUpRight,
   Bell,
   Check,
   CheckCheck,
-  CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ExternalLink,
   GitBranch,
-  Info,
   RefreshCw,
   Rocket,
   Search,
   ShieldAlert,
   X,
 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import {
+  Button,
+  Empty,
+  ErrorBanner,
+  IconButton,
+  Kbds,
+  Segmented,
+  Sheet,
+  SkeletonRows,
+  Tabs,
+  Time,
+  cx,
+} from "@/components/redesign/ui";
+import { SeverityGlyph, SeverityTag } from "@/components/redesign/glyphs";
+import type { Severity } from "@/components/redesign/types";
 import type {
   ActivityCategory,
   ActivityEvent,
@@ -47,11 +52,41 @@ interface ActivityCenterClientProps {
   projects: ProjectOption[];
 }
 
+type TabFilter = "all" | "unread" | ActivityCategory;
+type DateRangeFilter = "any" | "today" | "7d" | "30d";
+
+const CATEGORY_LABEL: Record<ActivityCategory, string> = {
+  ci: "CI/CD",
+  deployment: "Deployment",
+  repository: "Repository",
+  workspace: "Workspace",
+};
+
+function toRedesignSeverity(sev: ActivitySeverity): Severity {
+  switch (sev) {
+    case "critical":
+      return "error";
+    case "warning":
+      return "warning";
+    case "success":
+      return "success";
+    case "info":
+    default:
+      return "info";
+  }
+}
+
+const SEVERITY_DOT_COLOR: Record<ActivitySeverity, string> = {
+  critical: "var(--ph-break)",
+  warning: "var(--warn)",
+  success: "var(--ph-ship)",
+  info: "var(--ph-explore)",
+};
+
 function formatRelativeTime(dateStr: string): string {
   try {
     const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const diffMs = Date.now() - date.getTime();
     if (diffMs < 0) return "just now";
     const diffSec = Math.floor(diffMs / 1000);
     if (diffSec < 60) return `${diffSec}s ago`;
@@ -70,52 +105,86 @@ function formatRelativeTime(dateStr: string): string {
   }
 }
 
-function getSeverityBadge(severity: ActivitySeverity) {
-  switch (severity) {
-    case "critical":
-      return (
-        <span className="inline-flex items-center gap-1 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-rose-400">
-          <AlertOctagon className="size-3" aria-hidden="true" />
-          Critical
-        </span>
-      );
-    case "warning":
-      return (
-        <span className="inline-flex items-center gap-1 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400">
-          <AlertTriangle className="size-3" aria-hidden="true" />
-          Warning
-        </span>
-      );
-    case "success":
-      return (
-        <span className="inline-flex items-center gap-1 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400">
-          <CheckCircle2 className="size-3" aria-hidden="true" />
-          Success
-        </span>
-      );
-    case "info":
-    default:
-      return (
-        <span className="inline-flex items-center gap-1 rounded border border-violet-500/30 bg-violet-500/10 px-1.5 py-0.5 text-[10px] font-medium text-violet-400">
-          <Info className="size-3" aria-hidden="true" />
-          Info
-        </span>
-      );
+function formatAbsoluteTime(dateStr: string): string {
+  try {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(dateStr));
+  } catch {
+    return dateStr;
+  }
+}
+
+function getDayGroupLabel(dateStr: string): string {
+  try {
+    const date = new Date(dateStr);
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const yest = new Date();
+    yest.setDate(yest.getDate() - 1);
+    const yesterdayKey = yest.toISOString().slice(0, 10);
+    const evKey = date.toISOString().slice(0, 10);
+    if (evKey === todayKey) return "Today";
+    if (evKey === yesterdayKey) return "Yesterday";
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  } catch {
+    return "Earlier";
   }
 }
 
 function getCategoryIcon(category: ActivityCategory) {
   switch (category) {
     case "ci":
-      return <GitBranch className="size-4 text-cyan-400" aria-hidden="true" />;
+      return (
+        <GitBranch size={14} strokeWidth={1.5} className="text-explore" aria-hidden />
+      );
     case "deployment":
-      return <Rocket className="size-4 text-violet-400" aria-hidden="true" />;
+      return <Rocket size={14} strokeWidth={1.5} className="text-ship" aria-hidden />;
     case "repository":
-      return <ShieldAlert className="size-4 text-amber-400" aria-hidden="true" />;
+      return (
+        <ShieldAlert size={14} strokeWidth={1.5} className="text-warn" aria-hidden />
+      );
     case "workspace":
     default:
-      return <Activity className="size-4 text-emerald-400" aria-hidden="true" />;
+      return (
+        <Activity size={14} strokeWidth={1.5} className="text-sodium-text" aria-hidden />
+      );
   }
+}
+
+function formatMetadataEntries(
+  metadata: Record<string, unknown> | null | undefined,
+): Array<[string, string]> {
+  if (!metadata) return [];
+  const entries: Array<[string, string]> = [];
+  for (const [k, v] of Object.entries(metadata)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+      entries.push([k, String(v)]);
+    } else if (Array.isArray(v)) {
+      entries.push([k, v.map(String).join(", ")]);
+    }
+  }
+  return entries;
+}
+
+function matchesDateRange(dateStr: string, range: DateRangeFilter): boolean {
+  if (range === "any") return true;
+  const ts = new Date(dateStr).getTime();
+  if (Number.isNaN(ts)) return true;
+  const ageHours = (Date.now() - ts) / 3_600_000;
+  if (range === "today") return ageHours <= 24;
+  if (range === "7d") return ageHours <= 24 * 7;
+  if (range === "30d") return ageHours <= 24 * 30;
+  return true;
 }
 
 export function ActivityCenterClient({
@@ -126,56 +195,75 @@ export function ActivityCenterClient({
   const [pagination, setPagination] = React.useState(initialFeed.pagination);
   const [unreadCount, setUnreadCount] = React.useState(initialFeed.unreadCount);
 
-  const [statusFilter, setStatusFilter] = React.useState<"all" | "unread" | "read">(
-    "all",
-  );
-  const [categoryFilter, setCategoryFilter] = React.useState<ActivityCategory | "all">(
-    "all",
-  );
+  const [tab, setTab] = React.useState<TabFilter>("all");
   const [severityFilter, setSeverityFilter] = React.useState<ActivitySeverity | "all">(
     "all",
   );
   const [projectFilter, setProjectFilter] = React.useState<string>("all");
   const [searchQuery, setSearchQuery] = React.useState<string>("");
+  const [dateRange, setDateRange] = React.useState<DateRangeFilter>("any");
+
+  const [selectedId, setSelectedId] = React.useState<string | null>(
+    initialFeed.events[0]?.id ?? null,
+  );
+  const [expandedId, setExpandedId] = React.useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
   const [isSyncing, setIsSyncing] = React.useState<boolean>(false);
+  const [isMarkingAll, setIsMarkingAll] = React.useState<boolean>(false);
   const [syncFeedback, setSyncFeedback] = React.useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
 
+  const listRef = React.useRef<HTMLDivElement>(null);
   const isInitialMount = React.useRef(true);
 
-  const goToPage = React.useCallback(
+  const buildQueryParams = React.useCallback(
+    (pageToLoad: number) => {
+      const params = new URLSearchParams();
+      params.set("page", String(pageToLoad));
+      params.set("limit", String(initialFeed.pagination.limit || 20));
+      if (tab === "unread") {
+        params.set("status", "unread");
+      } else if (tab !== "all") {
+        params.set("category", tab);
+      }
+      if (severityFilter !== "all") params.set("severity", severityFilter);
+      if (projectFilter !== "all") params.set("project", projectFilter);
+      if (searchQuery.trim()) params.set("search", searchQuery.trim());
+      return params;
+    },
+    [initialFeed.pagination.limit, tab, severityFilter, projectFilter, searchQuery],
+  );
+
+  const fetchFeedPage = React.useCallback(
     async (pageToLoad = 1) => {
       setIsLoading(true);
+      setLoadError(null);
       try {
-        const params = new URLSearchParams();
-        params.set("page", String(pageToLoad));
-        params.set("limit", "20");
-        if (statusFilter !== "all") params.set("status", statusFilter);
-        if (categoryFilter !== "all") params.set("category", categoryFilter);
-        if (severityFilter !== "all") params.set("severity", severityFilter);
-        if (projectFilter !== "all") params.set("project", projectFilter);
-        if (searchQuery.trim()) params.set("search", searchQuery.trim());
-
+        const params = buildQueryParams(pageToLoad);
         const res = await fetch(`/api/activity?${params.toString()}`, {
           cache: "no-store",
         });
-        if (res.ok) {
-          const data = (await res.json()) as ActivityFeedResult;
-          setEvents(data.events);
-          setPagination(data.pagination);
-          setUnreadCount(data.unreadCount);
+        if (!res.ok) {
+          throw new Error(`Activity request failed (${res.status}).`);
         }
-      } catch {
-        // network error fallback
+        const data = (await res.json()) as ActivityFeedResult;
+        setEvents(data.events);
+        setPagination(data.pagination);
+        setUnreadCount(data.unreadCount);
+      } catch (err) {
+        setLoadError(
+          err instanceof Error ? err.message : "Failed to load activity feed.",
+        );
       } finally {
         setIsLoading(false);
       }
     },
-    [statusFilter, categoryFilter, severityFilter, projectFilter, searchQuery],
+    [buildQueryParams],
   );
 
   React.useEffect(() => {
@@ -187,31 +275,32 @@ export function ActivityCenterClient({
     let active = true;
     const timer = setTimeout(() => {
       setIsLoading(true);
-      const params = new URLSearchParams();
-      params.set("page", "1");
-      params.set("limit", "20");
-      if (statusFilter !== "all") params.set("status", statusFilter);
-      if (categoryFilter !== "all") params.set("category", categoryFilter);
-      if (severityFilter !== "all") params.set("severity", severityFilter);
-      if (projectFilter !== "all") params.set("project", projectFilter);
-      if (searchQuery.trim()) params.set("search", searchQuery.trim());
+      setLoadError(null);
+      const params = buildQueryParams(1);
 
       fetch(`/api/activity?${params.toString()}`, { cache: "no-store" })
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data: ActivityFeedResult | null) => {
-          if (active && data) {
+        .then(async (res) => {
+          if (!res.ok) {
+            throw new Error(`Activity request failed (${res.status}).`);
+          }
+          return (await res.json()) as ActivityFeedResult;
+        })
+        .then((data) => {
+          if (active) {
             setEvents(data.events);
             setPagination(data.pagination);
             setUnreadCount(data.unreadCount);
           }
         })
-        .catch(() => {
-          // ignore
+        .catch((err: unknown) => {
+          if (active) {
+            setLoadError(
+              err instanceof Error ? err.message : "Failed to filter activity feed.",
+            );
+          }
         })
         .finally(() => {
-          if (active) {
-            setIsLoading(false);
-          }
+          if (active) setIsLoading(false);
         });
     }, 150);
 
@@ -219,7 +308,42 @@ export function ActivityCenterClient({
       active = false;
       clearTimeout(timer);
     };
-  }, [statusFilter, categoryFilter, severityFilter, projectFilter, searchQuery]);
+  }, [buildQueryParams]);
+
+  const visibleEvents = React.useMemo(
+    () => events.filter((e) => matchesDateRange(e.createdAt, dateRange)),
+    [events, dateRange],
+  );
+
+  const groupedEvents = React.useMemo(() => {
+    const groups: Array<{ day: string; items: ActivityEvent[] }> = [];
+    for (const ev of visibleEvents) {
+      const day = getDayGroupLabel(ev.createdAt);
+      const last = groups[groups.length - 1];
+      if (last && last.day === day) {
+        last.items.push(ev);
+      } else {
+        groups.push({ day, items: [ev] });
+      }
+    }
+    return groups;
+  }, [visibleEvents]);
+
+  const selectedEvent = React.useMemo(
+    () =>
+      visibleEvents.find((e) => e.id === selectedId) ??
+      events.find((e) => e.id === selectedId) ??
+      visibleEvents[0] ??
+      null,
+    [visibleEvents, events, selectedId],
+  );
+
+  const relatedEvents = React.useMemo(() => {
+    if (!selectedEvent) return [];
+    return events
+      .filter((e) => e.projectId === selectedEvent.projectId && e.id !== selectedEvent.id)
+      .slice(0, 5);
+  }, [events, selectedEvent]);
 
   const handleSync = async () => {
     setIsSyncing(true);
@@ -243,12 +367,12 @@ export function ActivityCenterClient({
           type: "success",
           message:
             json.newEventsCount > 0
-              ? `Sync complete: ${json.newEventsCount} new event${json.newEventsCount === 1 ? "" : "s"} detected.`
-              : "Sync complete: All repository and deployment telemetry is up to date.",
+              ? `On-demand sync complete: ${json.newEventsCount} new event${json.newEventsCount === 1 ? "" : "s"} recorded.`
+              : "On-demand sync complete: All indexed GitHub & deployment telemetry is up to date.",
         });
-        void goToPage(1);
+        void fetchFeedPage(1);
       } else {
-        const err = (await res.json()) as { error?: string };
+        const err = (await res.json().catch(() => ({}))) as { error?: string };
         setSyncFeedback({
           type: "error",
           message: err.error || "Intelligence sync failed.",
@@ -265,264 +389,297 @@ export function ActivityCenterClient({
   };
 
   const handleMarkAllRead = async () => {
+    if (unreadCount === 0 || isMarkingAll) return;
+    setIsMarkingAll(true);
     try {
       const res = await fetch("/api/activity/mark-all-read", {
         method: "POST",
       });
       if (res.ok) {
+        const now = new Date().toISOString();
         setEvents((prev) =>
           prev.map((e) => ({
             ...e,
             isRead: true,
-            readAt: new Date().toISOString(),
+            readAt: e.readAt ?? now,
           })),
         );
         setUnreadCount(0);
+        setSyncFeedback({
+          type: "success",
+          message: "All unread activity notifications marked as read.",
+        });
+      } else {
+        setSyncFeedback({
+          type: "error",
+          message: "Could not mark all events as read.",
+        });
       }
     } catch {
-      // ignore
+      setSyncFeedback({
+        type: "error",
+        message: "Network error while marking events as read.",
+      });
+    } finally {
+      setIsMarkingAll(false);
     }
   };
 
-  const handleToggleRead = async (event: ActivityEvent) => {
-    const nextRead = !event.isRead;
-    // Optimistic update
-    setEvents((prev) =>
-      prev.map((e) =>
-        e.id === event.id
-          ? {
-              ...e,
-              isRead: nextRead,
-              readAt: nextRead ? new Date().toISOString() : null,
-            }
-          : e,
-      ),
-    );
-    setUnreadCount((prev) => Math.max(0, nextRead ? prev - 1 : prev + 1));
+  const handleToggleRead = React.useCallback(
+    async (event: ActivityEvent, explicitNext?: boolean) => {
+      const nextRead = explicitNext !== undefined ? explicitNext : !event.isRead;
+      if (nextRead === event.isRead) return;
 
-    try {
-      const res = await fetch(`/api/activity/${event.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isRead: nextRead }),
-      });
-      if (!res.ok) {
-        // Rollback
+      // Optimistic update
+      setEvents((prev) =>
+        prev.map((e) =>
+          e.id === event.id
+            ? {
+                ...e,
+                isRead: nextRead,
+                readAt: nextRead ? new Date().toISOString() : null,
+              }
+            : e,
+        ),
+      );
+      setUnreadCount((prev) => Math.max(0, nextRead ? prev - 1 : prev + 1));
+
+      try {
+        const res = await fetch(`/api/activity/${event.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ isRead: nextRead }),
+        });
+        if (!res.ok) {
+          throw new Error("Failed to persist read status");
+        }
+      } catch {
+        // Rollback on failure
         setEvents((prev) => prev.map((e) => (e.id === event.id ? event : e)));
         setUnreadCount((prev) => Math.max(0, nextRead ? prev + 1 : prev - 1));
+        setSyncFeedback({
+          type: "error",
+          message: "Failed to update read status. Reverted local state.",
+        });
       }
-    } catch {
-      // Rollback
-      setEvents((prev) => prev.map((e) => (e.id === event.id ? event : e)));
-      setUnreadCount((prev) => Math.max(0, nextRead ? prev + 1 : prev - 1));
+    },
+    [],
+  );
+
+  const handleSelectEvent = (ev: ActivityEvent, openMobileSheet = false) => {
+    setSelectedId(ev.id);
+    if (!ev.isRead) {
+      void handleToggleRead(ev, true);
+    }
+    if (openMobileSheet) {
+      setDrawerOpen(true);
     }
   };
 
+  // Keyboard shortcuts: J/K move, E toggle read, O open action link
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (
+        !t ||
+        t.tagName === "INPUT" ||
+        t.tagName === "TEXTAREA" ||
+        t.tagName === "SELECT" ||
+        t.isContentEditable ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.altKey
+      ) {
+        return;
+      }
+      if (document.querySelector('[aria-modal="true"]')) return;
+
+      const idx = visibleEvents.findIndex((x) => x.id === selectedEvent?.id);
+      if (e.key === "j" || e.key === "k") {
+        if (visibleEvents.length === 0) return;
+        e.preventDefault();
+        const nextIdx = Math.max(
+          0,
+          Math.min(visibleEvents.length - 1, idx + (e.key === "j" ? 1 : -1)),
+        );
+        const ev = visibleEvents[nextIdx];
+        if (ev) {
+          setSelectedId(ev.id);
+          listRef.current
+            ?.querySelector(`[data-event="${ev.id}"]`)
+            ?.scrollIntoView({ block: "nearest" });
+        }
+      } else if (e.key === "e" && selectedEvent) {
+        e.preventDefault();
+        void handleToggleRead(selectedEvent);
+      } else if (e.key === "o" && selectedEvent?.actionUrl) {
+        e.preventDefault();
+        window.open(selectedEvent.actionUrl, "_blank", "noopener,noreferrer");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [visibleEvents, selectedEvent, handleToggleRead]);
+
   const hasActiveFilters =
-    statusFilter !== "all" ||
-    categoryFilter !== "all" ||
+    tab !== "all" ||
     severityFilter !== "all" ||
     projectFilter !== "all" ||
-    searchQuery.trim() !== "";
+    searchQuery.trim() !== "" ||
+    dateRange !== "any";
 
   const resetFilters = () => {
-    setStatusFilter("all");
-    setCategoryFilter("all");
+    setTab("all");
     setSeverityFilter("all");
     setProjectFilter("all");
     setSearchQuery("");
+    setDateRange("any");
   };
 
+  const pageLimit = pagination.limit || 20;
+  const startRow = pagination.total === 0 ? 0 : (pagination.page - 1) * pageLimit + 1;
+  const endRow = Math.min(pagination.total, pagination.page * pageLimit);
+
   return (
-    <div className="space-y-6">
-      {/* Top Header & Actions */}
-      <div className="flex flex-col justify-between gap-4 border-b border-border/70 pb-6 sm:flex-row sm:items-center">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-medium text-violet-400">
-            <Bell className="size-4" aria-hidden="true" />
-            <span>Event Intelligence & Notification Stream</span>
-          </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Activity Center
-          </h1>
-          <p className="mt-1 max-w-2xl text-xs text-muted-foreground sm:text-sm">
-            One central activity timeline across 100 independently managed repositories.
-            Telemetry from CI/CD, releases, deployments, and workspace actions.
+    <div className="mx-auto w-full max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+      {/* Workstation Header */}
+      <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-line pb-5">
+        <div className="min-w-0">
+          <h1 className="display text-2xl leading-tight text-fg sm:text-3xl">Activity</h1>
+          <p className="mt-1 text-xs text-fg2 sm:text-sm">
+            Central logbook across 100 independently managed repositories · On-demand sync
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <Button
-            variant="outline"
-            size="sm"
-            onClick={handleSync}
-            disabled={isSyncing}
-            className="gap-1.5 text-xs"
+            variant="secondary"
+            size="s"
+            icon={<CheckCheck size={14} strokeWidth={1.5} className="text-ship" />}
+            disabled={unreadCount === 0 || isMarkingAll}
+            loading={isMarkingAll}
+            onClick={() => void handleMarkAllRead()}
           >
-            <RefreshCw
-              className={cn("size-3.5", isSyncing && "animate-spin")}
-              aria-hidden="true"
-            />
-            <span>{isSyncing ? "Syncing..." : "Sync Intelligence"}</span>
+            Mark all as read
           </Button>
-
           <Button
-            variant="outline"
-            size="sm"
-            onClick={handleMarkAllRead}
-            disabled={unreadCount === 0}
-            className="gap-1.5 text-xs"
+            variant="primary"
+            size="s"
+            icon={
+              <RefreshCw
+                size={14}
+                strokeWidth={1.5}
+                className={isSyncing ? "anim-spin" : ""}
+              />
+            }
+            disabled={isSyncing}
+            aria-busy={isSyncing}
+            onClick={() => void handleSync()}
           >
-            <CheckCheck className="size-3.5 text-emerald-400" aria-hidden="true" />
-            <span>Mark all read</span>
+            {isSyncing ? "Syncing..." : "Sync Intelligence"}
           </Button>
         </div>
-      </div>
+      </header>
 
-      {/* Sync Feedback Toast / Banner */}
+      {/* Feedback & Error Banners */}
       {syncFeedback && (
-        <div
-          role="status"
-          className={cn(
-            "flex items-center justify-between rounded-lg border p-3 text-xs transition-colors",
-            syncFeedback.type === "success"
-              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
-              : "border-rose-500/30 bg-rose-500/10 text-rose-400",
+        <div className="mb-4">
+          {syncFeedback.type === "error" ? (
+            <ErrorBanner
+              action={
+                <IconButton
+                  label="Dismiss error"
+                  size="s"
+                  onClick={() => setSyncFeedback(null)}
+                >
+                  <X size={14} strokeWidth={1.5} />
+                </IconButton>
+              }
+            >
+              {syncFeedback.message}
+            </ErrorBanner>
+          ) : (
+            <div
+              role="status"
+              className="flex items-center justify-between gap-3 rounded-panel border border-ship/40 bg-ship/10 px-3 py-2 text-xs text-fg"
+            >
+              <span>{syncFeedback.message}</span>
+              <IconButton
+                label="Dismiss status"
+                size="s"
+                onClick={() => setSyncFeedback(null)}
+              >
+                <X size={14} strokeWidth={1.5} />
+              </IconButton>
+            </div>
           )}
-        >
-          <div className="flex items-center gap-2">
-            {syncFeedback.type === "success" ? (
-              <CheckCircle2 className="size-4" aria-hidden="true" />
-            ) : (
-              <AlertCircle className="size-4" aria-hidden="true" />
-            )}
-            <span>{syncFeedback.message}</span>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={() => setSyncFeedback(null)}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <X className="size-3.5" aria-hidden="true" />
-            <span className="sr-only">Dismiss</span>
-          </Button>
         </div>
       )}
 
-      {/* Filter Toolbar */}
-      <div className="space-y-3 rounded-xl border border-border/70 bg-card/60 p-3.5 backdrop-blur-sm sm:p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Status Tabs */}
-          <div className="flex items-center gap-1 rounded-lg border border-border/80 bg-background/50 p-1 text-xs">
-            <button
-              type="button"
-              onClick={() => setStatusFilter("all")}
-              className={cn(
-                "rounded-md px-2.5 py-1 font-medium transition-colors",
-                statusFilter === "all"
-                  ? "bg-violet-500/20 text-violet-300"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              All Events ({pagination.total})
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatusFilter("unread")}
-              className={cn(
-                "flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors",
-                statusFilter === "unread"
-                  ? "bg-violet-500/20 text-violet-300"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              <span>Unread</span>
-              {unreadCount > 0 && (
-                <span className="rounded-full bg-violet-400/20 px-1.5 py-0.2 text-[10px] font-semibold text-violet-300">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-          </div>
-
-          {/* Search Input */}
-          <div className="relative min-w-56 flex-1 sm:max-w-xs">
-            <Search
-              className="absolute left-2.5 top-2.5 size-3.5 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <Input
-              type="search"
-              placeholder="Filter activity titles or text..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-8 pl-8 text-xs"
-            />
-          </div>
+      {loadError && (
+        <div className="mb-4">
+          <ErrorBanner
+            action={
+              <Button size="s" onClick={() => void fetchFeedPage(pagination.page)}>
+                Retry
+              </Button>
+            }
+          >
+            {loadError}
+          </ErrorBanner>
         </div>
+      )}
 
-        {/* Secondary Category & Severity Filters */}
-        <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-          <span className="font-mono text-[11px] text-muted-foreground">Category:</span>
-          {(
-            [
-              { id: "all", label: "All" },
-              { id: "ci", label: "CI/CD" },
+      {/* Main Split-Pane Logbook + Detail Drawer */}
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <section
+          className="min-w-0 rounded-panel border border-line bg-surface"
+          aria-label="Activity events feed"
+        >
+          <Tabs
+            label="Event type filter"
+            scroll
+            className="px-2"
+            value={tab}
+            onChange={(nextTab) => setTab(nextTab)}
+            tabs={[
+              { id: "all", label: "All", count: pagination.total },
+              {
+                id: "unread",
+                label: "Unread",
+                count: unreadCount > 0 ? unreadCount : null,
+              },
               { id: "deployment", label: "Deployments" },
+              { id: "ci", label: "CI/CD" },
               { id: "repository", label: "Repository" },
               { id: "workspace", label: "Workspace" },
-            ] as const
-          ).map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => setCategoryFilter(c.id)}
-              className={cn(
-                "rounded-md border px-2 py-0.5 text-[11px] transition-colors",
-                categoryFilter === c.id
-                  ? "border-violet-500/50 bg-violet-500/15 text-violet-300"
-                  : "border-border/70 bg-background/50 text-muted-foreground hover:border-border hover:text-foreground",
-              )}
-            >
-              {c.label}
-            </button>
-          ))}
+            ]}
+          />
 
-          <span className="ml-2 font-mono text-[11px] text-muted-foreground">
-            Severity:
-          </span>
-          {(
-            [
-              { id: "all", label: "All" },
-              { id: "critical", label: "Critical" },
-              { id: "warning", label: "Warning" },
-              { id: "success", label: "Success" },
-              { id: "info", label: "Info" },
-            ] as const
-          ).map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => setSeverityFilter(s.id)}
-              className={cn(
-                "rounded-md border px-2 py-0.5 text-[11px] transition-colors",
-                severityFilter === s.id
-                  ? "border-violet-500/50 bg-violet-500/15 text-violet-300"
-                  : "border-border/70 bg-background/50 text-muted-foreground hover:border-border hover:text-foreground",
-              )}
-            >
-              {s.label}
-            </button>
-          ))}
+          {/* Filter & Search Toolbar */}
+          <div className="flex flex-wrap items-center gap-2 border-b border-line px-3 py-2.5">
+            <div className="relative min-w-[180px] flex-1 md:max-w-[280px]">
+              <Search
+                size={14}
+                strokeWidth={1.5}
+                className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-fg3"
+                aria-hidden
+              />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search events or projects..."
+                aria-label="Search activity events"
+                className="h-9 w-full rounded-ctl border border-edge bg-inset pl-8 pr-2 text-xs text-fg placeholder:text-fg3 focus-visible:border-sodium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sodium/40 md:h-8"
+              />
+            </div>
 
-          {/* Project Dropdown Selector */}
-          <div className="ml-auto flex items-center gap-1.5">
-            <span className="font-mono text-[11px] text-muted-foreground">Project:</span>
             <select
+              aria-label="Filter by project"
               value={projectFilter}
               onChange={(e) => setProjectFilter(e.target.value)}
-              className="h-7 max-w-48 truncate rounded-md border border-border/80 bg-background px-2 text-[11px] text-foreground focus:outline-none focus:ring-1 focus:ring-violet-400"
+              className="h-9 max-w-[190px] truncate rounded-ctl border border-edge bg-inset px-2 text-xs text-fg focus-visible:border-sodium focus-visible:outline-none md:h-8"
             >
               <option value="all">All Projects (100)</option>
               {projects.map((p) => (
@@ -532,228 +689,462 @@ export function ActivityCenterClient({
               ))}
             </select>
 
+            <select
+              aria-label="Filter by severity"
+              value={severityFilter}
+              onChange={(e) =>
+                setSeverityFilter(e.target.value as ActivitySeverity | "all")
+              }
+              className="h-9 rounded-ctl border border-edge bg-inset px-2 text-xs text-fg focus-visible:border-sodium focus-visible:outline-none md:h-8"
+            >
+              <option value="all">All severities</option>
+              <option value="critical">Critical</option>
+              <option value="warning">Warning</option>
+              <option value="success">Success</option>
+              <option value="info">Info</option>
+            </select>
+
+            <div className="hidden sm:block">
+              <Segmented
+                label="Date range"
+                size="s"
+                value={dateRange}
+                onChange={setDateRange}
+                options={[
+                  { id: "any", label: "Any time" },
+                  { id: "today", label: "Today" },
+                  { id: "7d", label: "7d" },
+                  { id: "30d", label: "30d" },
+                ]}
+              />
+            </div>
+
             {hasActiveFilters && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={resetFilters}
-                className="h-7 gap-1 px-2 text-[11px] text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" aria-hidden="true" />
-                <span>Reset</span>
+              <Button size="s" variant="ghost" onClick={resetFilters}>
+                Reset
               </Button>
             )}
+
+            <span className="ml-auto hidden items-center gap-1.5 text-2xs text-fg3 lg:flex">
+              <Kbds keys={["J"]} />
+              <Kbds keys={["K"]} />
+              <span>move</span>
+              <Kbds keys={["E"]} />
+              <span>read</span>
+              <Kbds keys={["O"]} />
+              <span>open</span>
+            </span>
           </div>
-        </div>
+
+          {/* Feed Rows */}
+          <div ref={listRef}>
+            {isLoading ? (
+              <SkeletonRows rows={7} />
+            ) : visibleEvents.length === 0 ? (
+              <Empty
+                title={
+                  hasActiveFilters
+                    ? "No events match the active filters."
+                    : "No activity events recorded yet."
+                }
+                action={
+                  hasActiveFilters ? (
+                    <Button size="s" variant="secondary" onClick={resetFilters}>
+                      Clear filters
+                    </Button>
+                  ) : (
+                    <Button
+                      size="s"
+                      variant="primary"
+                      loading={isSyncing}
+                      onClick={() => void handleSync()}
+                    >
+                      Sync Intelligence
+                    </Button>
+                  )
+                }
+              >
+                {hasActiveFilters
+                  ? "Adjust your category, project, severity, or search terms to inspect persisted events."
+                  : "Run on-demand intelligence sync to ingest GitHub Actions workflows, releases, and Vercel deployments."}
+              </Empty>
+            ) : (
+              groupedEvents.map((group) => (
+                <div key={group.day}>
+                  <h2 className="sticky top-12 z-10 border-b border-line bg-surface/95 px-4 py-1.5 text-2xs font-semibold uppercase tracking-wider text-fg3 backdrop-blur-sm">
+                    {group.day}
+                  </h2>
+                  <div className="py-0.5">
+                    {group.items.map((ev, idx) => {
+                      const isUnread = !ev.isRead;
+                      const isSelected = selectedEvent?.id === ev.id;
+                      const isExpanded = expandedId === ev.id;
+                      const isLast = idx === group.items.length - 1;
+                      const dotColor = SEVERITY_DOT_COLOR[ev.severity];
+                      const metaEntries = formatMetadataEntries(ev.metadata);
+
+                      return (
+                        <div
+                          key={ev.id}
+                          data-event={ev.id}
+                          className={cx(
+                            "group relative grid grid-cols-[24px_1fr] gap-x-2 pr-3 transition-colors duration-[120ms]",
+                            isSelected
+                              ? "bg-elevated"
+                              : "hover:bg-[color-mix(in_srgb,var(--bg-elevated)_50%,transparent)]",
+                          )}
+                        >
+                          {isSelected && (
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-0 left-0 w-0.5 bg-sodium"
+                            />
+                          )}
+
+                          {/* Vertical Severity Rail */}
+                          <div className="relative flex justify-center" aria-hidden>
+                            <span
+                              className={cx(
+                                "absolute top-0 w-px bg-edge",
+                                isLast ? "h-5" : "bottom-0",
+                              )}
+                            />
+                            <span
+                              className="relative mt-[15px] h-2.5 w-2.5 rounded-[1px]"
+                              style={
+                                isUnread
+                                  ? { background: dotColor }
+                                  : {
+                                      background: "var(--bg-surface)",
+                                      boxShadow: `inset 0 0 0 1.5px ${dotColor}`,
+                                    }
+                              }
+                            />
+                          </div>
+
+                          {/* Event Row Body */}
+                          <div className="min-w-0 py-2.5">
+                            <div className="flex items-start gap-2">
+                              <span className="mt-[3px] shrink-0">
+                                {getCategoryIcon(ev.category)}
+                              </span>
+
+                              <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleSelectEvent(ev, true)}
+                                    className={cx(
+                                      "text-left text-sm outline-none hover:text-sodium-text focus-visible:underline",
+                                      isUnread
+                                        ? "font-semibold text-fg"
+                                        : "font-medium text-fg2",
+                                    )}
+                                  >
+                                    {ev.title}
+                                    {isUnread && (
+                                      <span className="sr-only"> (unread)</span>
+                                    )}
+                                  </button>
+
+                                  <Link
+                                    href={`/projects/${ev.projectSlug}`}
+                                    className="truncate text-xs text-fg2 hover:text-fg hover:underline"
+                                  >
+                                    <span className="tnum font-mono font-semibold text-fg">
+                                      #{String(ev.projectNumber).padStart(3, "0")}
+                                    </span>{" "}
+                                    {ev.projectTitle}
+                                  </Link>
+                                </div>
+
+                                {ev.description && (
+                                  <p className="mt-0.5 truncate text-xs text-fg2">
+                                    {ev.description}
+                                  </p>
+                                )}
+
+                                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                                  <SeverityTag s={toRedesignSeverity(ev.severity)} />
+                                  <Time
+                                    rel={formatRelativeTime(ev.createdAt)}
+                                    abs={formatAbsoluteTime(ev.createdAt)}
+                                  />
+                                  <span className="font-mono text-2xs uppercase text-fg3">
+                                    {ev.sourceProvider}
+                                  </span>
+                                  {isUnread && (
+                                    <span className="rounded-cell bg-sodium/15 px-1.5 py-px font-mono text-[10px] font-semibold text-sodium-text">
+                                      UNREAD
+                                    </span>
+                                  )}
+                                </div>
+
+                                {isExpanded && metaEntries.length > 0 && (
+                                  <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 rounded-ctl border border-line bg-inset p-2.5 text-xs">
+                                    {metaEntries.map(([k, v]) => (
+                                      <React.Fragment key={k}>
+                                        <dt className="font-mono text-fg3">{k}</dt>
+                                        <dd className="truncate font-mono text-fg">
+                                          {v}
+                                        </dd>
+                                      </React.Fragment>
+                                    ))}
+                                  </dl>
+                                )}
+                              </div>
+
+                              {/* Row Controls */}
+                              <div className="flex shrink-0 items-center gap-0.5">
+                                {metaEntries.length > 0 && (
+                                  <IconButton
+                                    label={
+                                      isExpanded ? "Collapse metadata" : "Expand metadata"
+                                    }
+                                    size="s"
+                                    aria-expanded={isExpanded}
+                                    onClick={() =>
+                                      setExpandedId(isExpanded ? null : ev.id)
+                                    }
+                                  >
+                                    {isExpanded ? (
+                                      <ChevronDown size={14} strokeWidth={1.5} />
+                                    ) : (
+                                      <ChevronRight size={14} strokeWidth={1.5} />
+                                    )}
+                                  </IconButton>
+                                )}
+
+                                <IconButton
+                                  label={isUnread ? "Mark as read" : "Mark as unread"}
+                                  size="s"
+                                  onClick={() => void handleToggleRead(ev)}
+                                >
+                                  {isUnread ? (
+                                    <Check
+                                      size={14}
+                                      strokeWidth={1.5}
+                                      className="text-sodium-text"
+                                    />
+                                  ) : (
+                                    <Bell size={14} strokeWidth={1.5} />
+                                  )}
+                                </IconButton>
+
+                                {ev.actionUrl && (
+                                  <a
+                                    href={ev.actionUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={`Open external link for ${ev.title}`}
+                                    className="inline-flex h-7 w-7 items-center justify-center rounded-ctl text-fg3 transition-colors hover:bg-elevated hover:text-fg"
+                                  >
+                                    <ArrowUpRight size={14} strokeWidth={1.5} />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Pagination Footer */}
+          {!isLoading && pagination.total > 0 && (
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-2.5 text-xs text-fg2">
+              <span className="tnum font-mono text-2xs">
+                Showing {startRow}–{endRow} of {pagination.total} events
+              </span>
+              <div className="flex items-center gap-1">
+                <Button
+                  size="s"
+                  variant="ghost"
+                  disabled={pagination.page <= 1 || isLoading}
+                  icon={<ChevronLeft size={14} strokeWidth={1.5} />}
+                  onClick={() => void fetchFeedPage(pagination.page - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="tnum px-1.5 font-mono text-2xs text-fg3">
+                  {pagination.page} / {pagination.totalPages}
+                </span>
+                <Button
+                  size="s"
+                  variant="ghost"
+                  disabled={pagination.page >= pagination.totalPages || isLoading}
+                  onClick={() => void fetchFeedPage(pagination.page + 1)}
+                >
+                  <span>Next</span>
+                  <ChevronRight size={14} strokeWidth={1.5} />
+                </Button>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Desktop Sticky Event Inspector */}
+        <aside
+          className="hidden h-fit max-h-[calc(100dvh-80px)] overflow-y-auto rounded-panel border border-line bg-surface xl:sticky xl:top-16 xl:block"
+          aria-label="Event detail"
+        >
+          {selectedEvent ? (
+            <EventDetailInspector
+              event={selectedEvent}
+              related={relatedEvents}
+              onToggleRead={(ev) => void handleToggleRead(ev)}
+              onSelectRelated={(ev) => handleSelectEvent(ev, false)}
+            />
+          ) : (
+            <Empty title="Select an event to inspect details.">
+              Use J and K keys or click any logbook entry to inspect metadata and
+              workspace context.
+            </Empty>
+          )}
+        </aside>
       </div>
 
-      {/* Main Activity Timeline */}
-      {isLoading ? (
-        <div className="space-y-3">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-border/70 bg-card p-4 space-y-2.5"
-            >
-              <div className="flex items-center justify-between">
-                <Skeleton className="h-4 w-40" />
-                <Skeleton className="h-4 w-16" />
-              </div>
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-3 w-1/2" />
-            </div>
-          ))}
-        </div>
-      ) : events.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border/80 bg-card/40 p-10 text-center">
-          <Activity className="mx-auto size-8 text-muted-foreground" aria-hidden="true" />
-          <h3 className="mt-3 text-sm font-semibold text-foreground">
-            No activity events found
-          </h3>
-          <p className="mx-auto mt-1 max-w-md text-xs text-muted-foreground">
-            {hasActiveFilters
-              ? "No events match the selected status, category, or project filter."
-              : "No activity recorded yet. Click 'Sync Intelligence' to discover live CI/CD and release events from GitHub."}
-          </p>
-          <div className="mt-4 flex justify-center gap-2">
-            {hasActiveFilters ? (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={resetFilters}
-                className="text-xs"
-              >
-                Clear all filters
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSync}
-                disabled={isSyncing}
-                className="gap-1.5 text-xs"
-              >
-                <RefreshCw
-                  className={cn("size-3.5", isSyncing && "animate-spin")}
-                  aria-hidden="true"
-                />
-                <span>Sync Intelligence</span>
-              </Button>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {events.map((event) => {
-            const isUnread = !event.isRead;
-            return (
-              <Card
-                key={event.id}
-                className={cn(
-                  "relative border transition-all duration-150 hover:border-border",
-                  isUnread
-                    ? "border-violet-500/40 bg-card shadow-sm"
-                    : "border-border/60 bg-card/60 opacity-90",
-                  event.severity === "critical" && "border-l-4 border-l-rose-500",
-                  event.severity === "warning" && "border-l-4 border-l-amber-500",
-                  event.severity === "success" && "border-l-4 border-l-emerald-500",
-                  event.severity === "info" && "border-l-4 border-l-violet-500",
-                )}
-              >
-                <CardContent className="p-3.5 sm:p-4">
-                  <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap items-center gap-2 text-xs">
-                        {isUnread && (
-                          <span
-                            className="inline-block size-2 rounded-full bg-violet-400 ring-2 ring-violet-400/20"
-                            title="Unread notification"
-                            aria-label="Unread notification"
-                          />
-                        )}
+      {/* Tablet / Mobile Detail Drawer */}
+      <Sheet
+        open={drawerOpen && Boolean(selectedEvent)}
+        onClose={() => setDrawerOpen(false)}
+        side="right"
+        title={selectedEvent?.title ?? "Event detail"}
+      >
+        {selectedEvent && (
+          <EventDetailInspector
+            event={selectedEvent}
+            related={relatedEvents}
+            onToggleRead={(ev) => void handleToggleRead(ev)}
+            onSelectRelated={(ev) => handleSelectEvent(ev, false)}
+          />
+        )}
+      </Sheet>
+    </div>
+  );
+}
 
-                        <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground">
-                          {getCategoryIcon(event.category)}
-                          <span className="capitalize">{event.category}</span>
-                        </span>
+function EventDetailInspector({
+  event,
+  related,
+  onToggleRead,
+  onSelectRelated,
+}: {
+  event: ActivityEvent;
+  related: ActivityEvent[];
+  onToggleRead: (ev: ActivityEvent) => void;
+  onSelectRelated: (ev: ActivityEvent) => void;
+}) {
+  const metaEntries = formatMetadataEntries(event.metadata);
+  const isUnread = !event.isRead;
 
-                        <span className="text-muted-foreground/40">·</span>
+  return (
+    <div className="p-4 sm:p-5">
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <SeverityTag s={toRedesignSeverity(event.severity)} />
+        <span className="text-2xs text-fg3">{CATEGORY_LABEL[event.category]}</span>
+        {isUnread && (
+          <span className="rounded-cell bg-sodium/15 px-1.5 py-px font-mono text-[10px] font-semibold text-sodium-text">
+            Unread
+          </span>
+        )}
+      </div>
 
-                        <Link
-                          href={`/projects/${event.projectSlug}`}
-                          className="font-mono text-[11px] font-medium text-violet-400 hover:underline"
-                        >
-                          #{String(event.projectNumber).padStart(3, "0")}{" "}
-                          {event.projectTitle}
-                        </Link>
+      <h2 className="text-base font-semibold text-fg leading-snug">{event.title}</h2>
 
-                        <span className="text-muted-foreground/40">·</span>
+      <Link
+        href={`/projects/${event.projectSlug}`}
+        className="mt-2 inline-flex items-center gap-2 rounded-ctl border border-line bg-inset px-2.5 py-1.5 text-xs text-fg2 hover:border-edge hover:text-fg"
+      >
+        <span className="font-mono font-semibold text-fg">
+          #{String(event.projectNumber).padStart(3, "0")}
+        </span>
+        <span className="truncate">{event.projectTitle}</span>
+        <ArrowUpRight size={12} strokeWidth={1.5} className="text-fg3" />
+      </Link>
 
-                        {getSeverityBadge(event.severity)}
-                      </div>
-
-                      <h4
-                        className={cn(
-                          "text-sm tracking-tight",
-                          isUnread
-                            ? "font-semibold text-foreground"
-                            : "font-medium text-foreground/90",
-                        )}
-                      >
-                        {event.title}
-                      </h4>
-
-                      {event.description && (
-                        <p className="text-xs text-muted-foreground">
-                          {event.description}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-2 self-start sm:flex-col sm:items-end sm:gap-1.5">
-                      <span className="font-mono text-[11px] text-muted-foreground">
-                        {formatRelativeTime(event.createdAt)}
-                      </span>
-
-                      <div className="flex items-center gap-1.5">
-                        {event.actionUrl && (
-                          <Button
-                            variant="ghost"
-                            size="icon-xs"
-                            render={
-                              <a
-                                href={event.actionUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              />
-                            }
-                            className="text-muted-foreground hover:text-foreground"
-                            title="Open external resource"
-                          >
-                            <ExternalLink className="size-3.5" aria-hidden="true" />
-                            <span className="sr-only">Open external link</span>
-                          </Button>
-                        )}
-
-                        <Button
-                          variant="ghost"
-                          size="icon-xs"
-                          onClick={() => handleToggleRead(event)}
-                          className={cn(
-                            "text-muted-foreground hover:text-foreground",
-                            isUnread && "text-violet-400",
-                          )}
-                          title={isUnread ? "Mark as read" : "Mark as unread"}
-                        >
-                          {isUnread ? (
-                            <Check className="size-3.5" aria-hidden="true" />
-                          ) : (
-                            <Bell className="size-3.5" aria-hidden="true" />
-                          )}
-                          <span className="sr-only">
-                            {isUnread ? "Mark as read" : "Mark as unread"}
-                          </span>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+      {event.description && (
+        <p className="mt-3 text-sm leading-relaxed text-fg2">{event.description}</p>
       )}
 
-      {/* Pagination Controls */}
-      {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-border/70 pt-4 text-xs">
-          <p className="text-muted-foreground font-mono text-[11px]">
-            Page {pagination.page} of {pagination.totalPages} ({pagination.total} events)
-          </p>
+      <dl className="mt-4 grid grid-cols-[96px_1fr] gap-y-1.5 rounded-ctl border border-line bg-inset p-3 text-xs">
+        <dt className="text-fg3">Recorded</dt>
+        <dd className="text-fg">
+          {formatRelativeTime(event.createdAt)}{" "}
+          <span className="text-fg3">· {formatAbsoluteTime(event.createdAt)}</span>
+        </dd>
+        <dt className="text-fg3">Provider</dt>
+        <dd className="font-mono uppercase text-fg">{event.sourceProvider}</dd>
+        <dt className="text-fg3">Event type</dt>
+        <dd className="truncate font-mono text-fg">{event.type}</dd>
+        {metaEntries.map(([k, v]) => (
+          <React.Fragment key={k}>
+            <dt className="truncate text-fg3">{k}</dt>
+            <dd className="truncate font-mono text-fg">{v}</dd>
+          </React.Fragment>
+        ))}
+      </dl>
 
-          <div className="flex items-center gap-1.5">
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Link href={`/projects/${event.projectSlug}`}>
+          <Button size="s" variant="secondary">
+            Open workspace
+          </Button>
+        </Link>
+
+        {event.actionUrl && (
+          <a
+            href={event.actionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex"
+          >
             <Button
-              variant="outline"
-              size="sm"
-              onClick={() => void goToPage(pagination.page - 1)}
-              disabled={pagination.page <= 1 || isLoading}
-              className="gap-1 text-xs"
+              size="s"
+              variant="primary"
+              icon={<ArrowUpRight size={14} strokeWidth={1.5} />}
             >
-              <ChevronLeft className="size-3.5" aria-hidden="true" />
-              <span>Previous</span>
+              Open in {event.sourceProvider}
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => void goToPage(pagination.page + 1)}
-              disabled={pagination.page >= pagination.totalPages || isLoading}
-              className="gap-1 text-xs"
-            >
-              <span>Next</span>
-              <ChevronRight className="size-3.5" aria-hidden="true" />
-            </Button>
-          </div>
-        </div>
+          </a>
+        )}
+
+        <Button size="s" variant="ghost" onClick={() => onToggleRead(event)}>
+          {isUnread ? "Mark as read" : "Mark as unread"}
+        </Button>
+      </div>
+
+      <h3 className="mb-2 mt-6 text-xs font-semibold uppercase tracking-wider text-fg3">
+        Related events for #{String(event.projectNumber).padStart(3, "0")}
+      </h3>
+      {related.length > 0 ? (
+        <ul className="divide-y divide-line">
+          {related.map((relEv) => (
+            <li key={relEv.id}>
+              <button
+                type="button"
+                onClick={() => onSelectRelated(relEv)}
+                className="flex min-h-10 w-full items-center gap-2 py-2 text-left text-xs text-fg2 hover:text-fg"
+              >
+                <SeverityGlyph s={toRedesignSeverity(relEv.severity)} size={13} />
+                <span className="min-w-0 flex-1 truncate font-medium text-fg">
+                  {relEv.title}
+                </span>
+                <span className="shrink-0 font-mono text-2xs text-fg3">
+                  {formatRelativeTime(relEv.createdAt)}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-xs text-fg3">
+          No other events loaded for this project in the current page.
+        </p>
       )}
     </div>
   );

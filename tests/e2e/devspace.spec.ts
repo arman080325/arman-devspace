@@ -74,13 +74,15 @@ test.describe("Arman's Devspace end-to-end workflows", () => {
       }),
     ).toBeVisible();
 
-    // Visit Kanban board & Engineering Journal
+    // Visit Roadmaps & Analytics
     await page.goto("/kanban");
-    await expect(page.getByRole("heading", { name: "Development Kanban" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /(Development Kanban|Roadmaps)/i }),
+    ).toBeVisible();
 
     await page.goto("/analytics");
     await expect(
-      page.getByRole("heading", { name: "Development Analytics" }),
+      page.getByRole("heading", { name: /(Development Analytics|Analytics)/i }),
     ).toBeVisible();
 
     // Open Project #001 workspace and persist task + status + note

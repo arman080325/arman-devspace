@@ -726,6 +726,72 @@ export async function getAllNotesForUser(userId: string) {
     });
 }
 
+export async function getGlobalRoadmapData(userId: string): Promise<{
+  projects: Project[];
+  milestones: ProjectMilestone[];
+  tasks: ProjectTask[];
+  persistedRoadmaps: ProjectRoadmapItem[];
+}> {
+  const [store, projects] = await Promise.all([readStore(), getAllProjects(userId)]);
+
+  const milestones = store.milestones.filter((m) => {
+    const owner = (m as ProjectMilestone & { userId?: string }).userId;
+    return !owner || owner === userId;
+  });
+  const tasks = store.tasks
+    .filter((t) => t.userId === userId)
+    .sort((a, b) => a.order - b.order);
+
+  const persistedRoadmaps: ProjectRoadmapItem[] = [];
+  for (const [key, items] of Object.entries(store.roadmaps)) {
+    if (key.startsWith(`${userId}:`)) {
+      persistedRoadmaps.push(...items);
+    }
+  }
+
+  return {
+    projects,
+    milestones,
+    tasks,
+    persistedRoadmaps,
+  };
+}
+
+export async function getGlobalAnalyticsData(userId: string): Promise<{
+  projects: Project[];
+  stats: WorkspaceStats;
+  milestones: ProjectMilestone[];
+  tasks: ProjectTask[];
+  deployments: DeploymentRecord[];
+  activities: ProjectActivityItem[];
+}> {
+  const [store, projects, stats] = await Promise.all([
+    readStore(),
+    getAllProjects(userId),
+    getWorkspaceStats(userId),
+  ]);
+
+  const milestones = store.milestones.filter((m) => {
+    const owner = (m as ProjectMilestone & { userId?: string }).userId;
+    return !owner || owner === userId;
+  });
+  const tasks = store.tasks.filter((t) => t.userId === userId);
+  const deployments = store.deployments.filter((d) => {
+    const owner = (d as DeploymentRecord & { userId?: string }).userId;
+    return !owner || owner === userId;
+  });
+  const activities = store.activities.filter((a) => a.userId === userId);
+
+  return {
+    projects,
+    stats,
+    milestones,
+    tasks,
+    deployments,
+    activities,
+  };
+}
+
 /* ======================== MUTATIONS (PERSISTED) ======================== */
 
 export async function updateProjectProgress(
@@ -1021,9 +1087,10 @@ export async function createProjectMilestone(
   input: { title: string; dueDate: string | null },
 ): Promise<ProjectMilestone> {
   return mutateStore((store) => {
-    const milestone: ProjectMilestone = {
+    const milestone: ProjectMilestone & { userId?: string } = {
       id: randomUUID(),
       projectId,
+      userId,
       title: input.title,
       dueDate: input.dueDate,
       completed: false,
@@ -1049,9 +1116,12 @@ export async function toggleProjectMilestone(
   completed: boolean,
 ): Promise<ProjectMilestone | null> {
   return mutateStore((store) => {
-    const found = store.milestones.find(
-      (m) => m.id === milestoneId && m.projectId === projectId,
-    );
+    const found = store.milestones.find((m) => {
+      const owner = (m as ProjectMilestone & { userId?: string }).userId;
+      return (
+        m.id === milestoneId && m.projectId === projectId && (!owner || owner === userId)
+      );
+    });
     if (!found) return null;
     const now = new Date().toISOString();
     found.completed = completed;
@@ -1075,9 +1145,10 @@ export async function addDeploymentRecord(
 ): Promise<DeploymentRecord> {
   return mutateStore((store) => {
     const now = new Date().toISOString();
-    const record: DeploymentRecord = {
+    const record: DeploymentRecord & { userId?: string } = {
       id: randomUUID(),
       projectId,
+      userId,
       ...input,
       deployedAt: now,
     };

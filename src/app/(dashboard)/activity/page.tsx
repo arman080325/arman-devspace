@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { ActivityCenterClient } from "@/components/activity/activity-center";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getSessionUser } from "@/lib/auth";
 import { getActivityFeed } from "@/services/activity";
 import { getAllProjects } from "@/services/devspace-store";
@@ -15,6 +14,18 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+function ActivitySkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8 space-y-5">
+      <div className="h-14 w-64 rounded-panel bg-elevated/50 animate-pulse" />
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="h-[520px] rounded-panel border border-line bg-surface animate-pulse" />
+        <div className="hidden h-[360px] rounded-panel border border-line bg-surface animate-pulse xl:block" />
+      </div>
+    </div>
+  );
+}
+
 async function ActivityCenterContent() {
   const user = await getSessionUser();
   if (!user) {
@@ -22,7 +33,7 @@ async function ActivityCenterContent() {
   }
 
   const [feed, projects] = await Promise.all([
-    getActivityFeed(user.id, { page: 1, limit: 20 }),
+    getActivityFeed(user.id, { page: 1, limit: 50 }),
     getAllProjects(user.id),
   ]);
 
@@ -41,22 +52,7 @@ async function ActivityCenterContent() {
 
 export default function ActivityPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="space-y-6">
-          <div className="space-y-2 border-b border-border/60 pb-6">
-            <Skeleton className="h-5 w-48" />
-            <Skeleton className="h-8 w-64" />
-            <Skeleton className="h-4 max-w-lg" />
-          </div>
-          <div className="space-y-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-24 w-full rounded-xl" />
-            ))}
-          </div>
-        </div>
-      }
-    >
+    <Suspense fallback={<ActivitySkeleton />}>
       <ActivityCenterContent />
     </Suspense>
   );

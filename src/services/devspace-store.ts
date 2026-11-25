@@ -111,6 +111,20 @@ export async function getAllNotesForUser(userId: string) {
   return jsonStore.getAllNotesForUser(userId);
 }
 
+export async function getGlobalRoadmapData(userId: string) {
+  if (isDatabaseConfigured()) {
+    return prismaStore.getGlobalRoadmapData(userId);
+  }
+  return jsonStore.getGlobalRoadmapData(userId);
+}
+
+export async function getGlobalAnalyticsData(userId: string) {
+  if (isDatabaseConfigured()) {
+    return prismaStore.getGlobalAnalyticsData(userId);
+  }
+  return jsonStore.getGlobalAnalyticsData(userId);
+}
+
 /* ============================================================================
    MUTATIONS (PERSISTED)
    ============================================================================ */

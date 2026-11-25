@@ -1,51 +1,49 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Kanban } from "lucide-react";
 
-import { KanbanBoard } from "@/components/dashboard/kanban-board";
-import { Skeleton } from "@/components/ui/skeleton";
+import { GlobalRoadmapsClient } from "@/components/roadmaps";
 import { getSessionUser } from "@/lib/auth";
-import { getAllProjects } from "@/services/devspace-store";
+import { getGlobalRoadmapData } from "@/services/devspace-store";
 
 export const metadata: Metadata = {
-  title: "Kanban Board",
+  title: "Roadmaps | Arman's Devspace",
   description:
-    "Manage modernization stages across Backlog, Cloned, Analyzing, Planning, In Development, Testing, and Completed.",
+    "Cross-project milestone timeline, overdue due-date tracking, and 7-stage engineering pipeline across 100 repositories.",
   robots: { index: false, follow: false },
 };
 
-async function KanbanContent() {
+function RoadmapsSkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-[1440px] px-3 py-4 sm:px-6 sm:py-6 lg:px-8 space-y-5">
+      <div className="h-14 w-64 rounded-panel bg-elevated/50 animate-pulse" />
+      <div className="h-[460px] rounded-panel border border-line bg-surface animate-pulse" />
+    </div>
+  );
+}
+
+async function RoadmapsContent() {
   const user = await getSessionUser();
   if (!user) {
     redirect("/login?redirect=/kanban");
   }
 
-  const projects = await getAllProjects(user.id);
-  return <KanbanBoard initialProjects={projects} />;
+  const data = await getGlobalRoadmapData(user.id);
+
+  return (
+    <GlobalRoadmapsClient
+      initialProjects={data.projects}
+      initialMilestones={data.milestones}
+      initialTasks={data.tasks}
+      initialPersistedRoadmaps={data.persistedRoadmaps}
+    />
+  );
 }
 
 export default function KanbanPage() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-1.5 border-b border-border/60 pb-6">
-        <div className="inline-flex items-center gap-2 text-xs font-medium text-violet-400">
-          <Kanban className="size-4" aria-hidden="true" />
-          <span>7-Column Engineering Workflow</span>
-        </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-          Development Kanban
-        </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground">
-          Transition repositories across Backlog, Cloned, Analyzing, Planning, In
-          Development, Testing, and Completed via drag-and-drop or accessible stage
-          controls.
-        </p>
-      </div>
-
-      <Suspense fallback={<Skeleton className="h-[520px] w-full rounded-xl" />}>
-        <KanbanContent />
-      </Suspense>
-    </div>
+    <Suspense fallback={<RoadmapsSkeleton />}>
+      <RoadmapsContent />
+    </Suspense>
   );
 }
